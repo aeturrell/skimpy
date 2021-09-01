@@ -1,0 +1,12 @@
+{
+  "_template": "gh:cjolowicz/cookiecutter-hypermodern-python",
+  "author": "Arthur Turrell",
+  "development_status": "Development Status :: 2 - Pre-Alpha",
+  "email": "mail@email.com",
+  "friendly_name": "skimpy",
+  "github_user": "aeturrell",
+  "license": "MIT",
+  "package_name": "skimpy",
+  "project_name": "skimpy",
+  "version": "0.0.1"
+}
