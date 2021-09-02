@@ -1,11 +1,17 @@
 """Command-line interface."""
 import click
+import pandas as pd
+
+from skimpy import skimpy
 
 
 @click.command()
 @click.version_option()
-def main() -> None:
+@click.argument("input")
+def main(input) -> None:
     """skimpy."""
+    df = pd.read_csv(input, infer_datetime_format=True)
+    skimpy(df)
 
 
 if __name__ == "__main__":

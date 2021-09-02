@@ -8,3 +8,5 @@
 /docs/_build/
 /src/*.egg-info/
 __pycache__/
+settings.json
+.DS_store
