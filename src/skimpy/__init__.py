@@ -1,13 +1,12 @@
 """skimpy."""
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_numeric_dtype
 from rich.console import Console
 from rich.table import Table
 
 console = Console()
-QUANTILES = [0, 0.25, 0.75, 1]
-HIST_BINS = 6
+QUANTILES = [0, 0.25, 0.75]
+HIST_BINS = 5
 UNICODE_HIST = {
     0: " ",
     1 / 8: "▁",
@@ -21,11 +20,11 @@ UNICODE_HIST = {
 }
 
 
-def find_nearest(array: np.array, value: float) -> np.array:
+def find_nearest(array, value):
     """[summary].
 
     Args:
-        array (np.array): [description]
+        array (np.ndarray): [description]
         value (float): [description]
 
     Returns:
@@ -60,7 +59,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """[summary].
 
     Args:
-        xf (pd.DataFrame): [description]
+        xf (pd.DataFrame): Dataframe with columns of only numeric types
 
     Returns:
         pd.DataFrame: [description]
@@ -83,32 +82,64 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     # Create histogram using unicode block elements
     # https://en.wikipedia.org/wiki/Block_Elements
     hist_series = pd.concat(
-        [create_unicode_hist(xf[col]) for col in xf.columns], axis=0
+        [create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
     )
     data_dict.update({"hist": hist_series})
     summary_df = pd.DataFrame(data_dict)
-    # reduce to 2 sf
     return summary_df
 
 
-def variable_summary_table(df: pd.DataFrame, col_type: str) -> pd.DataFrame:
-    """Produces a summary of all columns with one kind of dtype.
+def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """[summary].
 
     Args:
-        df: dataframe to summarise
-        col_type: the pandas dtype of the columns to summarise
+        xf (pd.DataFrame): [description]
 
     Returns:
-        summary_df: [description]
+        pd.DataFrame: [description]
     """
-    dtypes_df = df.dtypes.astype(str)
-    columns = list(dtypes_df[dtypes_df == col_type].index)
-    xf = df[columns]
-    # if numeric
-    if all([is_numeric_dtype(xf[col]) for col in xf.columns]):
-        return numeric_variable_summary_table(xf)
-    else:
-        return pd.DataFrame()
+    count_nans_vec = xf.isna().sum()
+    data_dict = {
+        "missing": count_nans_vec,
+        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        "ordered": pd.Series(
+            dict(zip(xf.columns, [xf[col].cat.ordered for col in xf.columns]))
+        ),
+        "unique": pd.Series(
+            dict(zip(xf.columns, [len(xf[col].unique()) for col in xf.columns]))
+        ),
+    }
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
+
+
+def text_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """[summary].
+
+    Args:
+        xf (pd.DataFrame): [description]
+
+    Returns:
+        pd.DataFrame: [description]
+    """
+    count_nans_vec = xf.isna().sum()
+    data_dict = {
+        "missing": count_nans_vec,
+        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        "<words/row>": pd.Series(
+            dict(
+                zip(
+                    xf.columns,
+                    [xf[col].str.len().sum() / len(xf) for col in xf.columns],
+                )
+            )
+        ),
+        "total words": pd.Series(
+            dict(zip(xf.columns, [xf[col].str.len().sum() for col in xf.columns]))
+        ),
+    }
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
 
 
 def skimpy(df: pd.DataFrame) -> None:
@@ -139,7 +170,7 @@ def skimpy(df: pd.DataFrame) -> None:
     table_2 = Table(show_header=True, header_style="bold cyan")
     tab_2_data = df.dtypes.astype(str).value_counts().to_dict()
     table_2.add_column("Column Type")
-    table_2.add_column("Frequency")
+    table_2.add_column("Count")
     for key, val in tab_2_data.items():
         table_2.add_row(key, str(val))
     console.print(table_2)
@@ -150,11 +181,21 @@ def skimpy(df: pd.DataFrame) -> None:
         cat_names = list(xf[xf[0] == "category"].index)
         cat_var_string = (" " * len(section_title)).join([x + "\n" for x in cat_names])
         console.print(section_title + cat_var_string)
-    for entry in df.dtypes.astype(str).to_list():
-        if entry != "category":
+    types_to_select = ["number", "category", "datetime", "string"]
+    for entry in types_to_select:
+        xf = df.select_dtypes(entry)
+        if not xf.empty:
             console.print(
-                "── [bold cyan]Variable type:[/bold cyan] numeric"
+                "── [bold cyan]Variable type:[/bold cyan] "
+                + entry
                 + "─" * hyphen_break_length
             )
-            summ_df = variable_summary_table(df, "float64")
-            console.print(summ_df.round(2))
+            if entry == "number":
+                num_df = numeric_variable_summary_table(xf)
+                console.print(num_df.round(2))
+            elif entry == "category":
+                cat_df = category_variable_summary_table(xf)
+                console.print(cat_df.round(2))
+            elif entry == "string":
+                txt_df = text_variable_summary_table(xf)
+                console.print(txt_df.round(2))

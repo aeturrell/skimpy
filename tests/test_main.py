@@ -1,7 +1,10 @@
 """Test cases for the __main__ module."""
+import numpy as np
 import pandas as pd
 import pytest
 from click.testing import CliRunner
+from numpy.random import Generator
+from numpy.random import PCG64
 
 from skimpy import __main__
 
@@ -18,8 +21,10 @@ def test_main_succeeds(runner: CliRunner) -> None:
     assert result.exit_code == 0
 
 
-def test_000_basic_functionality():
+def test_000_basic_functionality() -> None:
     """[summary]."""
+    seed = 34729
+    rng = Generator(PCG64(seed))
     df = pd.DataFrame(
         [
             [5.1, 3.5, 1.4, 0.2, "setosa"],
@@ -28,7 +33,7 @@ def test_000_basic_functionality():
             [4.6, 3.1, 1.5, 0.2, "setosa"],
             [5, 3.6, 1.4, 0.2, "setosa"],
             [5.4, 3.9, 1.7, 0.4, "setosa"],
-            [4.6, 3.4, 1.4, 0.3, "setosa"],
+            [4.6, np.nan, 1.4, 0.3, "setosa"],
             [5, 3.4, 1.5, 0.2, "virginica"],
             [4.4, 2.9, 1.4, 0.2, "virginica"],
             [4.9, 3.1, 1.5, 0.1, "virginica"],
@@ -38,5 +43,17 @@ def test_000_basic_functionality():
         ],
         columns=["sepal_length", "sepal_width", "petal_length", "petal_width", "class"],
     )
+    second_cat_var_entries = ["UK", "Mexico", "USA", "India"]
+    df["location"] = rng.choice(second_cat_var_entries, len(df))
+    df["location"] = df["location"].astype("category")
+    df.loc[3, "location"] = np.nan
     df["class"] = df["class"].astype("category")
-    df.round(2)
+    # string column
+    string_options = [
+        "How are you?",
+        "What weather!",
+        "Indeed, it was the most outrageously pompous cat I have ever seen.",
+    ]
+    df["text"] = rng.choice(string_options, len(df))
+    df.loc[[3, 5, 8, 9], "text"] = None
+    df["text"] = df["text"].astype("string")
