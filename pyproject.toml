@@ -10,7 +10,6 @@ repository = "https://github.com/aeturrell/skimpy"
 documentation = "https://skimpy.readthedocs.io"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -29,6 +28,8 @@ Sphinx = "^4.1.2"
 xdoctest = "^0.15.6"
 pep8-naming = "^0.12.1"
 Pygments = "^2.10.0"
+nox = "^2021.6.12"
+reorder-python-imports = "^2.6.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

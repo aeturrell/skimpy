@@ -1,6 +1,6 @@
 """Test cases for the __main__ module."""
-import pytest
 import pandas as pd
+import pytest
 from click.testing import CliRunner
 
 from skimpy import __main__
@@ -19,6 +19,7 @@ def test_main_succeeds(runner: CliRunner) -> None:
 
 
 def test_000_basic_functionality():
+    """[summary]."""
     df = pd.DataFrame(
         [
             [5.1, 3.5, 1.4, 0.2, "setosa"],
@@ -35,5 +36,7 @@ def test_000_basic_functionality():
             [4.8, 3.4, 1.6, 0.2, "virginica"],
             [4.8, 3, 1.4, 0.1, "virginica"],
         ],
-        columns=["sepal_length", "sepal_width", "petal_length", "petal_width", "class"]
+        columns=["sepal_length", "sepal_width", "petal_length", "petal_width", "class"],
     )
+    df["class"] = df["class"].astype("category")
+    df.round(2)
