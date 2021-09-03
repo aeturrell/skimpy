@@ -78,7 +78,7 @@ def dataframe_to_rich_table(
     )
     rows = df.values[:row_limit]
     for col in columns:
-        table.add_column(str(col))
+        table.add_column(str(col), no_wrap=True)
     for row in rows:
         row = row[:col_limit]
         row = [
@@ -292,7 +292,11 @@ def skimpy(df: pd.DataFrame) -> None:
         df (pd.DataFrame): Dataframe to skim
     """
     if hasattr(df, "name"):
-        name = df.name
+        # Catch this edge case
+        if("name" in df.columns):
+            name = "dataframe"
+        else:
+            name = df.name
     else:
         name = "dataframe"
 
