@@ -78,7 +78,7 @@ def dataframe_to_rich_table(
     )
     rows = df.values[:row_limit]
     for col in columns:
-        table.add_column(str(col), no_wrap=True)
+        table.add_column(str(col), overflow="fold")
     for row in rows:
         row = row[:col_limit]
         row = [
@@ -348,7 +348,7 @@ def skimpy(df: pd.DataFrame) -> None:
         grid.add_row(cat_sum_table)
     for sum_tab in list_of_tabs:
         grid.add_row(sum_tab)
-    console.print(Panel.fit(grid))
+    console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
 def generate_test_data() -> pd.DataFrame:
