@@ -10,7 +10,8 @@ from skimpy import skimpy
 @click.argument("input")
 def main(input) -> None:
     """skimpy."""
-    df = pd.read_csv(input, infer_datetime_format=True)
+    df = pd.read_csv(input, infer_datetime_format=True, parse_dates=True)
+    df = df.infer_objects()
     skimpy(df)
 
 

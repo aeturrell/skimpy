@@ -1,10 +1,14 @@
 """skimpy."""
 import numpy as np
 import pandas as pd
+import rich
+from collections import defaultdict
 from numpy.random import Generator
 from numpy.random import PCG64
 from rich.console import Console
+from rich.panel import Panel
 from rich.table import Table
+from rich.text import Text
 
 console = Console()
 QUANTILES = [0, 0.25, 0.75, 1]
@@ -20,6 +24,69 @@ UNICODE_HIST = {
     7 / 8: "▇",
     1: "█",
 }
+
+
+def dataframe_to_rich_table(
+    table_name: str,
+    df: pd.DataFrame,
+    row_limit: int = 20,
+    col_limit: int = 10,
+    str_limit: int = 20,
+) -> rich.table.Table:
+    """[summary].
+
+    Args:
+        table_name (str): [description]
+        df (pd.DataFrame): [description]
+        row_limit (int): [description]. Defaults to 20.
+        col_limit (int): [description]. Defaults to 10.
+        str_limit (int): [description]. Defaults to 20.
+
+    Returns:
+        rich.table.Table: [description]
+    """
+    df = df.reset_index().rename(columns={"index": ""})
+    table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
+    datatype_colours = {
+        "number": "cyan",
+        "category": "magenta",
+        "datetime": "red",
+        "string": "green",
+        "bool": "turquoise2",
+        "object": "medium_purple1",
+    }
+    cols_to_cat_map = dict(
+        zip(
+            datatype_colours.keys(),
+            [
+                list(df.select_dtypes(entry).columns)
+                for entry in datatype_colours.keys()
+            ],
+        )
+    )
+    type_by_col = defaultdict(list)
+    for k, seq in cols_to_cat_map.items():
+        for letter in seq:
+            type_by_col[letter].append(k)
+    type_by_col = dict(zip(type_by_col.keys(), [x[0] for x in type_by_col.values()]))
+    type_to_colour = dict(
+        zip(type_by_col.keys(), [datatype_colours[x] for x in type_by_col.values()])
+    )
+    columns = list(df.columns[:col_limit])
+    col_pos_to_colour = dict(
+        zip(range(len(columns)), [type_to_colour[x] for x in columns])
+    )
+    rows = df.values[:row_limit]
+    for col in columns:
+        table.add_column(str(col))
+    for row in rows:
+        row = row[:col_limit]
+        row = [
+            Text(str(item)[:str_limit], style=col_pos_to_colour[i])
+            for i, item in enumerate(row)
+        ]
+        table.add_row(*list(row))
+    return table
 
 
 def find_nearest(array, value):
@@ -58,7 +125,7 @@ def create_unicode_hist(series: pd.Series) -> pd.Series:
     ucode_to_print = "".join(
         [UNICODE_HIST[find_nearest(key_vector, val)] for val in hist]
     )
-    return pd.Series(index=[series.name], data=ucode_to_print)
+    return pd.Series(index=[series.name], data=ucode_to_print, dtype="string")
 
 
 def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
@@ -117,6 +184,29 @@ def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(zip(xf.columns, [len(xf[col].unique()) for col in xf.columns]))
         ),
     }
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
+
+
+def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """[summary].
+
+    Args:
+        xf (pd.DataFrame):  Dataframe with columns of only category types
+
+    Returns:
+        pd.DataFrame: A dataframe of summary statistics, with a number of rows
+        determined by number of columns of xf
+    """
+    count_trues = xf.sum()
+    data_dict = {
+        "true": xf.sum(),
+        "true rate": xf.sum() / xf.shape[0],
+    }
+    hist_series = pd.concat(
+        [create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
+    )
+    data_dict.update({"hist": hist_series})
     summary_df = pd.DataFrame(data_dict)
     return summary_df
 
@@ -206,43 +296,55 @@ def skimpy(df: pd.DataFrame) -> None:
     else:
         name = "dataframe"
 
-    hyphen_break_length = 15
+    # Data summary
     tab_1_data = {"Number of rows": df.shape[0], "Number of columns": df.shape[1]}
-    table = Table(title="Data Summary", show_header=True, header_style="bold cyan")
-    table.add_column(name)
-    table.add_column("Values")
+    dat_sum_table = Table(
+        title="Data Summary", show_header=True, header_style="bold cyan"
+    )
+    dat_sum_table.add_column(name)
+    dat_sum_table.add_column("Values")
     for key, val in tab_1_data.items():
-        table.add_row(key, str(val))
-    console.print(table)
-    table_2 = Table(title="Data Types", show_header=True, header_style="bold cyan")
+        dat_sum_table.add_row(key, str(val))
+    # Data tpes
+    types_sum_table = Table(
+        title="Data Types", show_header=True, header_style="bold cyan"
+    )
     tab_2_data = df.dtypes.astype(str).value_counts().to_dict()
-    table_2.add_column("Column Type")
-    table_2.add_column("Count")
+    types_sum_table.add_column("Column Type")
+    types_sum_table.add_column("Count")
     for key, val in tab_2_data.items():
-        table_2.add_row(key, str(val))
-    console.print(table_2)
+        types_sum_table.add_row(key, str(val))
+    # Categorys
     if "category" in df.dtypes.astype(str).to_list():
         xf = pd.DataFrame(df.dtypes.astype(str))
-        section_title = "Categorical Variables:" + " " * 10
+        cat_sum_table = Table()
+        cat_sum_table.add_column("[bold cyan]Categorical Variables[/bold cyan]")
         cat_names = list(xf[xf[0] == "category"].index)
-        cat_var_string = (" " * len(section_title)).join([x + "\n" for x in cat_names])
-        console.print(section_title + cat_var_string)
+        for cat in cat_names:
+            cat_sum_table.add_row(cat)
+    # Summaries of cols of specific types
     types_funcs_dict = {
         "number": numeric_variable_summary_table,
         "category": category_variable_summary_table,
         "datetime": datetime_variable_summary_table,
         "string": string_variable_summary_table,
+        "bool": bool_variable_summary_table,
     }
+    list_of_tabs = []
     for col_type, summary_func in types_funcs_dict.items():
         xf = df.select_dtypes(col_type)
         if not xf.empty:
-            console.print(
-                "── [bold cyan]Variable type:[/bold cyan] "
-                + col_type
-                + "─" * hyphen_break_length
-            )
             sum_df = summary_func(xf)
-            console.print(sum_df.round(2))
+            list_of_tabs.append(dataframe_to_rich_table(col_type, sum_df.round(2)))
+    grid = Table.grid(expand=True)
+    grid.add_column(justify="left")
+    grid.add_row(dat_sum_table)
+    grid.add_row(types_sum_table)
+    if "category" in df.dtypes.astype(str).to_list():
+        grid.add_row(cat_sum_table)
+    for sum_tab in list_of_tabs:
+        grid.add_row(sum_tab)
+    console.print(Panel.fit(grid))
 
 
 def generate_test_data() -> pd.DataFrame:
@@ -278,6 +380,8 @@ def generate_test_data() -> pd.DataFrame:
     df["location"] = df["location"].astype("category")
     df.loc[3, "location"] = np.nan
     df["class"] = df["class"].astype("category")
+    df["booly_col"] = rng.choice([True, False], size=(len(df)))
+    df["booly_col"] = df["booly_col"].astype(bool)
     # string column
     string_options = [
         "How are you?",
