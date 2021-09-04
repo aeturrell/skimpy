@@ -1,8 +1,9 @@
-"""skimpy."""
+"""skimpy provides summary statistics about variables in pandas data frames."""
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
 import rich
-from collections import defaultdict
 from numpy.random import Generator
 from numpy.random import PCG64
 from rich.console import Console
@@ -33,14 +34,20 @@ def dataframe_to_rich_table(
     col_limit: int = 10,
     str_limit: int = 20,
 ) -> rich.table.Table:
-    """[summary].
+    """Converts a dataframe into a rich table.
+
+    To pretty print a dataframe to the console or interactive console, it needs
+    to first be converted into a rich table. This function performs that
+    conversion and also colours entries in tables depending on their broad
+    datatype. This function processes summaries (themselves dataframes) and is
+    used to produce a table for each data type in the dataframe to be skimmed.
 
     Args:
-        table_name (str): [description]
-        df (pd.DataFrame): [description]
-        row_limit (int): [description]. Defaults to 20.
-        col_limit (int): [description]. Defaults to 10.
-        str_limit (int): [description]. Defaults to 20.
+        table_name (str): Usually one of 'number', 'bool', etc. Used as title.
+        df (pd.DataFrame): summary of all data of one datatype
+        row_limit (int): For longer frames, limit no rows shown. Default is 20.
+        col_limit (int): For longer frames, limit cols shown. Default is 10.
+        str_limit (int): For longer strings, limit chars shown. Default is 20.
 
     Returns:
         rich.table.Table: [description]
@@ -90,14 +97,14 @@ def dataframe_to_rich_table(
 
 
 def find_nearest(array, value):
-    """[summary].
+    """Find the nearest numerical match to value in an array.
 
     Args:
-        array (np.ndarray): [description]
-        value (float): [description]
+        array (np.ndarray): An array of numbers to match with.
+        value (float): Single value to find an entry in array that is close.
 
     Returns:
-        np.array: [description]
+        np.array: The entry in array that is closest to value.
     """
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
@@ -105,7 +112,7 @@ def find_nearest(array, value):
 
 
 def create_unicode_hist(series: pd.Series) -> pd.Series:
-    """Return a histogram rendered in unicode.
+    """Return a histogram rendered in block unicode.
 
     Given a pandas series of numerical values, returns a series with one
     entry, the original series name, and a histogram made up of unicode
@@ -129,7 +136,7 @@ def create_unicode_hist(series: pd.Series) -> pd.Series:
 
 
 def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
-    """[summary].
+    """Summarise dataframe columns that have numeric type.
 
     Args:
         xf (pd.DataFrame): Dataframe with columns of only numeric types
@@ -164,7 +171,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
-    """[summary].
+    """Summarise dataframe columns that have category type.
 
     Args:
         xf (pd.DataFrame):  Dataframe with columns of only category types
@@ -189,7 +196,7 @@ def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
-    """[summary].
+    """Summarise dataframe columns that have boolean type.
 
     Args:
         xf (pd.DataFrame):  Dataframe with columns of only category types
@@ -198,7 +205,6 @@ def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: A dataframe of summary statistics, with a number of rows
         determined by number of columns of xf
     """
-    count_trues = xf.sum()
     data_dict = {
         "true": xf.sum(),
         "true rate": xf.sum() / xf.shape[0],
@@ -212,7 +218,7 @@ def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
-    """[summary].
+    """Summarise dataframe columns that have string type. (NB not object type).
 
     Args:
         xf (pd.DataFrame):  Dataframe with columns of only string types
@@ -242,7 +248,7 @@ def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
-    """Provides summaries of dataframes containing datetime columns.
+    """Summarise dataframe columns that have datetime type.
 
     Args:
         xf (pd.DataFrame): A dataframe with only datetime columns
@@ -279,24 +285,20 @@ def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
-def skimpy(df: pd.DataFrame) -> None:
+def skim(df: pd.DataFrame) -> None:
     """Skim a data frame and return statistics.
 
-    skimpy is an alternative to pandas.DataFrame.summary(), quickly providing
+    skim is an alternative to pandas.DataFrame.summary(), quickly providing
     an overview of a data frame. It produces a different set of summary
     functions based on the types of columns in the dataframe. You may get
-    better results from ensuring that you set the datatypes you want before
-    running skimpy.
+    better results from ensuring that you set the datatypes in your dataframe
+    you want before running skim.
 
     Args:
         df (pd.DataFrame): Dataframe to skim
     """
-    if hasattr(df, "name"):
-        # Catch this edge case
-        if("name" in df.columns):
-            name = "dataframe"
-        else:
-            name = df.name
+    if hasattr(df, "name") and "name" not in df.columns:
+        name = df.name
     else:
         name = "dataframe"
 
@@ -353,6 +355,9 @@ def skimpy(df: pd.DataFrame) -> None:
 
 def generate_test_data() -> pd.DataFrame:
     """Generate dataframe with several different datatypes.
+
+    For testing skimpy, it's convenient to have a dataset with many different
+    data types. This function creates that dataframe.
 
     Returns:
         pd.DataFrame: dataframe with columns spanning several data types.

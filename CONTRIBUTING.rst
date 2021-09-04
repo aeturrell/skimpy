@@ -43,7 +43,7 @@ Request features on the `Issue Tracker`_.
 How to set up your development environment
 ------------------------------------------
 
-You need Python 3.6+ and the following tools:
+You need Python 3.7.1+ and the following tools:
 
 - Poetry_
 - Nox_
@@ -104,7 +104,7 @@ Open a `pull request`_ to submit changes to this project.
 Your pull request needs to meet the following guidelines for acceptance:
 
 - The Nox test suite must pass without errors and warnings.
-- Include unit tests. This project maintains 100% code coverage.
+- Include unit tests. This project aims to maintain 100% code coverage.
 - If your changes add functionality, update the documentation accordingly.
 
 Feel free to submit early, though—we can always iterate on this.

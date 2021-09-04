@@ -36,32 +36,86 @@ skimpy
    :alt: Black
 
 
+Welcome
+-------
+
+Welcome to *skimpy*! *skimpy* is a light weight tool that provides summary statistics about variables in data frames within the console. Think of it as a super version of `df.summary()`.
+
+Quickstart
+----------
+
+*skim* a dataframe and produce summary statistics within the console using:
+
+.. code:: python
+
+   from skimpy import skim
+
+   skim(df)
+
+If you need to a dataset to try *skimpy* out on, use the in-built one:
+
+.. code:: python
+
+   from skimpy import skim, generate_test_data
+
+   df = generate_test_data()
+   skim(df)
+
+It is recommended that you set your datatypes before using *skimpy* (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries.
+
 Features
 --------
 
-* TODO
-
+* Support for boolean, numeric, datetime, string, and category datatypes
+* Command line interface in addition to interactive console functionality
+* Light weight, with results printed to terminal using the `rich`_ package.
 
 Requirements
 ------------
 
-* TODO
+You can find a full list of requirements in the pyproject.toml file. The main requirements are:
+
+* python = ">=3.7.1,<4.0.0"
+* click = "^8.0.1"
+* rich = "^10.9.0"
+* pandas = "^1.3.2"
 
 
 Installation
 ------------
 
-You can install *skimpy* via pip_ from PyPI_:
+You can install the latest release of *skimpy* via pip_ from PyPI_:
 
 .. code:: console
 
    $ pip install skimpy
 
+To install the development version from git, use:
+
+.. code:: console
+
+   $ pip install git+https://github.com/aeturrell/skimpy.git
+
+For development, see the `Contributor Guide`_.
 
 Usage
 -----
 
-Please see the `Command-line Reference <Usage_>`_ for details.
+This package is mostly designed to be used within an interactive console session or Jupyter notebook
+
+.. code-block:: python
+
+   from skimpy import skim
+
+   skim(df)
+
+However, you can also use it on the command line:
+
+.. code:: console
+
+   $ skimpy file.csv
+
+*skimpy* will do its best to infer column datatypes.
 
 
 Contributing
@@ -90,13 +144,17 @@ Credits
 
 This project was generated from `@cjolowicz`_'s `Hypermodern Python Cookiecutter`_ template.
 
+skimpy was inspired by the R package `skimr`_ and by exploratory Python packages including `pandas_profiling`_ and `dataprep`_.
+
 .. _@cjolowicz: https://github.com/cjolowicz
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _MIT license: https://opensource.org/licenses/MIT
 .. _PyPI: https://pypi.org/
 .. _Hypermodern Python Cookiecutter: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 .. _file an issue: https://github.com/aeturrell/skimpy/issues
 .. _pip: https://pip.pypa.io/
+.. _skimr: https://docs.ropensci.org/skimr/articles/skimr.html
+.. _pandas_profiling: https://pandas-profiling.github.io/pandas-profiling
+.. _dataprep: https://dataprep.ai/
+.. _rich: https://github.com/willmcgugan/rich
 .. github-only
 .. _Contributor Guide: CONTRIBUTING.rst
-.. _Usage: https://skimpy.readthedocs.io/en/latest/usage.html

@@ -4,7 +4,7 @@ from click.testing import CliRunner
 
 from skimpy import __main__
 from skimpy import generate_test_data
-from skimpy import skimpy
+from skimpy import skim
 
 
 @pytest.fixture
@@ -23,6 +23,6 @@ def test_main_succeeds(runner: CliRunner) -> None:
 
 
 def test_000_basic_functionality() -> None:
-    """[summary]."""
+    """Tests that a skim of the test data works."""
     df = generate_test_data()
-    skimpy(df)
+    skim(df)

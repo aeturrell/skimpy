@@ -1,18 +1,22 @@
-"""Command-line interface."""
+"""Command-line interface for skimpy."""
 import click
 import pandas as pd
 
-from skimpy import skimpy
+from skimpy import skim
 
 
 @click.command()
 @click.version_option()
 @click.argument("input")
 def main(input) -> None:
-    """skimpy."""
+    """The skimpy command line interface. Usage refers only to command line.
+
+    Args:
+        input ([csv]): A csv file to produce summary statistics on
+    """
     df = pd.read_csv(input, infer_datetime_format=True, parse_dates=True)
     df = df.infer_objects()
-    skimpy(df)
+    skim(df)
 
 
 if __name__ == "__main__":
