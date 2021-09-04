@@ -5,7 +5,7 @@ skimpy
 
 |Read the Docs| |Tests| |Codecov|
 
-|pre-commit| |Black|
+|pre-commit| |Black| |Google Colab|
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/skimpy.svg
    :target: https://pypi.org/project/skimpy/
@@ -34,6 +34,8 @@ skimpy
 .. |Black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
    :alt: Black
+.. |Google Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb
 
 
 Welcome
@@ -61,7 +63,12 @@ If you need to a dataset to try *skimpy* out on, use the in-built one:
    df = generate_test_data()
    skim(df)
 
+.. image:: https://raw.githubusercontent.com/aeturrell/skimpy/master/img/skimpy_example.png
+   :width: 600
+
 It is recommended that you set your datatypes before using *skimpy* (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries.
+
+You can try this package out right now in your browser using a `Google Colab notebook`_ (requires a Google account).
 
 Features
 --------
@@ -156,5 +163,6 @@ skimpy was inspired by the R package `skimr`_ and by exploratory Python packages
 .. _pandas_profiling: https://pandas-profiling.github.io/pandas-profiling
 .. _dataprep: https://dataprep.ai/
 .. _rich: https://github.com/willmcgugan/rich
+.. _Google Colab notebook: https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb
 .. github-only
 .. _Contributor Guide: CONTRIBUTING.rst
