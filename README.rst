@@ -3,7 +3,7 @@ skimpy
 
 |PyPI| |Status| |Python Version| |License|
 
-|Read the Docs| |Tests| |Codecov|
+|Read the Docs| |Tests| |Codecov| |Downloads|
 
 |pre-commit| |Black| |Google Colab|
 
@@ -36,6 +36,10 @@ skimpy
    :alt: Black
 .. |Google Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb
+   :alt: Google Colab
+.. |Downloads| image:: https://static.pepy.tech/badge/skimpy
+   :target: https://pepy.tech/project/skimpy
+   :alt: Downloads
 
 
 Welcome
@@ -54,7 +58,7 @@ Quickstart
 
    skim(df)
 
-If you need to a dataset to try *skimpy* out on, use the in-built one:
+If you need to a dataset to try *skimpy* out on, you can use the built-in test dataframe:
 
 .. code:: python
 
