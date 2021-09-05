@@ -1067,7 +1067,7 @@ python-versions = "*"
 name = "typeguard"
 version = "2.12.1"
 description = "Run-time type checker for Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5.3"
 
@@ -1151,7 +1151,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7.1,<4.0.0"
-content-hash = "84ff3437e344bbbea58f40e4f103424cc751de456430c67411b289853c2f0634"
+content-hash = "05b64976f1e1b09dafb50a7e140ac3666956be5eadfaa9df7a47c6ca49fcca2d"
 
 [metadata.files]
 alabaster = [

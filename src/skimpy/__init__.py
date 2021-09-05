@@ -10,6 +10,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from typeguard import typechecked
 
 console = Console()
 QUANTILES = [0, 0.25, 0.75, 1]
@@ -27,6 +28,7 @@ UNICODE_HIST = {
 }
 
 
+@typechecked
 def dataframe_to_rich_table(
     table_name: str,
     df: pd.DataFrame,
@@ -111,6 +113,7 @@ def find_nearest(array, value):
     return array[idx]
 
 
+@typechecked
 def create_unicode_hist(series: pd.Series) -> pd.Series:
     """Return a histogram rendered in block unicode.
 
@@ -125,6 +128,8 @@ def create_unicode_hist(series: pd.Series) -> pd.Series:
         pd.Series: Index of series name and entry with unicode histogram as
         a string, eg '▃▅█'
     """
+    if series.dtype == "bool":
+        series = series.astype("int")
     hist, _ = np.histogram(series, density=True, bins=HIST_BINS)
     hist = hist / hist.max()
     # now do value counts
@@ -135,6 +140,7 @@ def create_unicode_hist(series: pd.Series) -> pd.Series:
     return pd.Series(index=[series.name], data=ucode_to_print, dtype="string")
 
 
+@typechecked
 def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have numeric type.
 
@@ -170,6 +176,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
+@typechecked
 def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have category type.
 
@@ -195,6 +202,7 @@ def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
+@typechecked
 def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have boolean type.
 
@@ -217,6 +225,7 @@ def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
+@typechecked
 def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have string type. (NB not object type).
 
@@ -247,6 +256,7 @@ def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
+@typechecked
 def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have datetime type.
 
@@ -285,6 +295,7 @@ def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     return summary_df
 
 
+@typechecked
 def skim(df: pd.DataFrame) -> None:
     """Skim a data frame and return statistics.
 
@@ -353,6 +364,7 @@ def skim(df: pd.DataFrame) -> None:
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
+@typechecked
 def generate_test_data() -> pd.DataFrame:
     """Generate dataframe with several different datatypes.
 
