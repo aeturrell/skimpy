@@ -56,7 +56,7 @@ skimpy
 Welcome
 -------
 
-Welcome to *skimpy*! *skimpy* is a light weight tool that provides summary statistics about variables in data frames within the console. Think of it as a super version of `df.summary()`.
+Welcome to *skimpy*! *skimpy* is a light weight tool that provides summary statistics about variables in data frames within the console. Think of it as a super version of `df.describe()`.
 
 Quickstart
 ----------
