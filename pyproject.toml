@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "skimpy"
-version = "0.0.2"
+version = "0.0.3"
 description = "skimpy"
 authors = ["Arthur Turrell"]
 license = "MIT"
