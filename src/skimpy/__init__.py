@@ -353,7 +353,6 @@ def skim(
             title="Categories", show_header=True, header_style=header_style
         )
         header_string = f"[{header_style}]Categorical Variables[/{header_style}]"
-        print(header_string)
         cat_sum_table.add_column(header_string)
         cat_names = list(xf[xf[0] == "category"].index)
         for cat in cat_names:

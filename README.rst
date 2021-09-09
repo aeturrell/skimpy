@@ -78,7 +78,13 @@ It is recommended that you set your datatypes before using *skimpy* (for example
 
    skim(df, datetime="chartreuse1")
 
-You can try this package out right now in your browser using a `Google Colab notebook`_ (requires a Google account).
+You can also change the colours of the headers of the first three summary tables using, for example,
+
+.. code:: python
+
+   skim(df, header_style="italic green")
+
+You can try this package out right now in your browser using this `Google Colab notebook`_ (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).
 
 Features
 --------
