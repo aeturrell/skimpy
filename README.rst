@@ -72,6 +72,12 @@ If you need to a dataset to try *skimpy* out on, you can use the built-in test d
 
 It is recommended that you set your datatypes before using *skimpy* (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries.
 
+*skim* accepts keyword arguments that change the colour of the datatypes as displayed. For example, to change the colour of datetimes to be chartreuse instead of red, the code is:
+
+.. code:: python
+
+   skim(df, datetime="chartreuse1")
+
 You can try this package out right now in your browser using a `Google Colab notebook`_ (requires a Google account).
 
 Features
@@ -80,6 +86,7 @@ Features
 * Support for boolean, numeric, datetime, string, and category datatypes
 * Command line interface in addition to interactive console functionality
 * Light weight, with results printed to terminal using the `rich`_ package.
+* Support for different colours for different types of output
 
 Requirements
 ------------
