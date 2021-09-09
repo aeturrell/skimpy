@@ -26,3 +26,9 @@ def test_000_basic_functionality() -> None:
     """Tests that a skim of the test data works."""
     df = generate_test_data()
     skim(df)
+
+
+def test_001_colour_kwargs() -> None:
+    """Tests that colour keyword arguments work."""
+    df = generate_test_data()
+    skim(df, datetime="chartreuse1")
