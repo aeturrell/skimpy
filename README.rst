@@ -7,6 +7,8 @@ skimpy
 
 |pre-commit| |Black| |Google Colab|
 
+|Linux| |macOS| |Windows|
+
 .. |PyPI| image:: https://img.shields.io/pypi/v/skimpy.svg
    :target: https://pypi.org/project/skimpy/
    :alt: PyPI
@@ -40,6 +42,15 @@ skimpy
 .. |Downloads| image:: https://static.pepy.tech/badge/skimpy
    :target: https://pepy.tech/project/skimpy
    :alt: Downloads
+.. |Linux| image:: https://svgshare.com/i/Zhy.svg
+   :target: https://svgshare.com/i/Zhy.svg
+   :alt: Linux
+.. |macOS| image:: https://svgshare.com/i/ZjP.svg
+   :target: https://svgshare.com/i/ZjP.svg
+   :alt: macOS
+.. |Windows| image:: https://svgshare.com/i/ZhY.svg
+   :target: https://svgshare.com/i/ZhY.svg
+   :alt: Windows
 
 
 Welcome
