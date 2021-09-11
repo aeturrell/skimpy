@@ -15,7 +15,7 @@ from typeguard import typechecked
 
 console = Console()
 QUANTILES = [0, 0.25, 0.75, 1]
-HIST_BINS = 5
+HIST_BINS = 6
 UNICODE_HIST = {
     0: " ",
     1 / 8: "▁",
@@ -384,6 +384,9 @@ def skim(
     grid.add_column(justify="left")
     for sum_tab in list_of_tabs:
         grid.add_row(sum_tab)
+    # Weird error where row doesn't get added if only one row
+    if(len(list_of_tabs) == 1):
+        grid.add_row(sum_tab)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
@@ -399,32 +402,23 @@ def generate_test_data() -> pd.DataFrame:
     """
     seed = 34729
     rng = Generator(PCG64(seed))
-    columns_df = ["sepal_length", "sepal_width", "petal_length", "petal_width", "class"]
-    df = pd.DataFrame(
-        [
-            [0, 3.5, 1.4, 0.2, "setosa"],
-            [0, 3, 1.4, 0.2, "setosa"],
-            [0, 3.2, 1.3, 0.2, "setosa"],
-            [1, 3.1, 1.5, 0.2, "setosa"],
-            [1, 3.6, 1.4, 0.2, "setosa"],
-            [2, 3.9, 1.7, 0.4, "setosa"],
-            [3, np.nan, 1.4, 0.3, "setosa"],
-            [2, 3.4, 1.5, 0.2, "virginica"],
-            [1, 2.9, 1.4, 0.2, "virginica"],
-            [1, 3.1, 1.5, 0.1, "virginica"],
-            [0, 3.7, 1.5, 0.2, "virginica"],
-            [0, 3.4, 1.6, 0.2, "virginica"],
-            [0, 3, 1.4, 0.1, "virginica"],
-        ],
-        columns=columns_df,
-    )
-    df["rand_flower"] = rng.normal(size=(len(df)), scale=0.1, loc=0)
+    columns_df = ["length_a", "width_a", "length_b", "width_b", "class"]
+    len_df = 1000
+    df = pd.DataFrame()
+    df["length"] = rng.beta(0.5, 0.5, size=len_df)
+    df["width"] = rng.gamma(1, 2, size=len_df)
+    df["depth"] = rng.poisson(10, size=len_df)
+    df["rnd"] = rng.normal(size=len_df, scale=1, loc=0)
+    nan_places = rng.choice(range(len_df), size=125)
+    df.loc[nan_places, "rnd"] = np.nan
+    df["class"] = rng.choice(["setosa", "virtginica"], size=len_df)
+    df["class"] = df["class"].astype("category")
     second_cat_var_entries = ["UK", "Mexico", "USA", "India"]
-    df["location"] = rng.choice(second_cat_var_entries, len(df))
+    prob = [0.6, 0.2, 0.1, 0.1]
+    df["location"] = rng.choice(second_cat_var_entries, len_df, p=prob)
     df["location"] = df["location"].astype("category")
     df.loc[3, "location"] = np.nan
-    df["class"] = df["class"].astype("category")
-    df["booly_col"] = rng.choice([True, False], size=(len(df)))
+    df["booly_col"] = rng.choice([True, False], size=len_df)
     df["booly_col"] = df["booly_col"].astype(bool)
     # string column
     string_options = [
@@ -432,13 +426,13 @@ def generate_test_data() -> pd.DataFrame:
         "What weather!",
         "Indeed, it was the most outrageously pompous cat I have ever seen.",
     ]
-    df["text"] = rng.choice(string_options, len(df))
-    df.loc[[3, 5, 8, 9], "text"] = None
+    df["text"] = rng.choice(string_options, len_df)
+    df.loc[[3, 5, 8, 9, 14, 22], "text"] = None
     df["text"] = df["text"].astype("string")
     # add a datetime column
-    df["date"] = pd.date_range("2018-01-01", periods=len(df), freq="M")
+    df["date"] = pd.date_range("2018-01-01", periods=len_df, freq="M")
     df["date_no_freq"] = rng.choice(
-        (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len(df)
+        (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
-    df.loc[3, "date_no_freq"] = pd.NaT
+    df.loc[[3, 12, 0], "date_no_freq"] = pd.NaT
     return df
