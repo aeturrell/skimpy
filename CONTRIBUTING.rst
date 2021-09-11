@@ -95,6 +95,14 @@ and are written using the pytest_ testing framework.
 
 .. _pytest: https://pytest.readthedocs.io/
 
+You may need to use, for example, :command:`poetry run nox` to ensure that the tests are run in the right environment.
+
+For the pre-commit checks, use
+
+.. code:: console
+
+   $ poetry run pre-commit run --all-files
+
 
 How to submit changes
 ---------------------

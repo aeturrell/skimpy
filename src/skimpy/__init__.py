@@ -84,11 +84,13 @@ def dataframe_to_rich_table(
             ],
         )
     )
-    type_by_col = defaultdict(list)
+    type_by_col_default = defaultdict(list)
     for k, seq in cols_to_cat_map.items():
         for letter in seq:
-            type_by_col[letter].append(k)
-    type_by_col = dict(zip(type_by_col.keys(), [x[0] for x in type_by_col.values()]))
+            type_by_col_default[letter].append(k)
+    type_by_col = dict(
+        zip(type_by_col_default.keys(), [x[0] for x in type_by_col_default.values()])
+    )
     type_to_colour = dict(
         zip(type_by_col.keys(), [datatype_colours[x] for x in type_by_col.values()])
     )
