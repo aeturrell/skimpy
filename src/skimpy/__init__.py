@@ -384,9 +384,6 @@ def skim(
     grid.add_column(justify="left")
     for sum_tab in list_of_tabs:
         grid.add_row(sum_tab)
-    # Weird error where row doesn't get added if only one row
-    if(len(list_of_tabs) == 1):
-        grid.add_row(sum_tab)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
@@ -402,7 +399,6 @@ def generate_test_data() -> pd.DataFrame:
     """
     seed = 34729
     rng = Generator(PCG64(seed))
-    columns_df = ["length_a", "width_a", "length_b", "width_b", "class"]
     len_df = 1000
     df = pd.DataFrame()
     df["length"] = rng.beta(0.5, 0.5, size=len_df)
