@@ -22,8 +22,8 @@ skimpy
    :target: https://opensource.org/licenses/MIT
    :alt: License
 .. |Read the Docs| image:: https://img.shields.io/readthedocs/skimpy/latest.svg?label=Read%20the%20Docs
-   :target: https://skimpy.readthedocs.io/
-   :alt: Read the documentation at https://skimpy.readthedocs.io/
+   :target: https://github.com/aeturrell/skimpy
+   :alt: Read the documentation at https://github.com/aeturrell/skimpy
 .. |Tests| image:: https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg
    :target: https://github.com/aeturrell/skimpy/actions?workflow=Tests
    :alt: Tests
@@ -97,6 +97,8 @@ You can also change the colours of the headers of the first three summary tables
 
 You can try this package out right now in your browser using this `Google Colab notebook`_ (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).
 
+(Please note that *skimpy* is waiting for a readthedocs site name to become available.)
+
 Features
 --------
 
@@ -104,6 +106,7 @@ Features
 * Command line interface in addition to interactive console functionality
 * Light weight, with results printed to terminal using the `rich`_ package.
 * Support for different colours for different types of output
+* Rounds numerical output to 2 significant figures
 
 Requirements
 ------------

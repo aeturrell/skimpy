@@ -30,6 +30,21 @@ UNICODE_HIST = {
 
 
 @typechecked
+def round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Rounds dataframe to 2 s.f.
+
+    Args:
+        df (pd.DataFrame): Input dataframe
+
+    Returns:
+        pd.DataFrame: Dataframe with numbers rounded to 2 s.f.
+    """
+    for col in df.select_dtypes("number"):
+        df[col] = df[col].apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
+    return df
+
+
+@typechecked
 def dataframe_to_rich_table(
     table_name: str,
     df: pd.DataFrame,
@@ -373,7 +388,9 @@ def skim(
         if not xf.empty:
             sum_df = summary_func(xf)
             list_of_tabs.append(
-                dataframe_to_rich_table(col_type, sum_df.round(2), **colour_kwargs)
+                dataframe_to_rich_table(
+                    col_type, round_dataframe(sum_df), **colour_kwargs
+                )
             )
     # Put all of the info together
     grid = Table.grid(expand=True)
