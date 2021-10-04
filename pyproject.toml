@@ -50,7 +50,7 @@ sphinx-rtd-theme = "^1.0.0"
 sphinx-click = "^3.0.1"
 Pygments = "^2.9.0"
 autopep8 = "^1.5.7"
-nox = "^2021.6.12"
+nox = "^2021.10.1"
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"
