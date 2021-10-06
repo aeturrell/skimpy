@@ -67,4 +67,5 @@ def test_005_inference_datatypes() -> None:
     )
     df = pd.DataFrame(data, columns=["date", "float", "string", "integer"])
     df = infer_datatypes(df)
-    assert list(df.dtypes) == ["datetime64[ns]", "float64", "string", "int64"]
+    dtypes = df.dtypes.apply(lambda x: str(x)).str.split(r"(\d+)").str[0]
+    assert list(dtypes) == ["datetime", "float", "string", "int"]

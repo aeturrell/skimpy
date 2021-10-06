@@ -1,10 +1,10 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
 from collections import defaultdict
+from itertools import chain
 
 import numpy as np
 import pandas as pd
 import rich
-from itertools import chain
 from numpy.random import Generator
 from numpy.random import PCG64
 from rich.columns import Columns
@@ -156,12 +156,19 @@ def dataframe_to_rich_table(
     rows = df.values
     # find any datetimes
     if ("first" or "last") in df.columns:
-        timestamp_positions = [[[idx, i] for i, j in enumerate(item) if type(j) == pd._libs.tslibs.timestamps.Timestamp] for idx, item in enumerate(rows)]
+        timestamp_positions = [
+            [
+                [idx, i]
+                for i, j in enumerate(item)
+                if type(j) == pd._libs.tslibs.timestamps.Timestamp
+            ]
+            for idx, item in enumerate(rows)
+        ]
         timestamp_positions = list(chain.from_iterable(timestamp_positions))
-        timestamp_positions = [tuple(entry) for entry in timestamp_positions]
-        for entry in timestamp_positions:
+        timestamp_pos_tuples = [tuple(entry) for entry in timestamp_positions]
+        for entry in timestamp_pos_tuples:
             hour, min, sec = rows[entry].hour, rows[entry].minute, rows[entry].second
-            if(hour == min == sec == 0):
+            if hour == min == sec == 0:
                 rows[entry] = rows[entry].strftime("%Y-%m-%d")
     for col in columns:
         table.add_column(str(col), overflow="fold")
@@ -320,12 +327,23 @@ def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(
                 zip(
                     xf.columns,
-                    [xf[xf.columns[0]].str.count(' ').add(1).sum() / len(xf) for col in xf.columns],
+                    [
+                        xf[xf.columns[0]].str.count(" ").add(1).sum() / len(xf)
+                        for col in xf.columns
+                    ],
                 )
             )
         ),
         "total words": pd.Series(
-            dict(zip(xf.columns, [xf[xf.columns[0]].str.count(' ').add(1).sum() for col in xf.columns]))
+            dict(
+                zip(
+                    xf.columns,
+                    [
+                        xf[xf.columns[0]].str.count(" ").add(1).sum()
+                        for col in xf.columns
+                    ],
+                )
+            )
         ),
     }
     summary_df = pd.DataFrame(data_dict)
