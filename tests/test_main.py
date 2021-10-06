@@ -1,9 +1,13 @@
 """Test cases for the __main__ module."""
+import datetime
+
+import pandas as pd
 import pytest
 from click.testing import CliRunner
 
 from skimpy import __main__
 from skimpy import generate_test_data
+from skimpy import infer_datatypes
 from skimpy import skim
 
 
@@ -52,3 +56,15 @@ def test_004_when_df_is_named() -> None:
     df = generate_test_data()
     df.name = "Named dataframe"
     skim(df)
+
+
+def test_005_inference_datatypes() -> None:
+    """Tests the inference of datatypes."""
+    data = (
+        [datetime.datetime(2021, 1, 1), None, "as", 6],
+        [datetime.datetime(2021, 1, 2), 5.2, "asd", 7],
+        [None, 6.3, "adasda", 8],
+    )
+    df = pd.DataFrame(data, columns=["date", "float", "string", "integer"])
+    df = infer_datatypes(df)
+    assert list(df.dtypes) == ["datetime64[ns]", "float64", "string", "int64"]

@@ -4,6 +4,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import rich
+from itertools import chain
 from numpy.random import Generator
 from numpy.random import PCG64
 from rich.columns import Columns
@@ -27,6 +28,45 @@ UNICODE_HIST = {
     7 / 8: "▇",
     1: "█",
 }
+
+
+@typechecked
+def infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
+    """Infers the, and applies new, datatypes of dataframe columns.
+
+    :param df: input dataframe of ambiguous col type
+    :type df: pd.DataFrame
+    :return: dataframe with column datatypes set to best of knowledge
+    :rtype: pd.DataFrame
+    """
+    df_types = (
+        pd.DataFrame(df.apply(pd.api.types.infer_dtype, axis=0))
+        .reset_index()
+        .rename(columns={"index": "column", 0: "type"})
+    )
+    loop_types = df_types.values.tolist()
+    for col in loop_types:
+        if col[1] == "mixed":
+            pass
+        else:
+            if col[1] == "decimal":
+                data_type = "float64"
+            elif col[1] == "string":
+                data_type = "string"
+            elif col[1] == "integer":
+                data_type = "int"
+            elif col[1] == "floating":
+                data_type = "float64"
+            elif col[1] == "date":
+                data_type = "datetime64"
+            elif col[1] == "categorical":
+                data_type = "category"
+            elif col[1] == "boolean":
+                data_type = "bool"
+            else:
+                data_type = col[1]
+            df[col[0]] = df[col[0]].astype(data_type)
+    return df
 
 
 @typechecked
@@ -114,6 +154,15 @@ def dataframe_to_rich_table(
         zip(range(len(columns)), [type_to_colour[x] for x in columns])
     )
     rows = df.values
+    # find any datetimes
+    if ("first" or "last") in df.columns:
+        timestamp_positions = [[[idx, i] for i, j in enumerate(item) if type(j) == pd._libs.tslibs.timestamps.Timestamp] for idx, item in enumerate(rows)]
+        timestamp_positions = list(chain.from_iterable(timestamp_positions))
+        timestamp_positions = [tuple(entry) for entry in timestamp_positions]
+        for entry in timestamp_positions:
+            hour, min, sec = rows[entry].hour, rows[entry].minute, rows[entry].second
+            if(hour == min == sec == 0):
+                rows[entry] = rows[entry].strftime("%Y-%m-%d")
     for col in columns:
         table.add_column(str(col), overflow="fold")
     for row in rows:
@@ -271,12 +320,12 @@ def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(
                 zip(
                     xf.columns,
-                    [xf[col].str.len().sum() / len(xf) for col in xf.columns],
+                    [xf[xf.columns[0]].str.count(' ').add(1).sum() / len(xf) for col in xf.columns],
                 )
             )
         ),
         "total words": pd.Series(
-            dict(zip(xf.columns, [xf[col].str.len().sum() for col in xf.columns]))
+            dict(zip(xf.columns, [xf[xf.columns[0]].str.count(' ').add(1).sum() for col in xf.columns]))
         ),
     }
     summary_df = pd.DataFrame(data_dict)
@@ -345,6 +394,9 @@ def skim(
     else:
         name = "dataframe"
 
+    # Perform inference of datatypes
+    # df = infer_datatypes(df)
+
     # Data summary
     tab_1_data = {"Number of rows": df.shape[0], "Number of columns": df.shape[1]}
     dat_sum_table = Table(
@@ -401,6 +453,8 @@ def skim(
     grid.add_column(justify="left")
     for sum_tab in list_of_tabs:
         grid.add_row(sum_tab)
+    # Weirdly, iteration over list of tabs misses last entry
+    grid.add_row(list_of_tabs[-1])
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
