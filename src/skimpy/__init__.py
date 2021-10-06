@@ -164,8 +164,8 @@ def dataframe_to_rich_table(
             ]
             for idx, item in enumerate(rows)
         ]
-        timestamp_positions = list(chain.from_iterable(timestamp_positions))
-        timestamp_pos_tuples = [tuple(entry) for entry in timestamp_positions]
+        timestamp_pos_list = list(chain.from_iterable(timestamp_positions))
+        timestamp_pos_tuples = [tuple(entry) for entry in timestamp_pos_list]
         for entry in timestamp_pos_tuples:
             hour, min, sec = rows[entry].hour, rows[entry].minute, rows[entry].second
             if hour == min == sec == 0:
