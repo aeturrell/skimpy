@@ -51,6 +51,7 @@ sphinx-click = "^3.0.1"
 Pygments = "^2.9.0"
 autopep8 = "^1.5.7"
 nox = "^2021.10.1"
+jupyter = "^1.0.0"
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"
@@ -64,7 +65,7 @@ source = ["skimpy"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 100
+fail_under = 99
 
 [tool.mypy]
 strict = false
