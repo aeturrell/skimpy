@@ -28,6 +28,10 @@ UNICODE_HIST = {
     7 / 8: "▇",
     1: "█",
 }
+# These are defined globally because they are used in more than one function
+DATE_COL_FIRST = "first"
+DATE_COL_LAST = "last"
+NUM_COL_MEAN = "mean"
 
 
 @typechecked
@@ -46,26 +50,21 @@ def infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
     )
     loop_types = df_types.values.tolist()
     for col in loop_types:
-        if col[1] == "mixed":
-            pass
+        if col[1] == "string":
+            data_type = "string"
+        elif col[1] == "integer":
+            data_type = "int"
+        elif col[1] == "floating":
+            data_type = "float64"
+        elif col[1] == "datetime64":
+            data_type = "datetime64"
+        elif col[1] == "categorical":
+            data_type = "category"
+        elif col[1] == "boolean":
+            data_type = "bool"
         else:
-            if col[1] == "decimal":
-                data_type = "float64"
-            elif col[1] == "string":
-                data_type = "string"
-            elif col[1] == "integer":
-                data_type = "int"
-            elif col[1] == "floating":
-                data_type = "float64"
-            elif col[1] == "date":
-                data_type = "datetime64"
-            elif col[1] == "categorical":
-                data_type = "category"
-            elif col[1] == "boolean":
-                data_type = "bool"
-            else:
-                data_type = col[1]
-            df[col[0]] = df[col[0]].astype(data_type)
+            data_type = col[1]
+        df[col[0]] = df[col[0]].astype(data_type)
     return df
 
 
@@ -82,6 +81,69 @@ def round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     for col in df.select_dtypes("number"):
         df[col] = df[col].apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
     return df
+
+
+@typechecked
+def map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) -> dict:
+    """Maps positions in summary dataframe (eg row) to a Rich text property.
+
+    :param types_to_property: Datatype, datetime, mapping to Rich text property
+    :type types_to_property: dict
+    :param df: Dataframe to map positions in
+    :type df: pd.DataFrame
+    :return: Dictionary mapping row position to Rich text property
+    :rtype: dict
+    """
+    cols_to_cat_map = dict(
+        zip(
+            types_to_property.keys(),
+            [
+                list(df.select_dtypes(entry).columns)
+                for entry in types_to_property.keys()
+            ],
+        )
+    )
+    type_by_col_default = defaultdict(list)
+    for k, seq in cols_to_cat_map.items():
+        for letter in seq:
+            type_by_col_default[letter].append(k)
+    type_by_col = dict(
+        zip(type_by_col_default.keys(), [x[0] for x in type_by_col_default.values()])
+    )
+    type_to_prop = dict(
+        zip(type_by_col.keys(), [types_to_property[x] for x in type_by_col.values()])
+    )
+    columns = list(df.columns)
+    row_pos_to_property = dict(
+        zip(range(len(columns)), [type_to_prop[x] for x in columns])
+    )
+    return row_pos_to_property
+
+
+@typechecked
+def simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
+    """Simplifies 2001/01/01 00:00:00 to 2001/01/01.
+
+    :param rows: contain summary info, including datetimes
+    :type rows: np.ndarray
+    :return: rows with any all zero hours/min/sec stripped out
+    :rtype: np.ndarray
+    """
+    timestamp_positions = [
+        [
+            [idx, i]
+            for i, j in enumerate(item)
+            if type(j) == pd._libs.tslibs.timestamps.Timestamp
+        ]
+        for idx, item in enumerate(rows)
+    ]
+    timestamp_pos_list = list(chain.from_iterable(timestamp_positions))
+    timestamp_pos_tuples = [tuple(entry) for entry in timestamp_pos_list]
+    for entry in timestamp_pos_tuples:
+        hour, min, sec = rows[entry].hour, rows[entry].minute, rows[entry].second
+        if hour == min == sec == 0:
+            rows[entry] = rows[entry].strftime("%Y-%m-%d")
+    return rows
 
 
 @typechecked
@@ -130,51 +192,37 @@ def dataframe_to_rich_table(
         "bool": bool,
         "object": object,
     }
-    cols_to_cat_map = dict(
-        zip(
-            datatype_colours.keys(),
-            [
-                list(df.select_dtypes(entry).columns)
-                for entry in datatype_colours.keys()
-            ],
-        )
-    )
-    type_by_col_default = defaultdict(list)
-    for k, seq in cols_to_cat_map.items():
-        for letter in seq:
-            type_by_col_default[letter].append(k)
-    type_by_col = dict(
-        zip(type_by_col_default.keys(), [x[0] for x in type_by_col_default.values()])
-    )
-    type_to_colour = dict(
-        zip(type_by_col.keys(), [datatype_colours[x] for x in type_by_col.values()])
-    )
-    columns = list(df.columns)
-    col_pos_to_colour = dict(
-        zip(range(len(columns)), [type_to_colour[x] for x in columns])
-    )
+    # generate dict of types to text justifications
+    datatype_justify = {
+        "number": "right",
+        "category": "center",
+        "datetime": "center",
+        "string": "center",
+        "bool": "left",
+        "object": "left",
+    }
+    pos_to_colour = map_row_positions_to_text_style(datatype_colours, df)
+    pos_to_justification = map_row_positions_to_text_style(datatype_justify, df)
     rows = df.values
     # find any datetimes
-    if ("first" or "last") in df.columns:
-        timestamp_positions = [
-            [
-                [idx, i]
-                for i, j in enumerate(item)
-                if type(j) == pd._libs.tslibs.timestamps.Timestamp
-            ]
-            for idx, item in enumerate(rows)
+    if (DATE_COL_FIRST or DATE_COL_LAST) in df.columns:
+        rows = simplify_datetimes_in_array(rows)
+    rows = [
+        [
+            str(s).rstrip("0").rstrip(".") if ("." and type(s) == float) else s
+            for s in row
         ]
-        timestamp_pos_list = list(chain.from_iterable(timestamp_positions))
-        timestamp_pos_tuples = [tuple(entry) for entry in timestamp_pos_list]
-        for entry in timestamp_pos_tuples:
-            hour, min, sec = rows[entry].hour, rows[entry].minute, rows[entry].second
-            if hour == min == sec == 0:
-                rows[entry] = rows[entry].strftime("%Y-%m-%d")
-    for col in columns:
+        for row in rows
+    ]
+    for col in df.columns:
         table.add_column(str(col), overflow="fold")
     for row in rows:
         row = [
-            Text(str(item)[:str_limit], style=col_pos_to_colour[i])
+            Text(
+                str(item)[:str_limit],
+                style=pos_to_colour[i],
+                justify=pos_to_justification[i],
+            )
             for i, item in enumerate(row)
         ]
         table.add_row(*list(row))
@@ -238,7 +286,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         "missing": count_nans_vec,
         "complete rate": 1 - count_nans_vec / xf.shape[0],
-        "mean": xf.mean(),
+        NUM_COL_MEAN: xf.mean(),
         "sd": xf.std(),
     }
     display_quantiles_as_pct = 100
@@ -365,7 +413,7 @@ def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         "missing": count_nans_vec,
         "complete rate": 1 - count_nans_vec / xf.shape[0],
-        "first": pd.Series(
+        DATE_COL_FIRST: pd.Series(
             dict(
                 zip(
                     xf.columns,
@@ -373,7 +421,9 @@ def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
                 )
             )
         ),
-        "last": pd.Series(dict(zip(xf.columns, [xf[col].max() for col in xf.columns]))),
+        DATE_COL_LAST: pd.Series(
+            dict(zip(xf.columns, [xf[col].max() for col in xf.columns]))
+        ),
     }
     if len(xf) > 3:
         data_dict.update(
@@ -459,7 +509,7 @@ def skim(
             sum_df = summary_func(xf)
             list_of_tabs.append(
                 dataframe_to_rich_table(
-                    col_type, round_dataframe(sum_df), **colour_kwargs
+                    col_type, round_dataframe(sum_df)  # , **colour_kwargs
                 )
             )
     # Put all of the info together
