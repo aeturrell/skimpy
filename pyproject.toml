@@ -35,7 +35,7 @@ typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^0.15.9"}
 sphinx = "^4.2.0"
 sphinx-autobuild = "^2021.3.14"
-pre-commit = "^2.14.1"
+pre-commit = "^2.16.0"
 flake8 = "^4.0.1"
 black = "^21.11b1"
 flake8-bandit = "^2.1.2"
