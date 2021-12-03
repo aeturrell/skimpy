@@ -1,7 +1,15 @@
-.PHONY: all clean
+# This makes the documentation and readme for skimpy
 
-all: index.md
+.PHONY: all clean site
+
+all: README.md site
 
 
-index.md: skimpy-homepage/index.ipynb index.md
-		quarto render skimpy-homepage/index.ipynb --to markdown && mv skimpy-homepage/docs/index.md index.md
+README.md: index.ipynb
+		poetry run jupyter nbconvert --to markdown --execute index.ipynb && mv index.md README.md
+
+site:
+		poetry run quarto render --execute
+
+clean:
+	rm README.md

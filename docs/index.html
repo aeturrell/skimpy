@@ -1,54 +1,181 @@
----
-title: "skimpy"
-author: "A light weight tool for creating summary statistics from dataframes."
-markdown:
-  variant: markdown_github
----
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.328">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="A light weight tool for creating summary statistics from dataframes.">
+  <title>skimpy</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
 
-[![PyPI](https://img.shields.io/pypi/v/skimpy.svg)](https://pypi.org/project/skimpy/)
-[![Status](https://img.shields.io/pypi/status/skimpy.svg)](https://pypi.org/project/skimpy/)
-[![Python Version](https://img.shields.io/pypi/pyversions/skimpy)](https://pypi.org/project/skimpy)
-[![License](https://img.shields.io/pypi/l/skimpy)](https://opensource.org/licenses/MIT)
-[![Read the documentation at https://github.com/aeturrell/skimpy](https://img.shields.io/readthedocs/skimpy/latest.svg?label=Read%20the%20Docs)](https://github.com/aeturrell/skimpy)
-[![Tests](https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg)](https://github.com/aeturrell/skimpy/actions?workflow=Tests)
-[![Codecov](https://codecov.io/gh/aeturrell/skimpy/branch/main/graph/badge.svg)](https://codecov.io/gh/aeturrell/skimpy)
-[![Downloads](https://static.pepy.tech/badge/skimpy)](https://pepy.tech/project/skimpy)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb)
-
-[![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
-[![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
-[![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
-
-**skimpy** is a light weight tool that provides
-summary statistics about variables in data frames within the console or your interactive Python window.
-Think of it as a super-charged version of `df.describe()`.
-
-## Quickstart
-
-_skim_ a dataframe and produce summary statistics within the console
-using:
-
-```python
-from skimpy import skim
-
-skim(df)
-```
-
-where `df` is a dataframe.
-
-If you need to a dataset to try _skimpy_ out on, you can use the
-built-in test dataframe:
-
-```python
-#| output: asis
-from skimpy import skim, generate_test_data
-
-df = generate_test_data()
-skim(df)
-```
-
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link class="quarto-color-scheme" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="fullcontent">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">skimpy</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./CONTRIBUTING.html">Contributing</a>
+  </li>  
+</ul>
+              <div>
+                <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">skimpy</h1>
+<p class="author">A light weight tool for creating summary statistics from dataframes.</p>
+</header>
+<p><a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/v/skimpy.svg" class="img-fluid" alt="PyPI"></a> <a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/status/skimpy.svg" class="img-fluid" alt="Status"></a> <a href="https://pypi.org/project/skimpy"><img src="https://img.shields.io/pypi/pyversions/skimpy" class="img-fluid" alt="Python Version"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/pypi/l/skimpy" class="img-fluid" alt="License"></a> <a href="https://github.com/aeturrell/skimpy"><img src="https://img.shields.io/readthedocs/skimpy/latest.svg?label=Read%20the%20Docs" class="img-fluid" alt="Read the documentation at https://github.com/aeturrell/skimpy"></a> <a href="https://github.com/aeturrell/skimpy/actions?workflow=Tests"><img src="https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg" class="img-fluid" alt="Tests"></a> <a href="https://codecov.io/gh/aeturrell/skimpy"><img src="https://codecov.io/gh/aeturrell/skimpy/branch/main/graph/badge.svg" class="img-fluid" alt="Codecov"></a> <a href="https://pepy.tech/project/skimpy"><img src="https://static.pepy.tech/badge/skimpy" class="img-fluid" alt="Downloads"></a> <a href="https://github.com/pre-commit/pre-commit"><img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&amp;logoColor=white" class="img-fluid" alt="pre-commit"></a> <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" class="img-fluid" alt="Black"></a> <a href="https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></p>
+<p><a href="https://svgshare.com/i/Zhy.svg"><img src="https://svgshare.com/i/Zhy.svg" class="img-fluid" alt="Linux"></a> <a href="https://svgshare.com/i/ZjP.svg"><img src="https://svgshare.com/i/ZjP.svg" class="img-fluid" alt="macOS"></a> <a href="https://svgshare.com/i/ZhY.svg"><img src="https://svgshare.com/i/ZhY.svg" class="img-fluid" alt="Windows"></a></p>
+<p><strong>skimpy</strong> is a light weight tool that provides summary statistics about variables in data frames within the console or your interactive Python window. Think of it as a super-charged version of <code>df.describe()</code>.</p>
+<p>[<strong>You can find the full <em>documentation</em> here]().</strong></p>
+<section id="quickstart" class="level2">
+<h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
+<p><em>skim</em> a dataframe and produce summary statistics within the console using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where <code>df</code> is a dataframe.</p>
+<p>If you need to a dataset to try <em>skimpy</em> out on, you can use the built-in test dataframe:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim, generate_test_data</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> generate_test_data()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
 │ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
 │ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓          │
@@ -99,83 +226,50 @@ skim(df)
 │ └──────────────────────────┴──────────────┴─────────────────────────┴──────────────────┘  │
 ╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
 </pre>
-
-It is recommended that you set your datatypes before using _skimpy_ (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the _skim_ function will try and guess what the datatypes of your columns are.
-
-You can find a full list of requirements in the pyproject.toml file. The
-main requirements are:
-
-```python
-#| echo: false
-import toml
-config = toml.load("pyproject.toml")
-dict_main_deps = config["tool"]["poetry"]["dependencies"]
-for key, value in dict_main_deps.items():
-    print(f"{key} {value}")
-```
-
-    python >=3.7.1,<4.0.0
-    click 7.1.2
-    rich ^10.9.0
-    pandas ^1.3.2
-    Pygments ^2.10.0
-    typeguard ^2.12.1
-
-You can try this package out right now in your browser using this
-[Google Colab notebook](https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb)
-(requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).
-
-## Installation
-
-You can install the latest release of _skimpy_ via
-[pip](https://pip.pypa.io/) from [PyPI](https://pypi.org/):
-
-```bash
-$ pip install skimpy
-```
-
-To install the development version from git, use:
-
-```bash
-$ pip install git+https://github.com/aeturrell/skimpy.git
-```
-
-For development, see the [Contributor Guide](contributing.html).
-
-## Usage
-
-This package is mostly designed to be used within an interactive console
-session or Jupyter notebook
-
-```python
-from skimpy import skim
-
-skim(df)
-```
-
-However, you can also use it on the command line:
-
-```bash
-$ skimpy file.csv
-```
-
-## Features
-
-- Support for boolean, numeric, datetime, string, and category
-  datatypes
-- Command line interface in addition to interactive console
-  functionality
-- Light weight, with results printed to terminal using the
-  [rich](https://github.com/willmcgugan/rich) package.
-- Support for different colours for different types of output
-- Rounds numerical output to 2 significant figures
-
-_skim_ accepts keyword arguments that change the colour of the top level column headers. For example, to change the colour to magenta, it's
-
-```python
-skim(df, header_style="italic magenta")
-```
-
+<p>It is recommended that you set your datatypes before using <em>skimpy</em> (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the <em>skim</em> function will try and guess what the datatypes of your columns are.</p>
+<p>You can find a full list of requirements in the pyproject.toml file. The main requirements are:</p>
+<div class="cell" data-execution_count="2">
+<div class="cell-output-stdout">
+<pre><code>python &gt;=3.7.1,&lt;4.0.0
+click 7.1.2
+rich ^10.9.0
+pandas ^1.3.2
+Pygments ^2.10.0
+typeguard ^2.12.1</code></pre>
+</div>
+</div>
+<p>You can try this package out right now in your browser using this <a href="https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb">Google Colab notebook</a> (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).</p>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>You can install the latest release of <em>skimpy</em> via <a href="https://pip.pypa.io/">pip</a> from <a href="https://pypi.org/">PyPI</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install skimpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To install the development version from git, use:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install git+https://github.com/aeturrell/skimpy.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For development, see the <a href="contributing.html">Contributor Guide</a>.</p>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>This package is mostly designed to be used within an interactive console session or Jupyter notebook</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, you can also use it on the command line:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> skimpy file.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="features" class="level2">
+<h2 class="anchored" data-anchor-id="features">Features</h2>
+<ul>
+<li>Support for boolean, numeric, datetime, string, and category datatypes</li>
+<li>Command line interface in addition to interactive console functionality</li>
+<li>Light weight, with results printed to terminal using the <a href="https://github.com/willmcgugan/rich">rich</a> package.</li>
+<li>Support for different colours for different types of output</li>
+<li>Rounds numerical output to 2 significant figures</li>
+</ul>
+<p><em>skim</em> accepts keyword arguments that change the colour of the top level column headers. For example, to change the colour to magenta, it’s</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>skim(df, header_style<span class="op">=</span><span class="st">"italic magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
 │ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
 │ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓          │
@@ -226,25 +320,210 @@ skim(df, header_style="italic magenta")
 │ └──────────────────────────┴──────────────┴─────────────────────────┴──────────────────┘  │
 ╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
 </pre>
+</div>
+</div>
+</section>
+<section id="contributing" class="level2">
+<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
+<p>Contributions are very welcome. To learn more, see the <a href="contributing.html">Contributor Guide</a>.</p>
+<p>Note that you will need <a href="https://quarto.org/">Quarto</a> and <a href="https://www.gnu.org/software/make/">Make</a> installed to build the docs. You can preview the docs using <code>poetry run quarto preview skimpy-homepage/</code></p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>Distributed under the terms of the <a href="https://opensource.org/licenses/MIT">MIT license</a>, <em>skimpy</em> is free and open source software.</p>
+</section>
+<section id="issues" class="level2">
+<h2 class="anchored" data-anchor-id="issues">Issues</h2>
+<p>If you encounter any problems, please <a href="https://github.com/aeturrell/skimpy/issues">file an issue</a> along with a detailed description.</p>
+</section>
+<section id="credits" class="level2">
+<h2 class="anchored" data-anchor-id="credits">Credits</h2>
+<p>This project was generated from <a href="https://github.com/cjolowicz">@cjolowicz</a>'s <a href="https://github.com/cjolowicz/cookiecutter-hypermodern-python">Hypermodern Python Cookiecutter</a> template.</p>
+<p>skimpy was inspired by the R package <a href="https://docs.ropensci.org/skimr/articles/skimr.html">skimr</a> and by exploratory Python packages including <a href="https://pandas-profiling.github.io/pandas-profiling">pandas_profiling</a> and <a href="https://dataprep.ai/">dataprep</a>.</p>
+<p>The package is built with <a href="https://python-poetry.org/">poetry</a>, while the documentation is built with <a href="https://quarto.org/">Quarto</a>. Tests are run with <a href="https://nox.thea.codes/en/stable/">nox</a>.</p>
 
-## Contributing
 
-Contributions are very welcome. To learn more, see the [Contributor Guide](contributing.html).
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      return window.localStorage.getItem("quarto-color-scheme");
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = null;
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.id = "quarto-color-scheme-toggle";
+    a.classList.add('top-right');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
 
-Note that you will need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/) installed to build the docs. You can preview the docs using `poetry run quarto preview skimpy-homepage/`
 
-## License
-
-Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), _skimpy_ is free and open source software.
-
-## Issues
-
-If you encounter any problems, please [file an issue](https://github.com/aeturrell/skimpy/issues) along with a detailed description.
-
-## Credits
-
-This project was generated from [\@cjolowicz](https://github.com/cjolowicz)\'s [Hypermodern Python Cookiecutter](https://github.com/cjolowicz/cookiecutter-hypermodern-python) template.
-
-skimpy was inspired by the R package [skimr](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [pandas_profiling](https://pandas-profiling.github.io/pandas-profiling) and [dataprep](https://dataprep.ai/).
-
-The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Quarto](https://quarto.org/). Tests are run with [nox](https://nox.thea.codes/en/stable/).
+</body></html>

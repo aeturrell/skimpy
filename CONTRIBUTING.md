@@ -37,11 +37,13 @@ Tracker](https://github.com/aeturrell/skimpy/issues).
 
 # How to set up your development environment
 
-You need Python 3.7.1+ and the following tools:
+You need Python and the following tools:
 
 -   [Poetry](https://python-poetry.org/)
 -   [Nox](https://nox.thea.codes/)
 -   [nox-poetry](https://nox-poetry.readthedocs.io/)
+-   [Quarto](https://quarto.org/)
+-   [Make](https://www.gnu.org/software/make/)]
 
 Install the package with development requirements:
 

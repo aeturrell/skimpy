@@ -45,16 +45,16 @@ repos:
         language: system
         types: [text]
         stages: [commit, push, manual]
+      - id: black-jupyter
+        name: black-jupyter
+        description: "Black: The uncompromising Python code formatter (with Jupyter Notebook support)"
+        entry: black
+        language: python
+        minimum_pre_commit_version: 2.9.2
+        require_serial: true
+        types_or: [python, pyi, jupyter]
+        additional_dependencies: [".[jupyter]"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.3.0
     hooks:
       - id: prettier
-  - repo: https://github.com/tomcatling/black-nb
-    rev: 0.5.0
-    hooks:
-      - id: black-nb
-        name: black-nb
-        entry: black-nb
-        language: python
-        language_version: python3
-        files: '\.ipynb$'
