@@ -10,3 +10,4 @@
 __pycache__/
 settings.json
 .DS_store
+skimpy-homepage/docs/*

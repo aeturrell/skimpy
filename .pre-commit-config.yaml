@@ -49,3 +49,12 @@ repos:
     rev: v2.3.0
     hooks:
       - id: prettier
+  - repo: https://github.com/tomcatling/black-nb
+    rev: 0.5.0
+    hooks:
+      - id: black-nb
+        name: black-nb
+        entry: black-nb
+        language: python
+        language_version: python3
+        files: '\.ipynb$'
