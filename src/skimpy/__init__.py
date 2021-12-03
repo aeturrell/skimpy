@@ -1,6 +1,12 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
+import re
 from collections import defaultdict
 from itertools import chain
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from unicodedata import normalize
 
 import numpy as np
 import pandas as pd
@@ -13,6 +19,20 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
+
+NULL_VALUES = {np.nan, "", None}
+
+CASE_STYLES = {
+    "snake",
+    "kebab",
+    "camel",
+    "pascal",
+    "const",
+    "sentence",
+    "title",
+    "lower",
+    "upper",
+}
 
 console = Console()
 QUANTILES = [0, 0.25, 0.75, 1]
@@ -524,6 +544,198 @@ def skim(
     # Weirdly, iteration over list of tabs misses last entry
     grid.add_row(list_of_tabs[-1])
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
+
+
+@typechecked
+def clean_columns(
+    df: pd.DataFrame,
+    case: str = "snake",
+    replace: Optional[Dict[str, str]] = None,
+    remove_accents: bool = True,
+) -> pd.DataFrame:
+    """Function to clean column names, originally from the dataprep python package.
+
+    Parameters
+    ----------
+    df
+        Dataframe from which column names are to be cleaned.
+    case
+        The desired case style of the column name.
+            - 'snake': 'column_name'
+            - 'kebab': 'column-name'
+            - 'camel': 'columnName'
+            - 'pascal': 'ColumnName'
+            - 'const': 'COLUMN_NAME'
+            - 'sentence': 'Column name'
+            - 'title': 'Column Name'
+            - 'lower': 'column name'
+            - 'upper': 'COLUMN NAME'
+        (default: 'snake')
+    replace
+        Values to replace in the column names.
+            - {'old_value': 'new_value'}
+        (default: None)
+    remove_accents
+        If True, strip accents from the column names.
+        (default: True)
+    Examples
+    --------
+    Clean column names by converting the names to camel case style, removing accents,
+    and correcting a mispelling.
+    >>> df = pd.DataFrame({'FirstNom': ['Philip', 'Turanga'], 'lastName': ['Fry', 'Leela'], \
+'Téléphone': ['555-234-5678', '(604) 111-2335']})
+    >>> clean_headers(df, case='camel', replace={'Nom': 'Name'})
+    Column Headers Cleaning Report:
+        2 values cleaned (66.67%)
+      firstName lastName       telephone
+    0    Philip      Fry    555-234-5678
+    1   Turanga    Leela  (604) 111-2335
+    """
+    if case not in CASE_STYLES:
+        raise ValueError(
+            f"case {case} is invalid, it needs to be one of {', '.join(c for c in CASE_STYLES)}"
+        )
+
+    # Store original column names for creating cleaning report
+    orig_columns = df.columns.astype(str).tolist()
+
+    if replace:
+        df = df.rename(columns=lambda col: _replace_values(col, replace))
+
+    if remove_accents:
+        df = df.rename(columns=_remove_accents)
+
+    df = df.rename(columns=lambda col: _convert_case(col, case))
+    df.columns = _rename_duplicates(df.columns, case)
+    # Count the number of changed column names
+    new_columns = df.columns.astype(str).tolist()
+    cleaned = [
+        1 if new_columns[i] != orig_columns[i] else 0 for i in range(len(orig_columns))
+    ]
+    stats = {"cleaned": sum(cleaned)}
+
+    return df
+
+
+@typechecked
+def _convert_case(name: Any, case: str) -> Any:
+    """Convert case style of a column name.
+
+    Parameters
+    ----------
+    name
+        Column name.
+    case
+        The desired case style of the column name.
+    """
+    if name in NULL_VALUES:
+        name = "header"
+
+    if case in {"snake", "kebab", "camel", "pascal", "const"}:
+        words = _split_strip_string(str(name))
+    else:
+        words = _split_string(str(name))
+
+    if case == "snake":
+        name = "_".join(words).lower()
+    elif case == "kebab":
+        name = "-".join(words).lower()
+    elif case == "camel":
+        name = words[0].lower() + "".join(w.capitalize() for w in words[1:])
+    elif case == "pascal":
+        name = "".join(w.capitalize() for w in words)
+    elif case == "const":
+        name = "_".join(words).upper()
+    elif case == "sentence":
+        name = " ".join(words).capitalize()
+    elif case == "title":
+        name = " ".join(w.capitalize() for w in words)
+    elif case == "lower":
+        name = " ".join(words).lower()
+    elif case == "upper":
+        name = " ".join(words).upper()
+
+    return name
+
+
+@typechecked
+def _split_strip_string(string: str) -> List[str]:
+    """Split the string into separate words and strip punctuation."""
+    string = re.sub(r"[!()*+\,\-./:;<=>?[\]^_{|}~]", " ", string)
+    string = re.sub(r"[\'\"\`]", "", string)
+
+    return re.sub(
+        r"([A-Z][a-z]+)", r" \1", re.sub(r"([A-Z]+|[0-9]+|\W+)", r" \1", string)
+    ).split()
+
+
+@typechecked
+def _split_string(string: str) -> List[str]:
+    """Split the string into separate words."""
+    string = re.sub(r"[\-_]", " ", string)
+
+    return re.sub(r"([A-Z][a-z]+)", r" \1", re.sub(r"([A-Z]+)", r"\1", string)).split()
+
+
+@typechecked
+def _replace_values(name: Any, mapping: Dict[str, str]) -> Any:
+    """Replace string values in the column name.
+
+    Parameters
+    ----------
+    name
+        Column name.
+    mapping
+        Maps old values in the column name to the new values.
+    """
+    if name in NULL_VALUES:
+        return name
+
+    name = str(name)
+    for old_value, new_value in mapping.items():
+        # If the old value or the new value is not alphanumeric, add underscores to the
+        # beginning and end so the new value will be parsed correctly for _convert_case()
+        new_val = (
+            fr"{new_value}"
+            if old_value.isalnum() and new_value.isalnum()
+            else fr"_{new_value}_"
+        )
+        name = re.sub(fr"{old_value}", new_val, name, flags=re.IGNORECASE)
+
+    return name
+
+
+@typechecked
+def _remove_accents(name: Any) -> Any:
+    """Return the normal form for a Unicode string name using canonical decomposition."""
+    if not isinstance(name, str):
+        return name
+
+    return normalize("NFD", name).encode("ascii", "ignore").decode("ascii")
+
+
+@typechecked
+def _rename_duplicates(names: pd.Index, case: str) -> Any:
+    """Rename duplicated column names to append a number at the end."""
+    if case in {"snake", "const"}:
+        sep = "_"
+    elif case in {"camel", "pascal"}:
+        sep = ""
+    elif case == "kebab":
+        sep = "-"
+    else:
+        sep = " "
+
+    names = list(names)
+    counts: Dict[str, int] = {}
+
+    for i, col in enumerate(names):
+        cur_count = counts.get(col, 0)
+        if cur_count > 0:
+            names[i] = f"{col}{sep}{cur_count}"
+        counts[col] = cur_count + 1
+
+    return names
 
 
 @typechecked

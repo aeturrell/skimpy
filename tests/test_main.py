@@ -7,6 +7,7 @@ import pytest
 from click.testing import CliRunner
 
 from skimpy import __main__
+from skimpy import clean_columns
 from skimpy import generate_test_data
 from skimpy import infer_datatypes
 from skimpy import map_row_positions_to_text_style
@@ -124,3 +125,16 @@ def test_007_simplify_datetimes_in_array() -> None:
     assert list(rows[:, 0]) == list(
         df["date"].apply(lambda x: str(x)).str.split(" ", expand=True).loc[:, 0].values
     )
+
+
+def test_007_horrible_column_names() -> None:
+    """Tests the cleaning of column names."""
+    bad_columns = [
+        "bs lncs;n edbn ",
+        "Nín hǎo. Wǒ shì zhōng guó rén",
+        "___This is a test___",
+        "ÜBER Über German Umlaut",
+    ]
+    df = pd.DataFrame(columns=bad_columns, index=[0], data=[range(len(bad_columns))])
+    df = clean_columns(df)
+    assert list(df.columns) != bad_columns

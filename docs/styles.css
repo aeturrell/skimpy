@@ -1,115 +1,111 @@
 /* css styles */
 @media (min-width: 991.98px) {
-#quarto-header {
+  #quarto-header {
     border-bottom: 1px solid #dee2e6;
-}
+  }
 }
 
 .content {
-    width: 49em;
+  width: 49em;
 }
 
 .navbar-brand > img {
-    max-height: 36px;
+  max-height: 36px;
 }
 
-
 .platform-table td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .platform-table td > div.sourceCode {
-    margin-top: 0.3rem;
-    margin-bottom: 0.3rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }
 
-
 .document-example {
-    opacity: 0.9;
-    padding: 6px; 
-    font-weight: 500;
-    margin-bottom: 1rem;
+  opacity: 0.9;
+  padding: 6px;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
 .document-example div {
-    padding: 5px;
+  padding: 5px;
 }
 
-
 .document-example .citation {
-    color: blue;
+  color: blue;
 }
 
 .trademark {
-    font-size: 0.6rem;
-    display: inline-block;
-    margin-left: -3px;
+  font-size: 0.6rem;
+  display: inline-block;
+  margin-left: -3px;
 }
 
 .search-attribution {
-    margin-top: 20px;
-    padding-bottom: 20px;
-    height: 40px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  height: 40px;
 }
 
 #download-button {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 #download-table {
-    margin-bottom: 2em;  
+  margin-bottom: 2em;
 }
 
 #download-table p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #download-table .checksum {
-    color: var(--bs-primary);
-    font-size: .775em;
-    cursor: pointer;
-    padding-top: 4px;
+  color: var(--bs-primary);
+  font-size: 0.775em;
+  cursor: pointer;
+  padding-top: 4px;
 }
 
 #download-button {
-    display:flex;
-    justify-content: center;
-    padding-bottom: 10px;
-    padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 #download-button .secondary {
-    font-size: .775em;
-    margin-bottom: 0;
+  font-size: 0.775em;
+  margin-bottom: 0;
 }
 
 #download-button .container {
-    display: flex;
-    padding-left: 10px;
-    padding-right: 40px;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 40px;
 }
 
 #download-button .icon-container {
-    fill: white;
-    width: 30px;
-    margin-right: 15px;
+  fill: white;
+  width: 30px;
+  margin-right: 15px;
 }
 
 .reveal-demo {
-    width: 100%;
-    height: 350px;
-    outline: none;
+  width: 100%;
+  height: 350px;
+  outline: none;
 }
 
-
 .slide-deck {
-    border: 3px solid #dee2e6;
-    width: 100%;
-    height: 475px;
+  border: 3px solid #dee2e6;
+  width: 100%;
+  height: 475px;
 }
 
 @media only screen and (max-width: 600px) {
-    .slide-deck {
+  .slide-deck {
     height: 400px;
-    }
+  }
 }

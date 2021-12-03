@@ -9,7 +9,7 @@ markdown:
 [![Status](https://img.shields.io/pypi/status/skimpy.svg)](https://pypi.org/project/skimpy/)
 [![Python Version](https://img.shields.io/pypi/pyversions/skimpy)](https://pypi.org/project/skimpy)
 [![License](https://img.shields.io/pypi/l/skimpy)](https://opensource.org/licenses/MIT)
-[![Read the documentation at https://github.com/aeturrell/skimpy](https://img.shields.io/readthedocs/skimpy/latest.svg?label=Read%20the%20Docs)](https://github.com/aeturrell/skimpy)
+[![Read the documentation at https://aeturrell.github.io/skimpy/](https://img.shields.io/badge/docs-passing-brightgreen)](https://aeturrell.github.io/skimpy/)
 [![Tests](https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg)](https://github.com/aeturrell/skimpy/actions?workflow=Tests)
 [![Codecov](https://codecov.io/gh/aeturrell/skimpy/branch/main/graph/badge.svg)](https://codecov.io/gh/aeturrell/skimpy)
 [![Downloads](https://static.pepy.tech/badge/skimpy)](https://pepy.tech/project/skimpy)
@@ -24,6 +24,8 @@ markdown:
 **skimpy** is a light weight tool that provides
 summary statistics about variables in data frames within the console or your interactive Python window.
 Think of it as a super-charged version of `df.describe()`.
+
+[\**You can find the full *documentation\* here](https://aeturrell.github.io/skimpy/).\*\*
 
 ## Quickstart
 
@@ -42,7 +44,7 @@ If you need to a dataset to try _skimpy_ out on, you can use the
 built-in test dataframe:
 
 ```python
-#| output: asis
+# | output: asis
 from skimpy import skim, generate_test_data
 
 df = generate_test_data()
@@ -102,24 +104,115 @@ skim(df)
 
 It is recommended that you set your datatypes before using _skimpy_ (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the _skim_ function will try and guess what the datatypes of your columns are.
 
+**skimpy** also comes with a `clean_columns` function as a convenience. This slugifies column names. For example,
+
+```python
+import pandas as pd
+from rich import print
+from skimpy import clean_columns
+
+columns = [
+    "bs lncs;n edbn ",
+    "Nín hǎo. Wǒ shì zhōng guó rén",
+    "___This is a test___",
+    "ÜBER Über German Umlaut",
+]
+messy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])
+messy_df.head()
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bs lncs;n edbn</th>
+      <th>Nín hǎo. Wǒ shì zhōng guó rén</th>
+      <th>___This is a test___</th>
+      <th>ÜBER Über German Umlaut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+Now let's clean these—by default what we get back is in _snake case_:
+
+```python
+clean_df = clean_columns(messy_df)
+print(list(clean_df.columns))
+```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'bs_lncs_n_edbn'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'nin_hao_wo_shi_zhong_guo_ren'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'this_is_a_test'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'uber_uber_german_umlaut'</span>
+<span style="font-weight: bold">]</span>
+</pre>
+
+Other naming conventions are available, for example _camel case_:
+
+```python
+clean_df = clean_columns(messy_df, case="camel")
+print(list(clean_df.columns))
+```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
+</pre>
+
 You can find a full list of requirements in the pyproject.toml file. The
 main requirements are:
 
 ```python
 #| echo: false
 import toml
+
 config = toml.load("pyproject.toml")
 dict_main_deps = config["tool"]["poetry"]["dependencies"]
 for key, value in dict_main_deps.items():
     print(f"{key} {value}")
 ```
 
-    python >=3.7.1,<4.0.0
-    click 7.1.2
-    rich ^10.9.0
-    pandas ^1.3.2
-    Pygments ^2.10.0
-    typeguard ^2.12.1
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">python &gt;=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.7</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,&lt;<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">click <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7.1</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">rich ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.9</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">pandas ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pygments ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.10</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">typeguard ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.12</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
 
 You can try this package out right now in your browser using this
 [Google Colab notebook](https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb)
@@ -229,13 +322,13 @@ skim(df, header_style="italic magenta")
 
 ## Contributing
 
-Contributions are very welcome. To learn more, see the [Contributor Guide](contributing.html).
+Contributions are very welcome. To learn more, see the [Contributor Guide](CONTRIBUTING.html).
 
-Note that you will need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/) installed to build the docs. You can preview the docs using `poetry run quarto preview skimpy-homepage/`
+Note that you will need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/) installed to build the docs. You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`.
 
 ## License
 
-Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), _skimpy_ is free and open source software.
+Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), _skimpy_ is free and open source software. You can find the license [here](LICENSE.html)
 
 ## Issues
 
@@ -245,6 +338,6 @@ If you encounter any problems, please [file an issue](https://github.com/aeturre
 
 This project was generated from [\@cjolowicz](https://github.com/cjolowicz)\'s [Hypermodern Python Cookiecutter](https://github.com/cjolowicz/cookiecutter-hypermodern-python) template.
 
-skimpy was inspired by the R package [skimr](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [pandas_profiling](https://pandas-profiling.github.io/pandas-profiling) and [dataprep](https://dataprep.ai/).
+skimpy was inspired by the R package [skimr](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [pandas_profiling](https://pandas-profiling.github.io/pandas-profiling) and [dataprep](https://dataprep.ai/), from which the `clean_columns` function comes.
 
 The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Quarto](https://quarto.org/). Tests are run with [nox](https://nox.thea.codes/en/stable/).

@@ -1,13 +1,9 @@
-
-   
 /*-- scss:defaults --*/
 
 // The Cosmo theme sets defaults for hover. Clear the defaults to allow
 // our coloring system to handle this
-$navbar-dark-hover-color:       null;
-$navbar-light-hover-color:      null;
-
-
+$navbar-dark-hover-color: null;
+$navbar-light-hover-color: null;
 
 /*-- scss:rules --*/
 
@@ -17,7 +13,7 @@ $navbar-light-hover-color:      null;
   text-align: center;
   margin-bottom: 1em;
   font-family: $font-family-monospace;
-  font-size: .875em;
+  font-size: 0.875em;
   font-weight: 600;
   padding-top: 1em;
   border-radius: 3px;

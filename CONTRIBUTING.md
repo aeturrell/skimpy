@@ -9,10 +9,10 @@ and pull requests.
 
 Here is a list of important resources for contributors:
 
--   [Source Code](https://github.com/aeturrell/skimpy)
--   [Documentation](https://skimpy.readthedocs.io/)
--   [Issue Tracker](https://github.com/aeturrell/skimpy/issues)
--   [Code of Conduct](code_of_conduct.html)
+- [Source Code](https://github.com/aeturrell/skimpy)
+- [Documentation](https://skimpy.readthedocs.io/)
+- [Issue Tracker](https://github.com/aeturrell/skimpy/issues)
+- [Code of Conduct](code_of_conduct.html)
 
 # How to report a bug
 
@@ -21,11 +21,11 @@ Tracker](https://github.com/aeturrell/skimpy/issues).
 
 When filing an issue, make sure to answer these questions:
 
--   Which operating system and Python version are you using?
--   Which version of this project are you using?
--   What did you do?
--   What did you expect to see?
--   What did you see instead?
+- Which operating system and Python version are you using?
+- Which version of this project are you using?
+- What did you do?
+- What did you expect to see?
+- What did you see instead?
 
 The best way to get your bug fixed is to provide a test case, and/or
 steps to reproduce the issue.
@@ -39,44 +39,58 @@ Tracker](https://github.com/aeturrell/skimpy/issues).
 
 You need Python and the following tools:
 
--   [Poetry](https://python-poetry.org/)
--   [Nox](https://nox.thea.codes/)
--   [nox-poetry](https://nox-poetry.readthedocs.io/)
--   [Quarto](https://quarto.org/)
--   [Make](https://www.gnu.org/software/make/)]
+- [Poetry](https://python-poetry.org/)
+- [Nox](https://nox.thea.codes/)
+- [nox-poetry](https://nox-poetry.readthedocs.io/)
+- [Quarto](https://quarto.org/)
+- [Make](https://www.gnu.org/software/make/)]
 
 Install the package with development requirements:
 
-``` {.console}
+```{.console}
 $ poetry install
 ```
 
 You can now run an interactive Python session, or the command-line
 interface:
 
-``` {.console}
+```{.console}
 $ poetry run python
 $ poetry run skimpy
 ```
+
+To build the documentation, you will also need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/). You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`, which runs
+
+```bash
+poetry run jupyter nbconvert --to markdown --execute index.ipynb && mv index.md README.md
+```
+
+to build the readme and
+
+```bash
+poetry run quarto render --execute
+```
+
+to build the documentation website behind the scenes.
 
 # How to test the project
 
 Run the full test suite:
 
-``` {.console}
+```{.console}
 $ nox
 ```
 
 List the available Nox sessions:
 
-``` {.console}
+```{.console}
 $ nox --list-sessions
 ```
 
 You can also run a specific Nox session. For example, invoke the unit
 test suite like this:
 
-``` {.console}
+```{.console}
 $ nox --session=tests
 ```
 
@@ -88,7 +102,7 @@ tests are run in the right environment.
 
 For the pre-commit checks, use
 
-``` {.console}
+```{.console}
 $ poetry run pre-commit run --all-files
 ```
 
@@ -99,11 +113,13 @@ submit changes to this project.
 
 Your pull request needs to meet the following guidelines for acceptance:
 
--   The Nox test suite must pass without errors and warnings.
--   Include unit tests. This project aims to maintain 100% code
-    coverage.
--   If your changes add functionality, update the documentation
-    accordingly.
+- The Nox test suite must pass without errors and warnings.
+- Include unit tests. This project aims to maintain 100% code
+  coverage.
+- If your changes add functionality, update the documentation
+  accordingly.
+- Run make to generate the new documentation.
+- Run the pre-commit suite before committing.
 
 Feel free to submit early, though---we can always iterate on this.
 
@@ -111,7 +127,7 @@ To run linting and code formatting checks before commiting your change,
 you can install pre-commit as a Git hook by running the following
 command:
 
-``` {.console}
+```{.console}
 $ nox --session=pre-commit -- install
 ```
 
