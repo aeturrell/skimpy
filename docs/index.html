@@ -3,7 +3,6 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.2.328">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="A light weight tool for creating summary statistics from dataframes.">
   <title>skimpy</title>
   <style>
     code{white-space: pre-wrap;}
@@ -156,14 +155,13 @@
 <!-- margin-sidebar -->
 <!-- main -->
 <main class="content">
-<header id="title-block-header">
-<h1 class="title display-7">skimpy</h1>
-<p class="author">A light weight tool for creating summary statistics from dataframes.</p>
-</header>
+<section id="skimpy" class="level1">
+<h1>Skimpy</h1>
+<p>A light weight tool for creating summary statistics from dataframes.</p>
 <p><a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/v/skimpy.svg" class="img-fluid" alt="PyPI"></a> <a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/status/skimpy.svg" class="img-fluid" alt="Status"></a> <a href="https://pypi.org/project/skimpy"><img src="https://img.shields.io/pypi/pyversions/skimpy" class="img-fluid" alt="Python Version"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/pypi/l/skimpy" class="img-fluid" alt="License"></a> <a href="https://aeturrell.github.io/skimpy/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" class="img-fluid" alt="Read the documentation at https://aeturrell.github.io/skimpy/"></a> <a href="https://github.com/aeturrell/skimpy/actions?workflow=Tests"><img src="https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg" class="img-fluid" alt="Tests"></a> <a href="https://codecov.io/gh/aeturrell/skimpy"><img src="https://codecov.io/gh/aeturrell/skimpy/branch/main/graph/badge.svg" class="img-fluid" alt="Codecov"></a> <a href="https://pepy.tech/project/skimpy"><img src="https://static.pepy.tech/badge/skimpy" class="img-fluid" alt="Downloads"></a> <a href="https://github.com/pre-commit/pre-commit"><img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&amp;logoColor=white" class="img-fluid" alt="pre-commit"></a> <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" class="img-fluid" alt="Black"></a> <a href="https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></p>
 <p><a href="https://svgshare.com/i/Zhy.svg"><img src="https://svgshare.com/i/Zhy.svg" class="img-fluid" alt="Linux"></a> <a href="https://svgshare.com/i/ZjP.svg"><img src="https://svgshare.com/i/ZjP.svg" class="img-fluid" alt="macOS"></a> <a href="https://svgshare.com/i/ZhY.svg"><img src="https://svgshare.com/i/ZhY.svg" class="img-fluid" alt="Windows"></a></p>
 <p><strong>skimpy</strong> is a light weight tool that provides summary statistics about variables in data frames within the console or your interactive Python window. Think of it as a super-charged version of <code>df.describe()</code>.</p>
-<p>[<strong>You can find the full <em>documentation</em> here](https://aeturrell.github.io/skimpy/).</strong></p>
+<p><a href="https://aeturrell.github.io/skimpy/">You can find the documentation here</a>.</p>
 <section id="quickstart" class="level2">
 <h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
 <p><em>skim</em> a dataframe and produce summary statistics within the console using:</p>
@@ -245,37 +243,30 @@
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ÜBER Über German Umlaut"</span>,</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>messy_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>columns, index<span class="op">=</span>[<span class="dv">0</span>], data<span class="op">=</span>[<span class="bu">range</span>(<span class="bu">len</span>(columns))])</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>messy_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display" data-execution_count="2">
-<div>
-
-<table class="dataframe table">
-  <thead>
-    <tr>
-      <th></th>
-      <th>bs lncs;n edbn</th>
-      <th>Nín hǎo. Wǒ shì zhōng guó rén</th>
-      <th>___This is a test___</th>
-      <th>ÜBER Über German Umlaut</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Column names:"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(messy_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Column names:
+</pre>
 </div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'bs lncs;n edbn '</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Nín hǎo. Wǒ shì zhōng guó rén'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'___This is a test___'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'ÜBER Über German Umlaut'</span>
+<span style="font-weight: bold">]</span>
+</pre>
 </div>
 </div>
 <p>Now let’s clean these—by default what we get back is in <em>snake case</em>:</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
+</pre>
+</div>
 <div class="cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
     <span style="color: #008000; text-decoration-color: #008000">'bs_lncs_n_edbn'</span>,
@@ -291,10 +282,17 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df, case<span class="op">=</span><span class="st">"camel"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
+</pre>
+</div>
+<div class="cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
 </pre>
 </div>
 </div>
+</section>
+<section id="requirements" class="level2">
+<h2 class="anchored" data-anchor-id="requirements">Requirements</h2>
 <p>You can find a full list of requirements in the pyproject.toml file. The main requirements are:</p>
 <div class="cell" data-execution_count="5">
 <div class="cell-output-display">
@@ -427,6 +425,7 @@
 <p>The package is built with <a href="https://python-poetry.org/">poetry</a>, while the documentation is built with <a href="https://quarto.org/">Quarto</a>. Tests are run with <a href="https://nox.thea.codes/en/stable/">nox</a>.</p>
 
 
+</section>
 </section>
 </main> <!-- /main -->
 <script type="application/javascript">

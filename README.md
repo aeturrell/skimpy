@@ -115,45 +115,20 @@ columns = [
     "ÜBER Über German Umlaut",
 ]
 messy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])
-messy_df.head()
+print("Column names:")
+print(list(messy_df.columns))
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Column names:
+</pre>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>bs lncs;n edbn</th>
-      <th>Nín hǎo. Wǒ shì zhōng guó rén</th>
-      <th>___This is a test___</th>
-      <th>ÜBER Über German Umlaut</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'bs lncs;n edbn '</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Nín hǎo. Wǒ shì zhōng guó rén'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'___This is a test___'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'ÜBER Über German Umlaut'</span>
+<span style="font-weight: bold">]</span>
+</pre>
 
 Now let's clean these—by default what we get back is in _snake case_:
 
@@ -185,6 +160,8 @@ print(list(clean_df.columns))
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
 </pre>
+
+## Requirements
 
 You can find a full list of requirements in the pyproject.toml file. The
 main requirements are:

@@ -13,6 +13,7 @@ import pandas as pd
 import rich
 from numpy.random import Generator
 from numpy.random import PCG64
+from rich import print
 from rich.columns import Columns
 from rich.console import Console
 from rich.panel import Panel
@@ -555,8 +556,7 @@ def clean_columns(
 ) -> pd.DataFrame:
     """Function to clean column names, originally from the dataprep python package.
 
-    Parameters
-    ----------
+    Args:
     df
         Dataframe from which column names are to be cleaned.
     case
@@ -578,22 +578,22 @@ def clean_columns(
     remove_accents
         If True, strip accents from the column names.
         (default: True)
+
     Examples
     --------
     Clean column names by converting the names to camel case style, removing accents,
     and correcting a mispelling.
-    >>> df = pd.DataFrame({'FirstNom': ['Philip', 'Turanga'], 'lastName': ['Fry', 'Leela'], \
-'Téléphone': ['555-234-5678', '(604) 111-2335']})
-    >>> clean_headers(df, case='camel', replace={'Nom': 'Name'})
-    Column Headers Cleaning Report:
-        2 values cleaned (66.67%)
+    >>> df = pd.DataFrame({'FirstNom': ['Philip', 'Turanga'], \
+        'lastName': ['Fry', 'Leela'], \
+        'Téléphone': ['555-234-5678', '(604) 111-2335']})
+    >>> clean_columns(df, case='camel', replace={'Nom': 'Name'})
       firstName lastName       telephone
     0    Philip      Fry    555-234-5678
     1   Turanga    Leela  (604) 111-2335
     """
     if case not in CASE_STYLES:
         raise ValueError(
-            f"case {case} is invalid, it needs to be one of {', '.join(c for c in CASE_STYLES)}"
+            f"case {case} is invalid, options are: {', '.join(c for c in CASE_STYLES)}"
         )
 
     # Store original column names for creating cleaning report
@@ -612,8 +612,7 @@ def clean_columns(
     cleaned = [
         1 if new_columns[i] != orig_columns[i] else 0 for i in range(len(orig_columns))
     ]
-    stats = {"cleaned": sum(cleaned)}
-
+    print(f"{sum(cleaned)} column names have been cleaned")
     return df
 
 
@@ -621,12 +620,12 @@ def clean_columns(
 def _convert_case(name: Any, case: str) -> Any:
     """Convert case style of a column name.
 
-    Parameters
-    ----------
-    name
-        Column name.
-    case
-        The desired case style of the column name.
+    Args:
+        name (Any): Column name.
+        case (str): Preferred case type, eg snake or camel.
+
+    Returns:
+        Any: name with case converted.
     """
     if name in NULL_VALUES:
         name = "header"
