@@ -1,9 +1,6 @@
----
-title: "skimpy"
-author: "A light weight tool for creating summary statistics from dataframes."
-markdown:
-  variant: markdown_github
----
+# Skimpy
+
+A light weight tool for creating summary statistics from dataframes.
 
 [![PyPI](https://img.shields.io/pypi/v/skimpy.svg)](https://pypi.org/project/skimpy/)
 [![Status](https://img.shields.io/pypi/status/skimpy.svg)](https://pypi.org/project/skimpy/)
@@ -25,7 +22,7 @@ markdown:
 summary statistics about variables in data frames within the console or your interactive Python window.
 Think of it as a super-charged version of `df.describe()`.
 
-[\**You can find the full *documentation\* here](https://aeturrell.github.io/skimpy/).\*\*
+[You can find the documentation here](https://aeturrell.github.io/skimpy/).
 
 ## Quickstart
 
@@ -165,6 +162,9 @@ clean_df = clean_columns(messy_df)
 print(list(clean_df.columns))
 ```
 
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
+</pre>
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
     <span style="color: #008000; text-decoration-color: #008000">'bs_lncs_n_edbn'</span>,
     <span style="color: #008000; text-decoration-color: #008000">'nin_hao_wo_shi_zhong_guo_ren'</span>,
@@ -179,6 +179,9 @@ Other naming conventions are available, for example _camel case_:
 clean_df = clean_columns(messy_df, case="camel")
 print(list(clean_df.columns))
 ```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
+</pre>
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
 </pre>

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "skimpy"
-version = "0.0.4"
+version = "0.0.5"
 description = "skimpy"
 authors = ["Arthur Turrell"]
 license = "MIT"
@@ -9,7 +9,7 @@ homepage = "https://github.com/aeturrell/skimpy"
 repository = "https://github.com/aeturrell/skimpy"
 documentation = "https://skimpy.readthedocs.io"
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -33,8 +33,6 @@ safety = "^1.10.3"
 mypy = "^0.910"
 typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^0.15.9"}
-sphinx = "^4.2.0"
-sphinx-autobuild = "^2021.3.14"
 pre-commit = "^2.16.0"
 flake8 = "^4.0.1"
 black = "^21.11b1"
@@ -46,8 +44,6 @@ pep8-naming = "^0.12.0"
 darglint = "^1.8.1"
 reorder-python-imports = "^2.6.0"
 pre-commit-hooks = "^4.0.1"
-sphinx-rtd-theme = "^1.0.0"
-sphinx-click = "^3.0.2"
 Pygments = "^2.9.0"
 autopep8 = "^1.6.0"
 nox = "^2021.10.1"
