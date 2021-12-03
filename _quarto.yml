@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "skimpy"
+  navbar:
+    type: dark
+    background: primary
+    left:
+      - href: index.ipynb
+        text: Home
+      - contributing.md
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme.scss]
+      dark: [cosmo, theme-dark.scss]
+    code-copy: true
+    code-overflow: wrap
+    css: styles.css
