@@ -1,5 +1,4 @@
 """Nox sessions."""
-import shutil
 import sys
 from pathlib import Path
 from textwrap import dedent
@@ -117,7 +116,7 @@ def safety(session: Session) -> None:
 @session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
-    args = session.posargs or ["src", "tests", "docs/conf.py"]
+    args = session.posargs or ["src", "tests"]
     session.install(".")
     session.install("mypy", "pytest")
     session.run("mypy", *args)
@@ -170,26 +169,7 @@ def xdoctest(session: Session) -> None:
 @session(name="docs-build", python="3.9")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
-    args = session.posargs or ["docs", "docs/_build"]
-    session.install(".")
-    session.install("sphinx", "sphinx-click", "sphinx-rtd-theme")
-
-    build_dir = Path("docs", "_build")
-    if build_dir.exists():
-        shutil.rmtree(build_dir)
-
-    session.run("sphinx-build", *args)
-
-
-@session(python="3.9")
-def docs(session: Session) -> None:
-    """Build and serve the documentation with live reloading on file changes."""
-    args = session.posargs or ["--open-browser", "docs", "docs/_build"]
-    session.install(".")
-    session.install("sphinx", "sphinx-autobuild", "sphinx-click", "sphinx-rtd-theme")
-
-    build_dir = Path("docs", "_build")
-    if build_dir.exists():
-        shutil.rmtree(build_dir)
-
-    session.run("sphinx-autobuild", *args)
+    session.run_always(
+        "make",
+        external=True,
+    )

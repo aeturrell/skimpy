@@ -4,7 +4,7 @@ version = "0.0.4"
 description = "skimpy"
 authors = ["Arthur Turrell"]
 license = "MIT"
-readme = "README.rst"
+readme = "README.md"
 homepage = "https://github.com/aeturrell/skimpy"
 repository = "https://github.com/aeturrell/skimpy"
 documentation = "https://skimpy.readthedocs.io"
@@ -52,6 +52,7 @@ Pygments = "^2.9.0"
 autopep8 = "^1.6.0"
 nox = "^2021.10.1"
 jupyter = "^1.0.0"
+black-nb = "^0.6"
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"

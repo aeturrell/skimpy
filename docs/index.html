@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.328">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="A light weight tool for creating summary statistics from dataframes.">
+  <title>skimpy</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link class="quarto-color-scheme" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="fullcontent">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">skimpy</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./contributing.html">Contributing</a>
+  </li>  
+</ul>
+              <div>
+                <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+<!-- main -->
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">skimpy</h1>
+<p class="author">A light weight tool for creating summary statistics from dataframes.</p>
+</header>
+<p><a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/v/skimpy.svg" class="img-fluid" alt="PyPI"></a> <a href="https://pypi.org/project/skimpy/"><img src="https://img.shields.io/pypi/status/skimpy.svg" class="img-fluid" alt="Status"></a> <a href="https://pypi.org/project/skimpy"><img src="https://img.shields.io/pypi/pyversions/skimpy" class="img-fluid" alt="Python Version"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/pypi/l/skimpy" class="img-fluid" alt="License"></a> <a href="https://aeturrell.github.io/skimpy/"><img src="https://img.shields.io/badge/docs-passing-brightgreen" class="img-fluid" alt="Read the documentation at https://aeturrell.github.io/skimpy/"></a> <a href="https://github.com/aeturrell/skimpy/actions?workflow=Tests"><img src="https://github.com/aeturrell/skimpy/workflows/Tests/badge.svg" class="img-fluid" alt="Tests"></a> <a href="https://codecov.io/gh/aeturrell/skimpy"><img src="https://codecov.io/gh/aeturrell/skimpy/branch/main/graph/badge.svg" class="img-fluid" alt="Codecov"></a> <a href="https://pepy.tech/project/skimpy"><img src="https://static.pepy.tech/badge/skimpy" class="img-fluid" alt="Downloads"></a> <a href="https://github.com/pre-commit/pre-commit"><img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&amp;logoColor=white" class="img-fluid" alt="pre-commit"></a> <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" class="img-fluid" alt="Black"></a> <a href="https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Google Colab"></a></p>
+<p><a href="https://svgshare.com/i/Zhy.svg"><img src="https://svgshare.com/i/Zhy.svg" class="img-fluid" alt="Linux"></a> <a href="https://svgshare.com/i/ZjP.svg"><img src="https://svgshare.com/i/ZjP.svg" class="img-fluid" alt="macOS"></a> <a href="https://svgshare.com/i/ZhY.svg"><img src="https://svgshare.com/i/ZhY.svg" class="img-fluid" alt="Windows"></a></p>
+<p><strong>skimpy</strong> is a light weight tool that provides summary statistics about variables in data frames within the console or your interactive Python window. Think of it as a super-charged version of <code>df.describe()</code>.</p>
+<p>[<strong>You can find the full <em>documentation</em> here](https://aeturrell.github.io/skimpy/).</strong></p>
+<section id="quickstart" class="level2">
+<h2 class="anchored" data-anchor-id="quickstart">Quickstart</h2>
+<p><em>skim</em> a dataframe and produce summary statistics within the console using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where <code>df</code> is a dataframe.</p>
+<p>If you need to a dataset to try <em>skimpy</em> out on, you can use the built-in test dataframe:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | output: asis</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim, generate_test_data</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> generate_test_data()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
+│ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
+│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓          │
+│ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> dataframe         </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Values </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Column Type </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Count </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Categorical Variables </span>┃          │
+│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩          │
+│ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │          │
+│ │ Number of columns │ 10     │ │ category    │ 2     │ │ location              │          │
+│ └───────────────────┴────────┘ │ datetime64  │ 2     │ └───────────────────────┘          │
+│                                │ int64       │ 1     │                                    │
+│                                │ bool        │ 1     │                                    │
+│                                │ string      │ 1     │                                    │
+│                                └─────────────┴───────┘                                    │
+│ <span style="font-style: italic">                                         number                                         </span>  │
+│ ┏━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">        </span>┃<span style="font-weight: bold"> missing </span>┃<span style="font-weight: bold"> complete  </span>┃<span style="font-weight: bold"> mean  </span>┃<span style="font-weight: bold"> sd   </span>┃<span style="font-weight: bold"> p0      </span>┃<span style="font-weight: bold"> p25   </span>┃<span style="font-weight: bold"> p75  </span>┃<span style="font-weight: bold"> p100 </span>┃<span style="font-weight: bold"> hist   </span>┃  │
+│ ┃        ┃         ┃<span style="font-weight: bold"> rate      </span>┃       ┃      ┃         ┃       ┃      ┃      ┃        ┃  │
+│ ┡━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">length</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.5</span> │ <span style="color: #008080; text-decoration-color: #008080">0.36</span> │ <span style="color: #008080; text-decoration-color: #008080">1.6e-06</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.13</span> │ <span style="color: #008080; text-decoration-color: #008080">0.86</span> │ <span style="color: #008080; text-decoration-color: #008080">   1</span> │ <span style="color: #008000; text-decoration-color: #008000">█▃▃▃▄█</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">width </span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">    2</span> │ <span style="color: #008080; text-decoration-color: #008080"> 1.9</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.0021</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.6</span> │ <span style="color: #008080; text-decoration-color: #008080">   3</span> │ <span style="color: #008080; text-decoration-color: #008080">  14</span> │ <span style="color: #008000; text-decoration-color: #008000"> █▃▁  </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">depth </span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">   10</span> │ <span style="color: #008080; text-decoration-color: #008080"> 3.2</span> │ <span style="color: #008080; text-decoration-color: #008080">      2</span> │ <span style="color: #008080; text-decoration-color: #008080">    8</span> │ <span style="color: #008080; text-decoration-color: #008080">  12</span> │ <span style="color: #008080; text-decoration-color: #008080">  20</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▄█▆▃▁</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">rnd   </span> │ <span style="color: #008080; text-decoration-color: #008080">    120</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.88</span> │ <span style="color: #008080; text-decoration-color: #008080">-0.02</span> │ <span style="color: #008080; text-decoration-color: #008080">   1</span> │ <span style="color: #008080; text-decoration-color: #008080">   -2.8</span> │ <span style="color: #008080; text-decoration-color: #008080">-0.74</span> │ <span style="color: #008080; text-decoration-color: #008080">0.66</span> │ <span style="color: #008080; text-decoration-color: #008080"> 3.7</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▄█▅▁ </span> │  │
+│ └────────┴─────────┴───────────┴───────┴──────┴─────────┴───────┴──────┴──────┴────────┘  │
+│ <span style="font-style: italic">                                        category                                        </span>  │
+│ ┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                 </span>┃<span style="font-weight: bold"> missing       </span>┃<span style="font-weight: bold"> complete rate          </span>┃<span style="font-weight: bold"> ordered      </span>┃<span style="font-weight: bold"> unique     </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">class          </span> │ <span style="color: #008080; text-decoration-color: #008080">            0</span> │ <span style="color: #008080; text-decoration-color: #008080">                     1</span> │ <span style="color: #00d7ff; text-decoration-color: #00d7ff">False       </span> │ <span style="color: #008080; text-decoration-color: #008080">         2</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">location       </span> │ <span style="color: #008080; text-decoration-color: #008080">            1</span> │ <span style="color: #008080; text-decoration-color: #008080">                     1</span> │ <span style="color: #00d7ff; text-decoration-color: #00d7ff">False       </span> │ <span style="color: #008080; text-decoration-color: #008080">         5</span> │  │
+│ └─────────────────┴───────────────┴────────────────────────┴──────────────┴────────────┘  │
+│ <span style="font-style: italic">                                        datetime                                        </span>  │
+│ ┏━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                </span>┃<span style="font-weight: bold"> missing  </span>┃<span style="font-weight: bold"> complete rate   </span>┃<span style="font-weight: bold"> first        </span>┃<span style="font-weight: bold"> last        </span>┃<span style="font-weight: bold"> frequency </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">date          </span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #008080; text-decoration-color: #008080">              1</span> │ <span style="color: #800000; text-decoration-color: #800000"> 2018-01-31 </span> │ <span style="color: #800000; text-decoration-color: #800000">2101-04-30 </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M        </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">date_no_freq  </span> │ <span style="color: #008080; text-decoration-color: #008080">       3</span> │ <span style="color: #008080; text-decoration-color: #008080">              1</span> │ <span style="color: #800000; text-decoration-color: #800000"> 1992-01-05 </span> │ <span style="color: #800000; text-decoration-color: #800000">2023-03-04 </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None     </span> │  │
+│ └────────────────┴──────────┴─────────────────┴──────────────┴─────────────┴───────────┘  │
+│ <span style="font-style: italic">                                         string                                         </span>  │
+│ ┏━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">         </span>┃<span style="font-weight: bold"> missing     </span>┃<span style="font-weight: bold"> complete rate       </span>┃<span style="font-weight: bold"> words per row       </span>┃<span style="font-weight: bold"> total words      </span>┃  │
+│ ┡━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">text   </span> │ <span style="color: #008080; text-decoration-color: #008080">          6</span> │ <span style="color: #008080; text-decoration-color: #008080">               0.99</span> │ <span style="color: #008080; text-decoration-color: #008080">                5.8</span> │ <span style="color: #008080; text-decoration-color: #008080">            5800</span> │  │
+│ └─────────┴─────────────┴─────────────────────┴─────────────────────┴──────────────────┘  │
+│ <span style="font-style: italic">                                          bool                                          </span>  │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                          </span>┃<span style="font-weight: bold"> true         </span>┃<span style="font-weight: bold"> true rate               </span>┃<span style="font-weight: bold"> hist             </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">booly_col               </span> │ <span style="color: #008080; text-decoration-color: #008080">         520</span> │ <span style="color: #008080; text-decoration-color: #008080">                   0.52</span> │ <span style="color: #008000; text-decoration-color: #008000">     █    █     </span> │  │
+│ └──────────────────────────┴──────────────┴─────────────────────────┴──────────────────┘  │
+╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
+</pre>
+</div>
+</div>
+<p>It is recommended that you set your datatypes before using <em>skimpy</em> (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the <em>skim</em> function will try and guess what the datatypes of your columns are.</p>
+<p><strong>skimpy</strong> also comes with a <code>clean_columns</code> function as a convenience. This slugifies column names. For example,</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> clean_columns</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bs lncs;n edbn "</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Nín hǎo. Wǒ shì zhōng guó rén"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"___This is a test___"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ÜBER Über German Umlaut"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>messy_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>columns, index<span class="op">=</span>[<span class="dv">0</span>], data<span class="op">=</span>[<span class="bu">range</span>(<span class="bu">len</span>(columns))])</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>messy_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="2">
+<div>
+
+<table class="dataframe table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>bs lncs;n edbn</th>
+      <th>Nín hǎo. Wǒ shì zhōng guó rén</th>
+      <th>___This is a test___</th>
+      <th>ÜBER Über German Umlaut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Now let’s clean these—by default what we get back is in <em>snake case</em>:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'bs_lncs_n_edbn'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'nin_hao_wo_shi_zhong_guo_ren'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'this_is_a_test'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'uber_uber_german_umlaut'</span>
+<span style="font-weight: bold">]</span>
+</pre>
+</div>
+</div>
+<p>Other naming conventions are available, for example <em>camel case</em>:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df, case<span class="op">=</span><span class="st">"camel"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
+</pre>
+</div>
+</div>
+<p>You can find a full list of requirements in the pyproject.toml file. The main requirements are:</p>
+<div class="cell" data-execution_count="5">
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">python &gt;=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.7</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,&lt;<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+</div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">click <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7.1</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">rich ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.9</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+</div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">pandas ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+</div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pygments ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.10</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+</div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">typeguard ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.12</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+</pre>
+</div>
+</div>
+<p>You can try this package out right now in your browser using this <a href="https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb">Google Colab notebook</a> (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).</p>
+</section>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>You can install the latest release of <em>skimpy</em> via <a href="https://pip.pypa.io/">pip</a> from <a href="https://pypi.org/">PyPI</a>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install skimpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To install the development version from git, use:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip install git+https://github.com/aeturrell/skimpy.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For development, see the <a href="contributing.html">Contributor Guide</a>.</p>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p>This package is mostly designed to be used within an interactive console session or Jupyter notebook</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> skim</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>skim(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, you can also use it on the command line:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> skimpy file.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="features" class="level2">
+<h2 class="anchored" data-anchor-id="features">Features</h2>
+<ul>
+<li>Support for boolean, numeric, datetime, string, and category datatypes</li>
+<li>Command line interface in addition to interactive console functionality</li>
+<li>Light weight, with results printed to terminal using the <a href="https://github.com/willmcgugan/rich">rich</a> package.</li>
+<li>Support for different colours for different types of output</li>
+<li>Rounds numerical output to 2 significant figures</li>
+</ul>
+<p><em>skim</em> accepts keyword arguments that change the colour of the top level column headers. For example, to change the colour to magenta, it’s</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>skim(df, header_style<span class="op">=</span><span class="st">"italic magenta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
+│ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
+│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓          │
+│ ┃<span style="color: #800080; text-decoration-color: #800080; font-style: italic"> dataframe         </span>┃<span style="color: #800080; text-decoration-color: #800080; font-style: italic"> Values </span>┃ ┃<span style="color: #800080; text-decoration-color: #800080; font-style: italic"> Column Type </span>┃<span style="color: #800080; text-decoration-color: #800080; font-style: italic"> Count </span>┃ ┃<span style="color: #800080; text-decoration-color: #800080; font-style: italic"> Categorical Variables </span>┃          │
+│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩          │
+│ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │          │
+│ │ Number of columns │ 10     │ │ category    │ 2     │ │ location              │          │
+│ └───────────────────┴────────┘ │ datetime64  │ 2     │ └───────────────────────┘          │
+│                                │ int64       │ 1     │                                    │
+│                                │ bool        │ 1     │                                    │
+│                                │ string      │ 1     │                                    │
+│                                └─────────────┴───────┘                                    │
+│ <span style="font-style: italic">                                         number                                         </span>  │
+│ ┏━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">        </span>┃<span style="font-weight: bold"> missing </span>┃<span style="font-weight: bold"> complete  </span>┃<span style="font-weight: bold"> mean  </span>┃<span style="font-weight: bold"> sd   </span>┃<span style="font-weight: bold"> p0      </span>┃<span style="font-weight: bold"> p25   </span>┃<span style="font-weight: bold"> p75  </span>┃<span style="font-weight: bold"> p100 </span>┃<span style="font-weight: bold"> hist   </span>┃  │
+│ ┃        ┃         ┃<span style="font-weight: bold"> rate      </span>┃       ┃      ┃         ┃       ┃      ┃      ┃        ┃  │
+│ ┡━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">length</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.5</span> │ <span style="color: #008080; text-decoration-color: #008080">0.36</span> │ <span style="color: #008080; text-decoration-color: #008080">1.6e-06</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.13</span> │ <span style="color: #008080; text-decoration-color: #008080">0.86</span> │ <span style="color: #008080; text-decoration-color: #008080">   1</span> │ <span style="color: #008000; text-decoration-color: #008000">█▃▃▃▄█</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">width </span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">    2</span> │ <span style="color: #008080; text-decoration-color: #008080"> 1.9</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.0021</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.6</span> │ <span style="color: #008080; text-decoration-color: #008080">   3</span> │ <span style="color: #008080; text-decoration-color: #008080">  14</span> │ <span style="color: #008000; text-decoration-color: #008000"> █▃▁  </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">depth </span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #008080; text-decoration-color: #008080">        1</span> │ <span style="color: #008080; text-decoration-color: #008080">   10</span> │ <span style="color: #008080; text-decoration-color: #008080"> 3.2</span> │ <span style="color: #008080; text-decoration-color: #008080">      2</span> │ <span style="color: #008080; text-decoration-color: #008080">    8</span> │ <span style="color: #008080; text-decoration-color: #008080">  12</span> │ <span style="color: #008080; text-decoration-color: #008080">  20</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▄█▆▃▁</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">rnd   </span> │ <span style="color: #008080; text-decoration-color: #008080">    120</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.88</span> │ <span style="color: #008080; text-decoration-color: #008080">-0.02</span> │ <span style="color: #008080; text-decoration-color: #008080">   1</span> │ <span style="color: #008080; text-decoration-color: #008080">   -2.8</span> │ <span style="color: #008080; text-decoration-color: #008080">-0.74</span> │ <span style="color: #008080; text-decoration-color: #008080">0.66</span> │ <span style="color: #008080; text-decoration-color: #008080"> 3.7</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▄█▅▁ </span> │  │
+│ └────────┴─────────┴───────────┴───────┴──────┴─────────┴───────┴──────┴──────┴────────┘  │
+│ <span style="font-style: italic">                                        category                                        </span>  │
+│ ┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                 </span>┃<span style="font-weight: bold"> missing       </span>┃<span style="font-weight: bold"> complete rate          </span>┃<span style="font-weight: bold"> ordered      </span>┃<span style="font-weight: bold"> unique     </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">class          </span> │ <span style="color: #008080; text-decoration-color: #008080">            0</span> │ <span style="color: #008080; text-decoration-color: #008080">                     1</span> │ <span style="color: #00d7ff; text-decoration-color: #00d7ff">False       </span> │ <span style="color: #008080; text-decoration-color: #008080">         2</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">location       </span> │ <span style="color: #008080; text-decoration-color: #008080">            1</span> │ <span style="color: #008080; text-decoration-color: #008080">                     1</span> │ <span style="color: #00d7ff; text-decoration-color: #00d7ff">False       </span> │ <span style="color: #008080; text-decoration-color: #008080">         5</span> │  │
+│ └─────────────────┴───────────────┴────────────────────────┴──────────────┴────────────┘  │
+│ <span style="font-style: italic">                                        datetime                                        </span>  │
+│ ┏━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                </span>┃<span style="font-weight: bold"> missing  </span>┃<span style="font-weight: bold"> complete rate   </span>┃<span style="font-weight: bold"> first        </span>┃<span style="font-weight: bold"> last        </span>┃<span style="font-weight: bold"> frequency </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">date          </span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #008080; text-decoration-color: #008080">              1</span> │ <span style="color: #800000; text-decoration-color: #800000"> 2018-01-31 </span> │ <span style="color: #800000; text-decoration-color: #800000">2101-04-30 </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M        </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">date_no_freq  </span> │ <span style="color: #008080; text-decoration-color: #008080">       3</span> │ <span style="color: #008080; text-decoration-color: #008080">              1</span> │ <span style="color: #800000; text-decoration-color: #800000"> 1992-01-05 </span> │ <span style="color: #800000; text-decoration-color: #800000">2023-03-04 </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None     </span> │  │
+│ └────────────────┴──────────┴─────────────────┴──────────────┴─────────────┴───────────┘  │
+│ <span style="font-style: italic">                                         string                                         </span>  │
+│ ┏━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">         </span>┃<span style="font-weight: bold"> missing     </span>┃<span style="font-weight: bold"> complete rate       </span>┃<span style="font-weight: bold"> words per row       </span>┃<span style="font-weight: bold"> total words      </span>┃  │
+│ ┡━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">text   </span> │ <span style="color: #008080; text-decoration-color: #008080">          6</span> │ <span style="color: #008080; text-decoration-color: #008080">               0.99</span> │ <span style="color: #008080; text-decoration-color: #008080">                5.8</span> │ <span style="color: #008080; text-decoration-color: #008080">            5800</span> │  │
+│ └─────────┴─────────────┴─────────────────────┴─────────────────────┴──────────────────┘  │
+│ <span style="font-style: italic">                                          bool                                          </span>  │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold">                          </span>┃<span style="font-weight: bold"> true         </span>┃<span style="font-weight: bold"> true rate               </span>┃<span style="font-weight: bold"> hist             </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">booly_col               </span> │ <span style="color: #008080; text-decoration-color: #008080">         520</span> │ <span style="color: #008080; text-decoration-color: #008080">                   0.52</span> │ <span style="color: #008000; text-decoration-color: #008000">     █    █     </span> │  │
+│ └──────────────────────────┴──────────────┴─────────────────────────┴──────────────────┘  │
+╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
+</pre>
+</div>
+</div>
+</section>
+<section id="contributing" class="level2">
+<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
+<p>Contributions are very welcome. To learn more, see the <a href="CONTRIBUTING.html">Contributor Guide</a>.</p>
+<p>Note that you will need <a href="https://quarto.org/">Quarto</a> and <a href="https://www.gnu.org/software/make/">Make</a> installed to build the docs. You can preview the docs using <code>poetry run quarto preview --execute</code>. You can build them with <code>make</code>.</p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>Distributed under the terms of the <a href="https://opensource.org/licenses/MIT">MIT license</a>, <em>skimpy</em> is free and open source software. You can find the license <a href="LICENSE.html">here</a></p>
+</section>
+<section id="issues" class="level2">
+<h2 class="anchored" data-anchor-id="issues">Issues</h2>
+<p>If you encounter any problems, please <a href="https://github.com/aeturrell/skimpy/issues">file an issue</a> along with a detailed description.</p>
+</section>
+<section id="credits" class="level2">
+<h2 class="anchored" data-anchor-id="credits">Credits</h2>
+<p>This project was generated from <a href="https://github.com/cjolowicz">@cjolowicz</a>'s <a href="https://github.com/cjolowicz/cookiecutter-hypermodern-python">Hypermodern Python Cookiecutter</a> template.</p>
+<p>skimpy was inspired by the R package <a href="https://docs.ropensci.org/skimr/articles/skimr.html">skimr</a> and by exploratory Python packages including <a href="https://pandas-profiling.github.io/pandas-profiling">pandas_profiling</a> and <a href="https://dataprep.ai/">dataprep</a>, from which the <code>clean_columns</code> function comes.</p>
+<p>The package is built with <a href="https://python-poetry.org/">poetry</a>, while the documentation is built with <a href="https://quarto.org/">Quarto</a>. Tests are run with <a href="https://nox.thea.codes/en/stable/">nox</a>.</p>
+
+
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      return window.localStorage.getItem("quarto-color-scheme");
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = null;
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.id = "quarto-color-scheme-toggle";
+    a.classList.add('top-right');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>
