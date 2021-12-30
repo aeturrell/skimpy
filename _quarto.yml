@@ -10,7 +10,8 @@ website:
     left:
       - href: index.ipynb
         text: Home
-      - contributing.md
+      - href: contributing.md
+        text: Contributing
 
 format:
   html:

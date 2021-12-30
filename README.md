@@ -239,6 +239,12 @@ for key, value in dict_main_deps.items():
 
 
 
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">jupyter ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+</pre>
+
+
+
 You can try this package out right now in your browser using this
 [Google Colab notebook](https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb)
 (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release).
@@ -351,7 +357,7 @@ skim(df, header_style="italic magenta")
 
 ## Contributing
 
-Contributions are very welcome. To learn more, see the [Contributor Guide](CONTRIBUTING.html).
+Contributions are very welcome. To learn more, see the [Contributor Guide](contributing.html).
 
 Note that you will need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/) installed to build the docs. You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`.
 
