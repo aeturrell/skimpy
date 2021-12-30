@@ -460,13 +460,13 @@ function validateItems(items) {
   if (items.length > 0) {
     const item = items[0];
     const missingFields = [];
-    if (item.href == undefined) {
+    if (!item.href) {
       missingFields.push("href");
     }
-    if (!item.title == undefined) {
+    if (!item.title) {
       missingFields.push("title");
     }
-    if (!item.text == undefined) {
+    if (!item.text) {
       missingFields.push("text");
     }
 
@@ -840,10 +840,8 @@ function highlightMatch(query, text) {
         text.slice(end);
       const clipStart = Math.max(start - 50, 0);
       const clipEnd = clipStart + 200;
-
       text = text.slice(clipStart, clipEnd);
-
-      return text;
+      return text.slice(text.indexOf(" ") + 1);
     } else {
       return text;
     }

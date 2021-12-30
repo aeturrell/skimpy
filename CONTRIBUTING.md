@@ -43,7 +43,7 @@ You need Python and the following tools:
 - [Nox](https://nox.thea.codes/)
 - [nox-poetry](https://nox-poetry.readthedocs.io/)
 - [Quarto](https://quarto.org/)
-- [Make](https://www.gnu.org/software/make/)]
+- [Make](https://www.gnu.org/software/make/)
 
 Install the package with development requirements:
 
@@ -78,20 +78,20 @@ to build the documentation website behind the scenes.
 Run the full test suite:
 
 ```{.console}
-$ nox
+$ poetry run nox
 ```
 
 List the available Nox sessions:
 
 ```{.console}
-$ nox --list-sessions
+$ poetry run nox --list-sessions
 ```
 
 You can also run a specific Nox session. For example, invoke the unit
 test suite like this:
 
 ```{.console}
-$ nox --session=tests
+$ poetry run nox --session=tests
 ```
 
 Unit tests are located in the `tests` directory, and are written using
@@ -128,7 +128,7 @@ you can install pre-commit as a Git hook by running the following
 command:
 
 ```{.console}
-$ nox --session=pre-commit -- install
+$ poetry run nox --session=pre-commit -- install
 ```
 
 It is recommended to open an issue before starting work on anything.

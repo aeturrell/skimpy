@@ -26,7 +26,7 @@ Think of it as a super-charged version of `df.describe()`.
 
 ## Quickstart
 
-_skim_ a dataframe and produce summary statistics within the console
+*skim* a dataframe and produce summary statistics within the console
 using:
 
 ```python
@@ -37,8 +37,9 @@ skim(df)
 
 where `df` is a dataframe.
 
-If you need to a dataset to try _skimpy_ out on, you can use the
+If you need to a dataset to try *skimpy* out on, you can use the
 built-in test dataframe:
+
 
 ```python
 # | output: asis
@@ -47,6 +48,7 @@ from skimpy import skim, generate_test_data
 df = generate_test_data()
 skim(df)
 ```
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
 │ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
@@ -99,9 +101,13 @@ skim(df)
 ╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
 </pre>
 
-It is recommended that you set your datatypes before using _skimpy_ (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the _skim_ function will try and guess what the datatypes of your columns are.
+
+
+It is recommended that you set your datatypes before using *skimpy* (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the *skim* function will try and guess what the datatypes of your columns are.
 
 **skimpy** also comes with a `clean_columns` function as a convenience. This slugifies column names. For example,
+
+
 
 ```python
 import pandas as pd
@@ -119,8 +125,12 @@ print("Column names:")
 print(list(messy_df.columns))
 ```
 
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Column names:
 </pre>
+
+
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
     <span style="color: #008000; text-decoration-color: #008000">'bs lncs;n edbn '</span>,
@@ -130,15 +140,22 @@ print(list(messy_df.columns))
 <span style="font-weight: bold">]</span>
 </pre>
 
-Now let's clean these—by default what we get back is in _snake case_:
+
+
+Now let's clean these—by default what we get back is in *snake case*:
+
 
 ```python
 clean_df = clean_columns(messy_df)
 print(list(clean_df.columns))
 ```
 
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
 </pre>
+
+
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span>
     <span style="color: #008000; text-decoration-color: #008000">'bs_lncs_n_edbn'</span>,
@@ -148,23 +165,33 @@ print(list(clean_df.columns))
 <span style="font-weight: bold">]</span>
 </pre>
 
-Other naming conventions are available, for example _camel case_:
+
+
+Other naming conventions are available, for example *camel case*:
+
 
 ```python
 clean_df = clean_columns(messy_df, case="camel")
 print(list(clean_df.columns))
 ```
 
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span> column names have been cleaned
 </pre>
 
+
+
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008000; text-decoration-color: #008000">'bsLncsNEdbn'</span>, <span style="color: #008000; text-decoration-color: #008000">'ninHaoWoShiZhongGuoRen'</span>, <span style="color: #008000; text-decoration-color: #008000">'thisIsATest'</span>, <span style="color: #008000; text-decoration-color: #008000">'uberUberGermanUmlaut'</span><span style="font-weight: bold">]</span>
 </pre>
+
+
 
 ## Requirements
 
 You can find a full list of requirements in the pyproject.toml file. The
 main requirements are:
+
 
 ```python
 #| echo: false
@@ -176,23 +203,41 @@ for key, value in dict_main_deps.items():
     print(f"{key} {value}")
 ```
 
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">python &gt;=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.7</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,&lt;<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>
+
+
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">click <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7.1</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
 </pre>
 
+
+
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">rich ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.9</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>
+
+
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">pandas ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.3</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
 </pre>
 
+
+
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pygments ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.10</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>
 
+
+
+
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">typeguard ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.12</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
 </pre>
+
+
 
 You can try this package out right now in your browser using this
 [Google Colab notebook](https://colab.research.google.com/gist/aeturrell/7bf183c559dc1d15ab7e7aaac39ea0ed/skimpy_demo.ipynb)
@@ -200,7 +245,7 @@ You can try this package out right now in your browser using this
 
 ## Installation
 
-You can install the latest release of _skimpy_ via
+You can install the latest release of *skimpy* via
 [pip](https://pip.pypa.io/) from [PyPI](https://pypi.org/):
 
 ```bash
@@ -234,20 +279,22 @@ $ skimpy file.csv
 
 ## Features
 
-- Support for boolean, numeric, datetime, string, and category
-  datatypes
-- Command line interface in addition to interactive console
-  functionality
-- Light weight, with results printed to terminal using the
-  [rich](https://github.com/willmcgugan/rich) package.
-- Support for different colours for different types of output
-- Rounds numerical output to 2 significant figures
+-   Support for boolean, numeric, datetime, string, and category
+    datatypes
+-   Command line interface in addition to interactive console
+    functionality
+-   Light weight, with results printed to terminal using the
+    [rich](https://github.com/willmcgugan/rich) package.
+-   Support for different colours for different types of output
+-   Rounds numerical output to 2 significant figures
 
-_skim_ accepts keyword arguments that change the colour of the top level column headers. For example, to change the colour to magenta, it's
+*skim* accepts keyword arguments that change the colour of the top level column headers. For example, to change the colour to magenta, it's
+
 
 ```python
 skim(df, header_style="italic magenta")
 ```
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────── skimpy summary ──────────────────────────────────────╮
 │ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>          │
@@ -300,6 +347,8 @@ skim(df, header_style="italic magenta")
 ╰─────────────────────────────────────────── End ───────────────────────────────────────────╯
 </pre>
 
+
+
 ## Contributing
 
 Contributions are very welcome. To learn more, see the [Contributor Guide](CONTRIBUTING.html).
@@ -308,7 +357,7 @@ Note that you will need [Quarto](https://quarto.org/) and [Make](https://www.gnu
 
 ## License
 
-Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), _skimpy_ is free and open source software. You can find the license [here](LICENSE.html)
+Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), *skimpy* is free and open source software. You can find the license [here](LICENSE.html)
 
 ## Issues
 

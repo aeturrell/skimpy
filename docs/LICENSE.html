@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.2.328">
+  <meta name="generator" content="quarto-0.2.289">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>skimpy - MIT License</title>
   <style>
@@ -86,7 +86,7 @@
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
+<!-- toc -->
 <!-- main -->
 <main class="content">
 <header id="title-block-header">
@@ -98,7 +98,6 @@
 <p><strong>The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.</strong></p>
 
 
-</main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const disableStylesheet = (stylesheets) => {
@@ -127,13 +126,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleColorMode = (alternate) => {
     // Switch the stylesheets
     const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    manageTransitions('div.sidebar-toc .nav-link', false);
     if (alternate) {
       enableStylesheet(alternateStylesheets);
     } else {
       disableStylesheet(alternateStylesheets);
     }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    manageTransitions('.quarto-toc-sidebar .nav-link', true);
     // Switch the toggles
     const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
     for (let i=0; i < toggles.length; i++) {
@@ -271,6 +270,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+</main> <!-- /main -->
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
   </div>
