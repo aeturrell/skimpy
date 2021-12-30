@@ -28,7 +28,7 @@ nox.options.sessions = (
     "tests",
     "typeguard",
     "xdoctest",
-    "docs-build",
+    # "docs-build",
 )
 
 
@@ -166,10 +166,10 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", package, *args)
 
 
-@session(name="docs-build", python="3.9")
-def docs_build(session: Session) -> None:
-    """Build the documentation."""
-    session.run_always(
-        "make",
-        external=True,
-    )
+# @session(name="docs-build", python="3.9")
+# def docs_build(session: Session) -> None:
+#     """Build the documentation."""
+#     session.run_always(
+#         "make",
+#         external=True,
+#     )

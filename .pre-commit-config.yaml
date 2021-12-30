@@ -30,13 +30,6 @@ repos:
         language: system
         types: [text]
         stages: [commit, push, manual]
-      - id: flake8
-        exclude: docs/
-        name: flake8
-        entry: flake8
-        language: system
-        types: [python]
-        require_serial: true
       - id: reorder-python-imports
         exclude: docs/
         name: Reorder python imports
