@@ -50,7 +50,7 @@ autopep8 = "^1.6.0"
 nox = "^2022.1.7"
 jupyter = "^1.0.0"
 black-nb = "^0.6"
-jupyterlab = "^3.2.4"
+jupyterlab = "^3.2.6"
 nbconvert = "^6.4.0"
 
 [tool.poetry.scripts]
