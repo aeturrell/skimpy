@@ -56,7 +56,7 @@ NUM_COL_MEAN = "mean"
 
 
 @typechecked
-def infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
+def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
     """Infers the, and applies new, datatypes of dataframe columns.
 
     :param df: input dataframe of ambiguous col type
@@ -90,7 +90,7 @@ def infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+def _round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """Rounds dataframe to 2 s.f.
 
     Args:
@@ -105,7 +105,7 @@ def round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) -> dict:
+def _map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) -> dict:
     """Maps positions in summary dataframe (eg row) to a Rich text property.
 
     :param types_to_property: Datatype, datetime, mapping to Rich text property
@@ -142,7 +142,7 @@ def map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) -
 
 
 @typechecked
-def simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
+def _simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
     """Simplifies 2001/01/01 00:00:00 to 2001/01/01.
 
     :param rows: contain summary info, including datetimes
@@ -168,7 +168,7 @@ def simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
 
 
 @typechecked
-def dataframe_to_rich_table(
+def _dataframe_to_rich_table(
     table_name: str,
     df: pd.DataFrame,
     number: str = "cyan",
@@ -222,12 +222,12 @@ def dataframe_to_rich_table(
         "bool": "left",
         "object": "left",
     }
-    pos_to_colour = map_row_positions_to_text_style(datatype_colours, df)
-    pos_to_justification = map_row_positions_to_text_style(datatype_justify, df)
+    pos_to_colour = _map_row_positions_to_text_style(datatype_colours, df)
+    pos_to_justification = _map_row_positions_to_text_style(datatype_justify, df)
     rows = df.values
     # find any datetimes
     if (DATE_COL_FIRST or DATE_COL_LAST) in df.columns:
-        rows = simplify_datetimes_in_array(rows)
+        rows = _simplify_datetimes_in_array(rows)
     rows = [
         [
             str(s).rstrip("0").rstrip(".") if ("." and type(s) == float) else s
@@ -250,7 +250,7 @@ def dataframe_to_rich_table(
     return table
 
 
-def find_nearest(array, value):
+def _find_nearest(array, value):
     """Find the nearest numerical match to value in an array.
 
     Args:
@@ -266,7 +266,7 @@ def find_nearest(array, value):
 
 
 @typechecked
-def create_unicode_hist(series: pd.Series) -> pd.Series:
+def _create_unicode_hist(series: pd.Series) -> pd.Series:
     """Return a histogram rendered in block unicode.
 
     Given a pandas series of numerical values, returns a series with one
@@ -287,13 +287,13 @@ def create_unicode_hist(series: pd.Series) -> pd.Series:
     # now do value counts
     key_vector = np.array(list(UNICODE_HIST.keys()), dtype="float")
     ucode_to_print = "".join(
-        [UNICODE_HIST[find_nearest(key_vector, val)] for val in hist]
+        [UNICODE_HIST[_find_nearest(key_vector, val)] for val in hist]
     )
     return pd.Series(index=[series.name], data=ucode_to_print, dtype="string")
 
 
 @typechecked
-def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have numeric type.
 
     Args:
@@ -321,7 +321,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     # Create histogram using unicode block elements
     # https://en.wikipedia.org/wiki/Block_Elements
     hist_series = pd.concat(
-        [create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
+        [_create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
     )
     data_dict.update({"hist": hist_series})
     summary_df = pd.DataFrame(data_dict)
@@ -329,7 +329,7 @@ def numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+def _category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have category type.
 
     Args:
@@ -355,7 +355,7 @@ def category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+def _bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have boolean type.
 
     Args:
@@ -370,7 +370,7 @@ def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
         "true rate": xf.sum() / xf.shape[0],
     }
     hist_series = pd.concat(
-        [create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
+        [_create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
     )
     data_dict.update({"hist": hist_series})
     summary_df = pd.DataFrame(data_dict)
@@ -378,7 +378,7 @@ def bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have string type. (NB not object type).
 
     Args:
@@ -420,7 +420,7 @@ def string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have datetime type.
 
     Args:
@@ -471,12 +471,21 @@ def skim(
     functions based on the types of columns in the dataframe. You may get
     better results from ensuring that you set the datatypes in your dataframe
     you want before running skim.
-    The colour_kwargs (str) are defined in dataframe_to_rich_table.
+    The colour_kwargs (str) are defined in _dataframe_to_rich_table.
 
     Args:
         df (pd.DataFrame): Dataframe to skim
         header_style (str): A style to use for headers. See Rich API Styles.
         colour_kwargs (dict[str]): colour keyword arguments for rich table
+
+    Examples
+    --------
+    Skim a dataframe
+    >>> df = pd.DataFrame({'col1': ['Philip', 'Turanga', 'bob'], \
+        'col2': [50, 100, 70], \
+        'col3': [False, True, True]})
+    >>> df["col1"] = df["col1"].astype("string")
+    >>> skim(df)
     """
     if hasattr(df, "name") and "name" not in df.columns:
         name = df.name
@@ -484,7 +493,7 @@ def skim(
         name = "dataframe"
 
     # Perform inference of datatypes
-    # df = infer_datatypes(df)
+    df = _infer_datatypes(df)
 
     # Data summary
     tab_1_data = {"Number of rows": df.shape[0], "Number of columns": df.shape[1]}
@@ -517,11 +526,11 @@ def skim(
             cat_sum_table.add_row(cat)
     # Summaries of cols of specific types
     types_funcs_dict = {
-        "number": numeric_variable_summary_table,
-        "category": category_variable_summary_table,
-        "datetime": datetime_variable_summary_table,
-        "string": string_variable_summary_table,
-        "bool": bool_variable_summary_table,
+        "number": _numeric_variable_summary_table,
+        "category": _category_variable_summary_table,
+        "datetime": _datetime_variable_summary_table,
+        "string": _string_variable_summary_table,
+        "bool": _bool_variable_summary_table,
     }
     list_of_tabs = []
     for col_type, summary_func in types_funcs_dict.items():
@@ -529,8 +538,8 @@ def skim(
         if not xf.empty:
             sum_df = summary_func(xf)
             list_of_tabs.append(
-                dataframe_to_rich_table(
-                    col_type, round_dataframe(sum_df)  # , **colour_kwargs
+                _dataframe_to_rich_table(
+                    col_type, _round_dataframe(sum_df)  # , **colour_kwargs
                 )
             )
     # Put all of the info together
@@ -746,6 +755,11 @@ def generate_test_data() -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: dataframe with columns spanning several data types.
+
+    Examples
+    --------
+    Generate test data to demonstrate how skimpy works.
+    >>> df = generate_test_data()
     """
     seed = 34729
     rng = Generator(PCG64(seed))

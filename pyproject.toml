@@ -65,7 +65,7 @@ source = ["skimpy"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 99
+fail_under = 98
 
 [tool.mypy]
 strict = false
