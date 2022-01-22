@@ -53,6 +53,7 @@ UNICODE_HIST = {
 DATE_COL_FIRST = "first"
 DATE_COL_LAST = "last"
 NUM_COL_MEAN = "mean"
+COMPLETE_COL = "complete %"
 
 
 @typechecked
@@ -202,7 +203,7 @@ def _dataframe_to_rich_table(
         rich.table.Table: instance of Table from the rich package
     """
     str_limit: int = 20  # For longer strings, limit chars shown.
-    df = df.reset_index().rename(columns={"index": ""})
+    df = df.reset_index().rename(columns={"index": "column_name"})
     table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
     # generate dict of types to colours
     datatype_colours = {
@@ -306,7 +307,7 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         "missing": count_nans_vec,
-        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        COMPLETE_COL: 1 - count_nans_vec / xf.shape[0],
         NUM_COL_MEAN: xf.mean(),
         "sd": xf.std(),
     }
@@ -342,7 +343,7 @@ def _category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         "missing": count_nans_vec,
-        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        COMPLETE_COL: 1 - count_nans_vec / xf.shape[0],
         "ordered": pd.Series(
             dict(zip(xf.columns, [xf[col].cat.ordered for col in xf.columns]))
         ),
@@ -391,7 +392,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         "missing": count_nans_vec,
-        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        COMPLETE_COL: 1 - count_nans_vec / xf.shape[0],
         "words per row": pd.Series(
             dict(
                 zip(
@@ -433,7 +434,7 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         "missing": count_nans_vec,
-        "complete rate": 1 - count_nans_vec / xf.shape[0],
+        COMPLETE_COL: 1 - count_nans_vec / xf.shape[0],
         DATE_COL_FIRST: pd.Series(
             dict(
                 zip(
