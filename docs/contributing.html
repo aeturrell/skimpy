@@ -135,7 +135,7 @@
     <a class="nav-link" href="./index.html">Home</a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./contributing.html" aria-current="page">Contributing</a>
+    <a class="nav-link" href="./contributing.html">Contributing</a>
   </li>  
 </ul>
               <div>
@@ -163,8 +163,8 @@
 <li><a href="https://github.com/aeturrell/skimpy/issues">Issue Tracker</a></li>
 <li><a href="code_of_conduct.html">Code of Conduct</a></li>
 </ul>
-<section id="how-to-report-a-bug" class="level1">
-<h1>How to report a bug</h1>
+<section id="how-to-report-a-bug" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-report-a-bug">How to report a bug</h2>
 <p>Report bugs on the <a href="https://github.com/aeturrell/skimpy/issues">Issue Tracker</a>.</p>
 <p>When filing an issue, make sure to answer these questions:</p>
 <ul>
@@ -176,12 +176,12 @@
 </ul>
 <p>The best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue.</p>
 </section>
-<section id="how-to-request-a-feature" class="level1">
-<h1>How to request a feature</h1>
+<section id="how-to-request-a-feature" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-request-a-feature">How to request a feature</h2>
 <p>Request features on the <a href="https://github.com/aeturrell/skimpy/issues">Issue Tracker</a>.</p>
 </section>
-<section id="how-to-set-up-your-development-environment" class="level1">
-<h1>How to set up your development environment</h1>
+<section id="how-to-set-up-your-development-environment" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-set-up-your-development-environment">How to set up your development environment</h2>
 <p>You need Python and the following tools:</p>
 <ul>
 <li><a href="https://python-poetry.org/">Poetry</a></li>
@@ -201,8 +201,8 @@ $ poetry run skimpy</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> run quarto render <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>to build the documentation website behind the scenes.</p>
 </section>
-<section id="how-to-test-the-project" class="level1">
-<h1>How to test the project</h1>
+<section id="how-to-test-the-project" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-test-the-project">How to test the project</h2>
 <p>Run the full test suite:</p>
 <pre class="console"><code>$ poetry run nox</code></pre>
 <p>List the available Nox sessions:</p>
@@ -214,19 +214,19 @@ $ poetry run skimpy</code></pre>
 <p>For the pre-commit checks, use</p>
 <pre class="console"><code>$ poetry run pre-commit run --all-files</code></pre>
 </section>
-<section id="how-to-submit-changes" class="level1">
-<h1>How to submit changes</h1>
+<section id="how-to-submit-changes" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-submit-changes">How to submit changes</h2>
 <p>Open a <a href="https://github.com/aeturrell/skimpy/pulls">pull request</a> to submit changes to this project.</p>
 <p>Your pull request needs to meet the following guidelines for acceptance:</p>
 <ul>
 <li>The Nox test suite must pass without errors and warnings.</li>
-<li>Include unit tests. This project aims to maintain 100% code coverage.</li>
+<li>Include unit tests. This project aims to maintain 98% code coverage.</li>
 <li>If your changes add functionality, update the documentation accordingly.</li>
 <li>Run make to generate the new documentation.</li>
 <li>Run the pre-commit suite before committing.</li>
 </ul>
 <p>Feel free to submit early, though—we can always iterate on this.</p>
-<p>To run linting and code formatting checks before commiting your change, you can install pre-commit as a Git hook by running the following command:</p>
+<p>To run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:</p>
 <pre class="console"><code>$ poetry run nox --session=pre-commit -- install</code></pre>
 <p>It is recommended to open an issue before starting work on anything. This will allow a chance to talk it over with the owners and validate your approach.</p>
 

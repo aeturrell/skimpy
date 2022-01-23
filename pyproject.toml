@@ -13,6 +13,7 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
 ]
 
 [tool.poetry.urls]
@@ -50,7 +51,6 @@ Pygments = "^2.9.0"
 autopep8 = "^1.6.0"
 nox = "^2022.1.7"
 jupyter = "^1.0.0"
-black-nb = "^0.6"
 jupyterlab = "^3.2.6"
 nbconvert = "^6.4.0"
 
@@ -80,3 +80,6 @@ disallow_untyped_calls = false
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+exclude = 'index.ipynb'

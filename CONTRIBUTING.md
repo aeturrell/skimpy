@@ -14,7 +14,7 @@ Here is a list of important resources for contributors:
 - [Issue Tracker](https://github.com/aeturrell/skimpy/issues)
 - [Code of Conduct](code_of_conduct.html)
 
-# How to report a bug
+## How to report a bug
 
 Report bugs on the [Issue
 Tracker](https://github.com/aeturrell/skimpy/issues).
@@ -30,12 +30,12 @@ When filing an issue, make sure to answer these questions:
 The best way to get your bug fixed is to provide a test case, and/or
 steps to reproduce the issue.
 
-# How to request a feature
+## How to request a feature
 
 Request features on the [Issue
 Tracker](https://github.com/aeturrell/skimpy/issues).
 
-# How to set up your development environment
+## How to set up your development environment
 
 You need Python and the following tools:
 
@@ -73,7 +73,7 @@ poetry run quarto render --execute
 
 to build the documentation website behind the scenes.
 
-# How to test the project
+## How to test the project
 
 Run the full test suite:
 
@@ -106,7 +106,7 @@ For the pre-commit checks, use
 $ poetry run pre-commit run --all-files
 ```
 
-# How to submit changes
+## How to submit changes
 
 Open a [pull request](https://github.com/aeturrell/skimpy/pulls) to
 submit changes to this project.
@@ -123,7 +123,7 @@ Your pull request needs to meet the following guidelines for acceptance:
 
 Feel free to submit early, though---we can always iterate on this.
 
-To run linting and code formatting checks before commiting your change,
+To run linting and code formatting checks before committing your change,
 you can install pre-commit as a Git hook by running the following
 command:
 
