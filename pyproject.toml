@@ -31,7 +31,7 @@ ipykernel = "^6.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
-coverage = {extras = ["toml"], version = "^6.2"}
+coverage = {extras = ["toml"], version = "^6.3"}
 safety = "^1.10.3"
 mypy = "^0.931"
 typeguard = "^2.12.1"
