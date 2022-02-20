@@ -53,6 +53,7 @@ nox = "^2022.1.7"
 jupyter = "^1.0.0"
 jupyterlab = "^3.2.6"
 nbconvert = "^6.4.0"
+matplotlib = "^3.5.1"
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"

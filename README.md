@@ -2,6 +2,8 @@
 
 A light weight tool for creating summary statistics from dataframes.
 
+![png](docs/index_files/figure-html/cell-2-output-1.png)
+
 [![PyPI](https://img.shields.io/pypi/v/skimpy.svg)](https://pypi.org/project/skimpy/)
 [![Status](https://img.shields.io/pypi/status/skimpy.svg)](https://pypi.org/project/skimpy/)
 [![Python Version](https://img.shields.io/pypi/pyversions/skimpy)](https://pypi.org/project/skimpy)
@@ -165,16 +167,6 @@ print(list(clean_df.columns))
 
 You can find a full list of requirements in the pyproject.toml file. The
 main requirements are:
-
-```python
-#| echo: false
-import toml
-
-config = toml.load("pyproject.toml")
-dict_main_deps = config["tool"]["poetry"]["dependencies"]
-for key, value in dict_main_deps.items():
-    print(f"{key} {value}")
-```
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">python &gt;=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.7</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,&lt;<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>

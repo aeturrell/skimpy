@@ -53,7 +53,7 @@
     "href": "CONTRIBUTING.html#how-to-set-up-your-development-environment",
     "title": "Contributing",
     "section": "How to set up your development environment",
-    "text": "You need Python and the following tools:\n\nPoetry\nNox\nnox-poetry\nQuarto\nMake\n\nInstall the package with development requirements:\n$ poetry install\nYou can now run an interactive Python session, or the command-line interface:\n$ poetry run python\n$ poetry run skimpy\nTo build the documentation, you will also need Quarto and Make. You can preview the docs using poetry run quarto preview --execute. You can build them with make, which runs\npoetry run jupyter nbconvert --to markdown --execute index.ipynb && mv index.md README.md\nto build the readme and\npoetry run quarto render --execute\nto build the documentation website behind the scenes."
+    "text": "You need Python and the following tools:\n\nPoetry\nNox\nnox-poetry\nQuarto\nMake\n\nInstall the package with development requirements:\n$ poetry install\nYou can now run an interactive Python session, or the command-line interface:\n$ poetry run python\n$ poetry run skimpy\nTo build the documentation, you will also need Quarto and Make. You can preview the docs using poetry run quarto preview --execute. You can build them with make, which runs a command to build the README and then another to build the website. make clean to remove the existing README. (Remember to use pre-commit after updating the documentation.)"
   },
   {
     "objectID": "CONTRIBUTING.html#how-to-test-the-project",

@@ -59,19 +59,7 @@ $ poetry run python
 $ poetry run skimpy
 ```
 
-To build the documentation, you will also need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/). You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`, which runs
-
-```bash
-poetry run jupyter nbconvert --to markdown --execute index.ipynb && mv index.md README.md
-```
-
-to build the readme and
-
-```bash
-poetry run quarto render --execute
-```
-
-to build the documentation website behind the scenes.
+To build the documentation, you will also need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/). You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README. (Remember to use pre-commit after updating the documentation.)
 
 ## How to test the project
 
