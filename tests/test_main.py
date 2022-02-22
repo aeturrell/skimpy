@@ -120,7 +120,16 @@ def test_007_simplify_datetimes_in_array() -> None:
     """Tests whether datetimes in an array are simplified."""
     df = pd.DataFrame()
     df["date"] = pd.date_range(start="2001-01-01", periods=3, freq="M")
-    df = df.append({"date": pd.to_datetime("2001-04-01 17:43:21")}, ignore_index=True)
+    df = pd.concat(
+        [
+            df,
+            pd.DataFrame.from_dict(
+                {"date": pd.to_datetime("2001-04-01 17:43:21")}, orient="index"
+            ).T,
+        ],
+        axis=0,
+    )
+    df = df.reset_index(drop=True)
     df["other"] = ["a", "b", "c", "d"]
     rows = df.values
     rows = _simplify_datetimes_in_array(rows)
@@ -359,3 +368,9 @@ def test_012_clean_null_headers(df_null_headers: pd.DataFrame) -> None:
 def test_013_convert_case_upper() -> None:
     in_string = "bHlah lower case"
     assert _convert_case(in_string, case="upper") == "B HLAH LOWER CASE"
+
+
+def test_014_user_contrib_two_object_cols() -> None:
+    DATA_URL = "https://raw.githubusercontent.com/DataBooth/data-public/main/beach-safe/nsw_beach_rss_list.csv"
+    df = pd.read_csv(DATA_URL)
+    skim(df)
