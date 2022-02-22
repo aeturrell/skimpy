@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
 import numpy as np
-from matplotlib.patheffects import Stroke, Normal
+from matplotlib.font_manager import FontProperties
+from matplotlib.patheffects import Normal
+from matplotlib.patheffects import Stroke
 
 
 bar_chart_heights = [0.85, 0.9, 0.85, 0.85, 0.8, 0.9]
