@@ -1852,7 +1852,7 @@ notebook = ">=4.4.1"
 
 [[package]]
 name = "xdoctest"
-version = "0.15.10"
+version = "1.0.0"
 description = "A rewrite of the builtin doctest module"
 category = "dev"
 optional = false
@@ -1860,15 +1860,15 @@ python-versions = "*"
 
 [package.dependencies]
 colorama = {version = "*", optional = true, markers = "platform_system == \"Windows\" and extra == \"colors\""}
-Pygments = {version = "*", optional = true, markers = "extra == \"colors\""}
+Pygments = {version = "*", optional = true, markers = "python_version >= \"3.5.0\" and extra == \"colors\""}
 six = "*"
 
 [package.extras]
-all = ["six", "codecov", "scikit-build", "cmake", "ninja", "pybind11", "pygments", "colorama", "pytest", "pytest", "pytest-cov", "pytest", "pytest", "pytest-cov", "typing", "nbformat", "nbconvert", "jupyter-client", "ipython", "ipykernel", "pytest", "pytest-cov"]
-colors = ["pygments", "colorama"]
-jupyter = ["nbformat", "nbconvert", "jupyter-client", "ipython", "ipykernel"]
-optional = ["pygments", "colorama", "nbformat", "nbconvert", "jupyter-client", "ipython", "ipykernel"]
-tests = ["codecov", "scikit-build", "cmake", "ninja", "pybind11", "pytest", "pytest", "pytest-cov", "pytest", "pytest", "pytest-cov", "typing", "nbformat", "nbconvert", "jupyter-client", "ipython", "ipykernel", "pytest", "pytest-cov"]
+all = ["ipython", "ipython", "pygments", "pygments", "attrs", "cmake", "codecov", "colorama", "debugpy", "ipykernel", "ipykernel", "jedi", "jinja2", "jupyter-client", "jupyter-client", "jupyter-core", "nbconvert", "ninja", "pybind11", "pytest-cov", "pytest-cov", "pytest-cov", "pytest-cov", "pytest", "pytest", "pytest", "pytest", "pytest", "pytest", "scikit-build", "six", "typing"]
+jupyter = ["ipython", "ipython", "attrs", "debugpy", "ipykernel", "ipykernel", "jedi", "jinja2", "jupyter-client", "jupyter-client", "jupyter-core", "nbconvert"]
+optional = ["ipython", "ipython", "pygments", "pygments", "attrs", "colorama", "debugpy", "ipykernel", "ipykernel", "jedi", "jinja2", "jupyter-client", "jupyter-client", "jupyter-core", "nbconvert"]
+colors = ["pygments", "pygments", "colorama"]
+tests = ["cmake", "codecov", "ninja", "pybind11", "pytest-cov", "pytest-cov", "pytest-cov", "pytest-cov", "pytest", "pytest", "pytest", "pytest", "pytest", "pytest", "scikit-build", "typing"]
 
 [[package]]
 name = "zipp"
@@ -1885,7 +1885,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "cd4eac7ed88be85c74ef1202c89021541b75a1b73d142d0e6f46bc6c40d83fb3"
+content-hash = "ffcaaec319cad5ea3ea0d8f03acde82b5034dd7f6711c79d70d5929c32c1ceb8"
 
 [metadata.files]
 anyio = [
@@ -3012,8 +3012,9 @@ widgetsnbextension = [
     {file = "widgetsnbextension-3.5.2.tar.gz", hash = "sha256:e0731a60ba540cd19bbbefe771a9076dcd2dde90713a8f87f27f53f2d1db7727"},
 ]
 xdoctest = [
-    {file = "xdoctest-0.15.10-py3-none-any.whl", hash = "sha256:7666bd0511df59275dfe94ef94b0fde9654afd14f00bf88902fdc9bcee77d527"},
-    {file = "xdoctest-0.15.10.tar.gz", hash = "sha256:5f16438f2b203860e75ec594dbc38020df7524db0b41bb88467ea0a6030e6685"},
+    {file = "xdoctest-1.0.0-py2-none-any.whl", hash = "sha256:0b0b5958e0ac0a28c5496f96b7f0adbeb0ea7e0c0a227de1ce3bc79ddb1a4f00"},
+    {file = "xdoctest-1.0.0-py3-none-any.whl", hash = "sha256:76f44dc74515ff4bdf3cc3e91a2e408cf5699cfa03367634efaadf138c7b132d"},
+    {file = "xdoctest-1.0.0.tar.gz", hash = "sha256:7ebba7e71457e6e7cf86c463699575e52b1c9cc32ee2ee5e72256d6cd3aaeb2d"},
 ]
 zipp = [
     {file = "zipp-3.7.0-py3-none-any.whl", hash = "sha256:b47250dd24f92b7dd6a0a8fc5244da14608f3ca90a5efcd37a3b1642fac9a375"},
