@@ -20,7 +20,7 @@ Changelog = "https://github.com/aeturrell/skimpy/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0.0"
-click = "7.1.2"
+click = "8.1.2"
 rich = ">=10.9,<13.0"
 pandas = "^1.3.2"
 Pygments = "^2.10.0"
