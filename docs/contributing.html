@@ -162,6 +162,26 @@ $ poetry run skimpy</code></pre>
 <p>To run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:</p>
 <pre class="console"><code>$ poetry run nox --session=pre-commit -- install</code></pre>
 <p>It is recommended to open an issue before starting work on anything. This will allow a chance to talk it over with the owners and validate your approach.</p>
+</section>
+<section id="how-to-create-a-package-release" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-create-a-package-release">How to create a package release</h2>
+<ul>
+<li><p>Open a new branch with the version name</p></li>
+<li><p>Change the version in pyproject.toml</p></li>
+<li><p>Commit the change with a new version label as the commit message (checking the tests pass)</p></li>
+<li><p>Head to github and merge into main</p></li>
+<li><p>Draft a new release based on that most recent merge commit, using the new version as the tag</p></li>
+<li><p>Run <code>poetry build</code> to produce the distributable files</p></li>
+<li><p>Confirm the release draft on gitub</p></li>
+<li><p>The automatic release github action will push to PyPI.</p></li>
+</ul>
+</section>
+<section id="how-to-build-the-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-build-the-documentation">How to build the documentation</h2>
+<ul>
+<li><p>Run <code>make clean</code></p></li>
+<li><p>Run <code>make</code></p></li>
+</ul>
 
 
 </section>

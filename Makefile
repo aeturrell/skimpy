@@ -9,7 +9,8 @@ README.md: index.ipynb
 		poetry run jupyter nbconvert --to markdown --execute index.ipynb \
 		&& rm -rf index_files \
 		&& mv index.md README.md \
-		&& poetry run python clean_readme.py
+		&& poetry run python clean_readme.py \
+		&& poetry run nbstripout index.ipynb
 
 
 # Build the github pages site
