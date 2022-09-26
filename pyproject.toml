@@ -34,7 +34,7 @@ black = "^22.3.0"
 pytest = "^7.1.1"
 coverage = {extras = ["toml"], version = "^6.2"}
 safety = "^1.10.3"
-mypy = "^0.942"
+mypy = "^0.971"
 typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^1.0.0"}
 pre-commit = "^2.16.0"
