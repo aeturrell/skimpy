@@ -32,7 +32,7 @@ black = "^22.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
-coverage = {extras = ["toml"], version = "^6.2"}
+coverage = {extras = ["toml"], version = "^6.4"}
 safety = "^1.10.3"
 mypy = "^0.971"
 typeguard = "^2.12.1"
