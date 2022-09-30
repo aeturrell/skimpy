@@ -78,7 +78,7 @@ jobs:
 
       - name: Run Nox
         run: |
-          nox --force-color --python=${{ matrix.python-version }}
+          poetry run nox --force-color --python=${{ matrix.python-version }}
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
@@ -128,11 +128,11 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          nox --force-color --session=coverage
+          poetry run nox --force-color --session=coverage
 
       - name: Create coverage report
         run: |
-          nox --force-color --session=coverage -- xml
+          poetry run nox --force-color --session=coverage -- xml
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v3.1.1
