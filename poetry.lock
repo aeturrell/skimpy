@@ -1122,11 +1122,11 @@ test = ["check-manifest", "pep440", "pre-commit", "pytest", "testpath"]
 
 [[package]]
 name = "nbstripout"
-version = "0.5.0"
+version = "0.6.1"
 description = "Strips outputs from Jupyter and IPython notebooks"
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [package.dependencies]
 nbformat = "*"
@@ -2025,7 +2025,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "965761a60a4c0d03ac1e97bba58851492c518ed1f7861c2738405371eee2dd60"
+content-hash = "b63f9d761ac4d87b8363cf1b5100d042ea7c77331ce35d273d10ccf92ef13708"
 
 [metadata.files]
 anyio = [
@@ -2820,8 +2820,8 @@ nbformat = [
     {file = "nbformat-5.6.1.tar.gz", hash = "sha256:146b5b9969391387c2089256359f5da7c718b1d8a88ba814320273ea410e646e"},
 ]
 nbstripout = [
-    {file = "nbstripout-0.5.0-py2.py3-none-any.whl", hash = "sha256:1e8a471780d1429aaa5d954c4d26c312df8666cc84de0ff160d62d8b576ae65b"},
-    {file = "nbstripout-0.5.0.tar.gz", hash = "sha256:86ab50136998d62c9fa92478d2eb9ddc4137e51a28568f78fa8f24a6fbb6a7d8"},
+    {file = "nbstripout-0.6.1-py2.py3-none-any.whl", hash = "sha256:5ff6eb0debbcd656c4a64db8e082a24fabcfc753a9e8c9f6d786971e8f29e110"},
+    {file = "nbstripout-0.6.1.tar.gz", hash = "sha256:9065bcdd1488b386e4f3c081ffc1d48f4513a2f8d8bf4d0d9a28208c5dafe9d3"},
 ]
 nest-asyncio = [
     {file = "nest_asyncio-1.5.6-py3-none-any.whl", hash = "sha256:b9a953fb40dceaa587d109609098db21900182b16440652454a146cffb06e8b8"},
