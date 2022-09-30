@@ -32,7 +32,7 @@ black = "^22.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
-coverage = {extras = ["toml"], version = "^6.2"}
+coverage = {extras = ["toml"], version = "^6.5"}
 safety = "^1.10.3"
 mypy = "^0.971"
 typeguard = "^2.12.1"
@@ -51,7 +51,7 @@ Pygments = "^2.9.0"
 autopep8 = "^1.6.0"
 nox = "^2022.1.7"
 jupyter = "^1.0.0"
-jupyterlab = "^3.3.2"
+jupyterlab = "^3.4.7"
 nbconvert = "^6.4.5"
 matplotlib = "^3.5.1"
 nbstripout = "^0.5.0"
