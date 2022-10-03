@@ -447,7 +447,7 @@ pyflakes = ">=2.5.0,<2.6.0"
 
 [[package]]
 name = "flake8-bandit"
-version = "3.0.0"
+version = "4.1.1"
 description = "Automated security testing with bandit and flake8."
 category = "dev"
 optional = false
@@ -455,9 +455,7 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 bandit = ">=1.7.3"
-flake8 = "*"
-flake8-polyfill = "*"
-pycodestyle = "*"
+flake8 = ">=5.0.0"
 
 [[package]]
 name = "flake8-bugbear"
@@ -485,17 +483,6 @@ python-versions = "*"
 [package.dependencies]
 flake8 = ">=3"
 pydocstyle = ">=2.1"
-
-[[package]]
-name = "flake8-polyfill"
-version = "1.0.2"
-description = "Polyfill package for Flake8 plugins"
-category = "dev"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-flake8 = "*"
 
 [[package]]
 name = "flake8-rst-docstrings"
@@ -2027,7 +2014,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "590f08f8b5c7eb101d0a55f6e36dba2ae8c9251b496d81d73b3973d16c3f3935"
+content-hash = "ee2977adf64faa115cf3ab39e9cf7eab1ce4dc86ee0fb2f12eb81efe45a165d1"
 
 [metadata.files]
 anyio = [
@@ -2416,8 +2403,8 @@ flake8 = [
     {file = "flake8-5.0.4.tar.gz", hash = "sha256:6fbe320aad8d6b95cec8b8e47bc933004678dc63095be98528b7bdd2a9f510db"},
 ]
 flake8-bandit = [
-    {file = "flake8_bandit-3.0.0-py2.py3-none-any.whl", hash = "sha256:61b617f4f7cdaa0e2b1e6bf7b68afb2b619a227bb3e3ae00dd36c213bd17900a"},
-    {file = "flake8_bandit-3.0.0.tar.gz", hash = "sha256:54d19427e6a8d50322a7b02e1841c0a7c22d856975f3459803320e0e18e2d6a1"},
+    {file = "flake8_bandit-4.1.1-py3-none-any.whl", hash = "sha256:4c8a53eb48f23d4ef1e59293657181a3c989d0077c9952717e98a0eace43e06d"},
+    {file = "flake8_bandit-4.1.1.tar.gz", hash = "sha256:068e09287189cbfd7f986e92605adea2067630b75380c6b5733dab7d87f9a84e"},
 ]
 flake8-bugbear = [
     {file = "flake8-bugbear-22.9.23.tar.gz", hash = "sha256:17b9623325e6e0dcdcc80ed9e4aa811287fcc81d7e03313b8736ea5733759937"},
@@ -2426,10 +2413,6 @@ flake8-bugbear = [
 flake8-docstrings = [
     {file = "flake8-docstrings-1.6.0.tar.gz", hash = "sha256:9fe7c6a306064af8e62a055c2f61e9eb1da55f84bb39caef2b84ce53708ac34b"},
     {file = "flake8_docstrings-1.6.0-py2.py3-none-any.whl", hash = "sha256:99cac583d6c7e32dd28bbfbef120a7c0d1b6dde4adb5a9fd441c4227a6534bde"},
-]
-flake8-polyfill = [
-    {file = "flake8-polyfill-1.0.2.tar.gz", hash = "sha256:e44b087597f6da52ec6393a709e7108b2905317d0c0b744cdca6208e670d8eda"},
-    {file = "flake8_polyfill-1.0.2-py2.py3-none-any.whl", hash = "sha256:12be6a34ee3ab795b19ca73505e7b55826d5f6ad7230d31b18e106400169b9e9"},
 ]
 flake8-rst-docstrings = [
     {file = "flake8-rst-docstrings-0.2.7.tar.gz", hash = "sha256:2740067ab9237559dd45a3434d8c987792c7b259ca563621a3b95efe201f5382"},
