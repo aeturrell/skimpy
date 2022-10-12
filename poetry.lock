@@ -1603,7 +1603,7 @@ test = ["pytest (>=6,!=7.0.0,!=7.0.1)", "pytest-cov (>=3.0.0)", "pytest-qt"]
 
 [[package]]
 name = "reorder-python-imports"
-version = "3.8.3"
+version = "3.8.4"
 description = "Tool for reordering python imports"
 category = "dev"
 optional = false
@@ -2003,7 +2003,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "e676116ec1203fef23bf2d66f117029e081840dc625ba866ebc11167423a08a1"
+content-hash = "185d1d976150bcfb07536899a68c29f6b47b0ee5187f5206bbaa964c2db95f5c"
 
 [metadata.files]
 anyio = [
@@ -3179,8 +3179,8 @@ QtPy = [
     {file = "QtPy-2.2.0.tar.gz", hash = "sha256:d85f1b121f24a41ad26c55c446e66abdb7c528839f8c4f11f156ec4541903914"},
 ]
 reorder-python-imports = [
-    {file = "reorder_python_imports-3.8.3-py2.py3-none-any.whl", hash = "sha256:783f9575f76dd21ae5de974edf514cebc2b6904bbfe7cda515c24f1815fa22bf"},
-    {file = "reorder_python_imports-3.8.3.tar.gz", hash = "sha256:cb622aa0ea505972b59cc01aa26c08fb17d39a8fc62ff488288908725927d968"},
+    {file = "reorder_python_imports-3.8.4-py2.py3-none-any.whl", hash = "sha256:7f68b8528dd483554d71769ef5eb6f53cfcacc641ec479cb3a9d4debf0cab0bc"},
+    {file = "reorder_python_imports-3.8.4.tar.gz", hash = "sha256:65d35e6df8ab083998d88b08c4e44b70dadfc75e53e0ac9ad5f8c797e97a26f5"},
 ]
 requests = [
     {file = "requests-2.28.1-py3-none-any.whl", hash = "sha256:8fefa2a1a1365bf5520aac41836fbee479da67864514bdb821f31ce07ce65349"},
