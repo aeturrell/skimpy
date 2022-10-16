@@ -52,7 +52,7 @@ autopep8 = "^1.7.0"
 nox = "^2022.1.7"
 jupyter = "^1.0.0"
 jupyterlab = "^3.4.8"
-nbconvert = "^7.1.0"
+nbconvert = "^7.2.1"
 matplotlib = "^3.6.1"
 nbstripout = "^0.6.1"
 
