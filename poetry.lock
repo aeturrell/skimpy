@@ -1044,7 +1044,7 @@ test = ["black", "check-manifest", "flake8", "ipykernel", "ipython", "ipywidgets
 
 [[package]]
 name = "nbconvert"
-version = "7.2.1"
+version = "7.2.2"
 description = "Converting Jupyter Notebooks"
 category = "main"
 optional = false
@@ -2003,7 +2003,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "7f0b0961279624014a2f409792e6638594c6b4b4d1b610bb9550375649cedf87"
+content-hash = "db57bf4618d0d1ddbfcd1eb499f5b4d074b419cfd019abe64ee91122e49ffb5d"
 
 [metadata.files]
 anyio = [
@@ -2712,8 +2712,8 @@ nbclient = [
     {file = "nbclient-0.6.8.tar.gz", hash = "sha256:268fde3457cafe1539e32eb1c6d796bbedb90b9e92bacd3e43d83413734bb0e8"},
 ]
 nbconvert = [
-    {file = "nbconvert-7.2.1-py3-none-any.whl", hash = "sha256:50a54366ab53da20e82668818b7b2f3f7b85c0bcd46ec8e18836f12b39180dfa"},
-    {file = "nbconvert-7.2.1.tar.gz", hash = "sha256:1e180801205ad831b6e2480c5a03307dfb6327fa5b2f9b156d6fed45f9700686"},
+    {file = "nbconvert-7.2.2-py3-none-any.whl", hash = "sha256:fc7a3787c927cbd45a52e088e934fbbaab39afe61767522168a724b7483992be"},
+    {file = "nbconvert-7.2.2.tar.gz", hash = "sha256:24acfaa466d2c9b7eb524800e4a45afbed862c5d058cfb30fc7aa24d448c95eb"},
 ]
 nbformat = [
     {file = "nbformat-5.6.1-py3-none-any.whl", hash = "sha256:9c071f0f615c1b0f4f9bf6745ecfd3294fc02daf279a05c76004c901e9dc5893"},
