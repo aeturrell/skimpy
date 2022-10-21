@@ -1,0 +1,1073 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+        <link rel="canonical" href="https://aeturrell.github.io/skimpy/_modules/skimpy.html" />
+
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><meta name="generator" content="sphinx-4.5.0, furo 2022.09.29"/>
+        <title>skimpy - Skimpy</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Skimpy</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Skimpy</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Contributor Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for skimpy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;skimpy provides summary statistics about variables in pandas data frames.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">MISSING</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">unicodedata</span> <span class="kn">import</span> <span class="n">normalize</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">rich</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">Generator</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">PCG64</span>
+<span class="kn">from</span> <span class="nn">rich</span> <span class="kn">import</span> <span class="nb">print</span>
+<span class="kn">from</span> <span class="nn">rich.columns</span> <span class="kn">import</span> <span class="n">Columns</span>
+<span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.panel</span> <span class="kn">import</span> <span class="n">Panel</span>
+<span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">rich.text</span> <span class="kn">import</span> <span class="n">Text</span>
+<span class="kn">from</span> <span class="nn">typeguard</span> <span class="kn">import</span> <span class="n">typechecked</span>
+
+<span class="n">NULL_VALUES</span> <span class="o">=</span> <span class="p">{</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">}</span>
+
+<span class="n">CASE_STYLES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kebab&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;camel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pascal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;const&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sentence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lower&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+<span class="n">QUANTILES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">HIST_BINS</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">UNICODE_HIST</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▁&quot;</span><span class="p">,</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;▂&quot;</span><span class="p">,</span>
+    <span class="mi">3</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▃&quot;</span><span class="p">,</span>
+    <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;▄&quot;</span><span class="p">,</span>
+    <span class="mi">5</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▅&quot;</span><span class="p">,</span>
+    <span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;▆&quot;</span><span class="p">,</span>
+    <span class="mi">7</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▇&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;█&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="c1"># These are defined globally because they are used in more than one function</span>
+<span class="n">DATE_COL_FIRST</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
+<span class="n">DATE_COL_LAST</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span>
+<span class="n">NUM_COL_MEAN</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span>
+<span class="n">COMPLETE_COL</span> <span class="o">=</span> <span class="s2">&quot;NA %&quot;</span>
+<span class="n">MISSING_COL</span> <span class="o">=</span> <span class="s2">&quot;NA&quot;</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_infer_datatypes</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Infers the, and applies new, datatypes of dataframe columns.</span>
+
+<span class="sd">    :param df: input dataframe of ambiguous col type</span>
+<span class="sd">    :type df: pd.DataFrame</span>
+<span class="sd">    :return: dataframe with column datatypes set to best of knowledge</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_types</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">infer_dtype</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;type&quot;</span><span class="p">})</span>
+    <span class="p">)</span>
+    <span class="n">loop_types</span> <span class="o">=</span> <span class="n">df_types</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">loop_types</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;string&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;integer&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;floating&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;float64&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;datetime64[ns]&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;categorical&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;bool&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_round_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Rounds dataframe to 2 s.f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): Input dataframe</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Dataframe with numbers rounded to 2 s.f.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">):</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_map_row_positions_to_text_style</span><span class="p">(</span><span class="n">types_to_property</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Maps positions in summary dataframe (eg row) to a Rich text property.</span>
+
+<span class="sd">    :param types_to_property: Datatype, datetime, mapping to Rich text property</span>
+<span class="sd">    :type types_to_property: dict</span>
+<span class="sd">    :param df: Dataframe to map positions in</span>
+<span class="sd">    :type df: pd.DataFrame</span>
+<span class="sd">    :return: Dictionary mapping row position to Rich text property</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cols_to_cat_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">types_to_property</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">[</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">types_to_property</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">type_by_col_default</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">seq</span> <span class="ow">in</span> <span class="n">cols_to_cat_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+            <span class="n">type_by_col_default</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">type_by_col</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">type_by_col_default</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">type_by_col_default</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="p">)</span>
+    <span class="n">type_to_prop</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">type_by_col</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="p">[</span><span class="n">types_to_property</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">type_by_col</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">row_pos_to_property</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)),</span> <span class="p">[</span><span class="n">type_to_prop</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">row_pos_to_property</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_simplify_datetimes_in_array</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Simplifies 2001/01/01 00:00:00 to 2001/01/01.</span>
+
+<span class="sd">    :param rows: contain summary info, including datetimes</span>
+<span class="sd">    :type rows: np.ndarray</span>
+<span class="sd">    :return: rows with any all zero hours/min/sec stripped out</span>
+<span class="sd">    :rtype: np.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">timestamp_positions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">pd</span><span class="o">.</span><span class="n">_libs</span><span class="o">.</span><span class="n">tslibs</span><span class="o">.</span><span class="n">timestamps</span><span class="o">.</span><span class="n">Timestamp</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">timestamp_pos_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">timestamp_positions</span><span class="p">))</span>
+    <span class="n">timestamp_pos_tuples</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">timestamp_pos_list</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">timestamp_pos_tuples</span><span class="p">:</span>
+        <span class="n">hour</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="n">sec</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">rows</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">rows</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span><span class="o">.</span><span class="n">second</span>
+        <span class="k">if</span> <span class="n">hour</span> <span class="o">==</span> <span class="nb">min</span> <span class="o">==</span> <span class="n">sec</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rows</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="n">entry</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rows</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_dataframe_to_rich_table</span><span class="p">(</span>
+    <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cyan&quot;</span><span class="p">,</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;magenta&quot;</span><span class="p">,</span>
+    <span class="n">datetime</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span>
+    <span class="nb">bool</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;turquoise2&quot;</span><span class="p">,</span>
+    <span class="nb">object</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;medium_purple1&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rich</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">Table</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Converts a dataframe into a rich table.</span>
+
+<span class="sd">    To pretty print a dataframe to the console or interactive console, it needs</span>
+<span class="sd">    to first be converted into a rich table. This function performs that</span>
+<span class="sd">    conversion and also colours entries in tables depending on their broad</span>
+<span class="sd">    datatype. This function processes summaries (themselves dataframes) and is</span>
+<span class="sd">    used to produce a table for each data type in the dataframe to be skimmed.</span>
+<span class="sd">    A list of standard colours may be found at</span>
+<span class="sd">    https://rich.readthedocs.io/en/stable/appendix/colors.html#appendix-colors</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        table_name (str): Usually one of &#39;number&#39;, &#39;bool&#39;, etc. Used as title.</span>
+<span class="sd">        df (pd.DataFrame): summary of all data of one datatype</span>
+<span class="sd">        number (str): colour to render numbers in</span>
+<span class="sd">        category (str): colour to render categories in</span>
+<span class="sd">        datetime (str): colour to render datetimes in</span>
+<span class="sd">        string (str): colour to render strings in</span>
+<span class="sd">        bool (str): colour to render bools in</span>
+<span class="sd">        object (str): colour to render objects in</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        rich.table.Table: instance of Table from the rich package</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># For longer strings, limit chars shown.</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;column_name&quot;</span><span class="p">})</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">show_footer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># generate dict of types to colours</span>
+    <span class="n">datatype_colours</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">number</span><span class="p">,</span>
+        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">category</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="c1"># generate dict of types to text justifications</span>
+    <span class="n">datatype_justify</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;object&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">pos_to_colour</span> <span class="o">=</span> <span class="n">_map_row_positions_to_text_style</span><span class="p">(</span><span class="n">datatype_colours</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="n">pos_to_justification</span> <span class="o">=</span> <span class="n">_map_row_positions_to_text_style</span><span class="p">(</span><span class="n">datatype_justify</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span>
+    <span class="c1"># find any datetimes</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">DATE_COL_FIRST</span> <span class="ow">or</span> <span class="n">DATE_COL_LAST</span><span class="p">)</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">_simplify_datetimes_in_array</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="n">s</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">row</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;fold&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Text</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)[:</span><span class="n">str_limit</span><span class="p">],</span>
+                <span class="n">style</span><span class="o">=</span><span class="n">pos_to_colour</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">justify</span><span class="o">=</span><span class="n">pos_to_justification</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">table</span>
+
+
+<span class="k">def</span> <span class="nf">_find_nearest</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the nearest numerical match to value in an array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array (np.ndarray): An array of numbers to match with.</span>
+<span class="sd">        value (float): Single value to find an entry in array that is close.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array: The entry in array that is closest to value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">array</span> <span class="o">-</span> <span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_create_unicode_hist</span><span class="p">(</span><span class="n">series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return a histogram rendered in block unicode.</span>
+
+<span class="sd">    Given a pandas series of numerical values, returns a series with one</span>
+<span class="sd">    entry, the original series name, and a histogram made up of unicode</span>
+<span class="sd">    characters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        series (pd.Series): Numeric column of data frame for analysis</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.Series: Index of series name and entry with unicode histogram as</span>
+<span class="sd">        a string, eg &#39;▃▅█&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">series</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;bool&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">HIST_BINS</span><span class="p">)</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">hist</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="c1"># now do value counts</span>
+    <span class="n">key_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">UNICODE_HIST</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+    <span class="n">ucode_to_print</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">UNICODE_HIST</span><span class="p">[</span><span class="n">_find_nearest</span><span class="p">(</span><span class="n">key_vector</span><span class="p">,</span> <span class="n">val</span><span class="p">)]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">hist</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">ucode_to_print</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_numeric_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have numeric type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame): Dataframe with columns of only numeric types</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">NUM_COL_MEAN</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;sd&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="n">display_quantiles_as_pct</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">quantiles_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;p&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">display_quantiles_as_pct</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">QUANTILES</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">QUANTILES</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">data_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">quantiles_dict</span><span class="p">)</span>
+    <span class="c1"># Create histogram using unicode block elements</span>
+    <span class="c1"># https://en.wikipedia.org/wiki/Block_Elements</span>
+    <span class="n">hist_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">_create_unicode_hist</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">data_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hist&quot;</span><span class="p">:</span> <span class="n">hist_series</span><span class="p">})</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_category_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have category type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only category types</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;ordered&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">ordered</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">]))</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;unique&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">]))</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_bool_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have boolean type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only category types</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="s2">&quot;true rate&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="n">hist_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">_create_unicode_hist</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">data_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hist&quot;</span><span class="p">:</span> <span class="n">hist_series</span><span class="p">})</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_string_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have string type. (NB not object type).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only string types</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;words per row&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                    <span class="p">[</span>
+                        <span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;total words&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                    <span class="p">[</span>
+                        <span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_datetime_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have datetime type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame): A dataframe with only datetime columns</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">DATE_COL_FIRST</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">DATE_COL_LAST</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">]))</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">data_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                    <span class="nb">dict</span><span class="p">(</span>
+                        <span class="nb">zip</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">infer_freq</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<div class="viewcode-block" id="skim"><a class="viewcode-back" href="../api.html#skimpy.skim">[docs]</a><span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">skim</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">header_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">colour_kwargs</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Skim a data frame and return statistics.</span>
+
+<span class="sd">    skim is an alternative to pandas.DataFrame.summary(), quickly providing</span>
+<span class="sd">    an overview of a data frame. It produces a different set of summary</span>
+<span class="sd">    functions based on the types of columns in the dataframe. You may get</span>
+<span class="sd">    better results from ensuring that you set the datatypes in your dataframe</span>
+<span class="sd">    you want before running skim.</span>
+<span class="sd">    The colour_kwargs (str) are defined in _dataframe_to_rich_table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): Dataframe to skim</span>
+<span class="sd">        header_style (str): A style to use for headers. See Rich API Styles.</span>
+<span class="sd">        colour_kwargs (dict[str]): colour keyword arguments for rich table</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Skim a dataframe</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame(</span>
+<span class="sd">            {</span>
+<span class="sd">             &#39;col1&#39;: [&#39;Philip&#39;, &#39;Turanga&#39;, &#39;bob&#39;],</span>
+<span class="sd">             &#39;col2&#39;: [50, 100, 70],</span>
+<span class="sd">             &#39;col3&#39;: [False, True, True]</span>
+<span class="sd">            })</span>
+<span class="sd">    &gt;&gt;&gt; df[&quot;col1&quot;] = df[&quot;col1&quot;].astype(&quot;string&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; skim(df)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;dataframe&quot;</span>
+
+    <span class="c1"># Perform inference of datatypes</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_infer_datatypes</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># Data summary</span>
+    <span class="n">tab_1_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Number of rows&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Number of columns&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+    <span class="n">dat_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Data Summary&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+    <span class="p">)</span>
+    <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Values&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab_1_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+    <span class="c1"># Data tpes</span>
+    <span class="n">types_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Data Types&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+    <span class="p">)</span>
+    <span class="n">tab_2_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Column Type&quot;</span><span class="p">)</span>
+    <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab_2_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+    <span class="c1"># Categorys</span>
+    <span class="k">if</span> <span class="s2">&quot;category&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+        <span class="n">xf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+        <span class="n">cat_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Categories&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+        <span class="p">)</span>
+        <span class="n">header_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">header_style</span><span class="si">}</span><span class="s2">]Categorical Variables[/</span><span class="si">{</span><span class="n">header_style</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="n">cat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">header_string</span><span class="p">)</span>
+        <span class="n">cat_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">cat_names</span><span class="p">:</span>
+            <span class="n">cat_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+    <span class="c1"># Summaries of cols of specific types</span>
+    <span class="n">types_funcs_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">_numeric_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">_category_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="n">_datetime_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">_string_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">_bool_variable_summary_table</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">list_of_tabs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col_type</span><span class="p">,</span> <span class="n">summary_func</span> <span class="ow">in</span> <span class="n">types_funcs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">xf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">xf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">sum_df</span> <span class="o">=</span> <span class="n">summary_func</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
+            <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">_dataframe_to_rich_table</span><span class="p">(</span>
+                    <span class="n">col_type</span><span class="p">,</span> <span class="n">_round_dataframe</span><span class="p">(</span><span class="n">sum_df</span><span class="p">)</span>  <span class="c1"># , **colour_kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="c1"># Put all of the info together</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tables_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dat_sum_table</span><span class="p">,</span> <span class="n">types_sum_table</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;category&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+        <span class="n">tables_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat_sum_table</span><span class="p">)</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">Columns</span><span class="p">(</span><span class="n">tables_list</span><span class="p">))</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sum_tab</span> <span class="ow">in</span> <span class="n">list_of_tabs</span><span class="p">:</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">sum_tab</span><span class="p">)</span>
+    <span class="c1"># Weirdly, iteration over list of tabs misses last entry</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">list_of_tabs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;skimpy summary&quot;</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;End&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="clean_columns"><a class="viewcode-back" href="../api.html#skimpy.clean_columns">[docs]</a><span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">clean_columns</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">case</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;snake&quot;</span><span class="p">,</span>
+    <span class="n">replace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">remove_accents</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Clean messy column names of a pandas dataframe.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): Dataframe from which column names are to be cleaned.</span>
+<span class="sd">        case (str, optional): The desired case style of the column name. Defaults to &quot;snake&quot;.</span>
+
+<span class="sd">                - &#39;snake&#39;: &#39;column_name&#39;</span>
+<span class="sd">                - &#39;kebab&#39;: &#39;column-name&#39;</span>
+<span class="sd">                - &#39;camel&#39;: &#39;columnName&#39;</span>
+<span class="sd">                - &#39;pascal&#39;: &#39;ColumnName&#39;</span>
+<span class="sd">                - &#39;const&#39;: &#39;COLUMN_NAME&#39;</span>
+<span class="sd">                - &#39;sentence&#39;: &#39;Column name&#39;</span>
+<span class="sd">                - &#39;title&#39;: &#39;Column Name&#39;</span>
+<span class="sd">                - &#39;lower&#39;: &#39;column name&#39;</span>
+<span class="sd">                - &#39;upper&#39;: &#39;COLUMN NAME&#39;</span>
+
+<span class="sd">        replace (Optional[Dict[str, str]], optional): Values to replace in the column names. Defaults to None.</span>
+
+<span class="sd">                - {&#39;old_value&#39;: &#39;new_value&#39;}</span>
+
+<span class="sd">        remove_accents (bool, optional): If True, strip accents from the column names. Defaults to True.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If case is not valid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Dataframe with cleaned column names.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Clean column names by converting the names to camel case style, removing accents,</span>
+<span class="sd">    and correcting a mispelling.</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame(</span>
+<span class="sd">                          {</span>
+<span class="sd">                           &#39;FirstNom&#39;: [&#39;Philip&#39;, &#39;Turanga&#39;],</span>
+<span class="sd">                           &#39;lastName&#39;: [&#39;Fry&#39;, &#39;Leela&#39;],</span>
+<span class="sd">                           &#39;Téléphone&#39;: [&#39;555-234-5678&#39;, &#39;(604) 111-2335&#39;]</span>
+<span class="sd">                          })</span>
+
+<span class="sd">    &gt;&gt;&gt; clean_columns(df, case=&#39;camel&#39;, replace={&#39;Nom&#39;: &#39;Name&#39;})</span>
+<span class="sd">      firstName lastName       telephone</span>
+<span class="sd">    0    Philip      Fry    555-234-5678</span>
+<span class="sd">    1   Turanga    Leela  (604) 111-2335</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">case</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CASE_STYLES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;case </span><span class="si">{</span><span class="n">case</span><span class="si">}</span><span class="s2"> is invalid, options are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CASE_STYLES</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Store original column names for creating cleaning report</span>
+    <span class="n">orig_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="n">_replace_values</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">replace</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">remove_accents</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">_remove_accents</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="n">_convert_case</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">case</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">_rename_duplicates</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">case</span><span class="p">)</span>
+    <span class="c1"># Count the number of changed column names</span>
+    <span class="n">new_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="mi">1</span> <span class="k">if</span> <span class="n">new_columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">orig_columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">orig_columns</span><span class="p">))</span>
+    <span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span><span class="si">}</span><span class="s2"> column names have been cleaned&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_convert_case</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">case</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert case style of a column name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (Any): Column name.</span>
+<span class="sd">        case (str): Preferred case type, eg snake or camel.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: name with case converted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">NULL_VALUES</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;header&quot;</span>
+
+    <span class="k">if</span> <span class="n">case</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;snake&quot;</span><span class="p">,</span> <span class="s2">&quot;kebab&quot;</span><span class="p">,</span> <span class="s2">&quot;camel&quot;</span><span class="p">,</span> <span class="s2">&quot;pascal&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">}:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">_split_strip_string</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">_split_string</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;snake&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;kebab&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;camel&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;pascal&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;const&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;sentence&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;upper&quot;</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">name</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_split_strip_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Split the string into separate words and strip punctuation.&quot;&quot;&quot;</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[!()*+\,\-./:;&lt;=&gt;?[\]^_{|}~]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\&#39;</span><span class="se">\&quot;</span><span class="s2">\`]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;([A-Z][a-z]+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot; \1&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z]+|[0-9]+|\W+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot; \1&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_split_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Split the string into separate words.&quot;&quot;&quot;</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\-_]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z][a-z]+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot; \1&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z]+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_replace_values</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Replace string values in the column name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name</span>
+<span class="sd">        Column name.</span>
+<span class="sd">    mapping</span>
+<span class="sd">        Maps old values in the column name to the new values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">NULL_VALUES</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># If the old value or the new value is not alphanumeric, add underscores to the</span>
+        <span class="c1"># beginning and end so the new value will be parsed correctly for _convert_case()</span>
+        <span class="n">new_val</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_value</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">old_value</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span> <span class="ow">and</span> <span class="n">new_value</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span>
+            <span class="k">else</span> <span class="sa">rf</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">new_value</span><span class="si">}</span><span class="s2">_&quot;</span>
+        <span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">new_val</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">name</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_remove_accents</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return the normal form for a Unicode string name using canonical decomposition.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;NFD&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_rename_duplicates</span><span class="p">(</span><span class="n">names</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">,</span> <span class="n">case</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Rename duplicated column names to append a number at the end.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">case</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;snake&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">}:</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;camel&quot;</span><span class="p">,</span> <span class="s2">&quot;pascal&quot;</span><span class="p">}:</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="n">case</span> <span class="o">==</span> <span class="s2">&quot;kebab&quot;</span><span class="p">:</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+        <span class="n">cur_count</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cur_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}{</span><span class="n">sep</span><span class="si">}{</span><span class="n">cur_count</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_count</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">names</span>
+
+
+<div class="viewcode-block" id="generate_test_data"><a class="viewcode-back" href="../api.html#skimpy.generate_test_data">[docs]</a><span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">generate_test_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Generate dataframe with several different datatypes.</span>
+
+<span class="sd">    For testing skimpy, it&#39;s convenient to have a dataset with many different</span>
+<span class="sd">    data types. This function creates that dataframe.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: dataframe with columns spanning several data types.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Generate test data to demonstrate how skimpy works.</span>
+
+<span class="sd">    &gt;&gt;&gt; df = generate_test_data()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="mi">34729</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">PCG64</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">len_df</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;rnd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">nan_places</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">len_df</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">125</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nan_places</span><span class="p">,</span> <span class="s2">&quot;rnd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;setosa&quot;</span><span class="p">,</span> <span class="s2">&quot;virtginica&quot;</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+    <span class="n">second_cat_var_entries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;UK&quot;</span><span class="p">,</span> <span class="s2">&quot;Mexico&quot;</span><span class="p">,</span> <span class="s2">&quot;USA&quot;</span><span class="p">,</span> <span class="s2">&quot;India&quot;</span><span class="p">]</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">second_cat_var_entries</span><span class="p">,</span> <span class="n">len_df</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">prob</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;booly_col&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;booly_col&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;booly_col&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="c1"># string column</span>
+    <span class="n">string_options</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;How are you?&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;What weather!&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Indeed, it was the most outrageously pompous cat I have ever seen.&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string_options</span><span class="p">,</span> <span class="n">len_df</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+    <span class="c1"># add a datetime column</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2018-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="n">len_df</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;01/01/2022&quot;</span><span class="p">,</span> <span class="s2">&quot;03/04/2023&quot;</span><span class="p">,</span> <span class="s2">&quot;01/05/1992&quot;</span><span class="p">]))),</span> <span class="n">len_df</span>
+    <span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;date_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">NaT</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    </body>
+</html>
