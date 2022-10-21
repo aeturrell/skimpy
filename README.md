@@ -19,6 +19,8 @@ A light weight tool for creating summary statistics from dataframes.
 [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 
+[![Soure](https://img.shields.io/badge/source%20code-github-lightgrey?style=for-the-badge)](https://github.com/aeturrell/skimpy)
+
 **skimpy** is a light weight tool that provides
 summary statistics about variables in data frames within the console or your interactive Python window.
 Think of it as a super-charged version of `df.describe()`.

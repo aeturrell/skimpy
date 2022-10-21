@@ -1,13 +1,15 @@
 repos:
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
     hooks:
       - id: black
-        exclude: docs/
         name: black
+        description: "applies black formatter to .py files"
         entry: black
-        language: system
+        language: python
         types: [python]
-        require_serial: true
+  - repo: local
+    hooks:
       - id: check-added-large-files
         name: Check for added large files
         entry: check-added-large-files
