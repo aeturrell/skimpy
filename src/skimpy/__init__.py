@@ -80,8 +80,8 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "int"
         elif col[1] == "floating":
             data_type = "float64"
-        elif col[1] == "datetime64":
-            data_type = "datetime64"
+        elif col[1] == "datetime64[ns]":
+            data_type = "datetime64[ns]"
         elif col[1] == "categorical":
             data_type = "category"
         elif col[1] == "boolean":
@@ -484,9 +484,13 @@ def skim(
     Examples
     --------
     Skim a dataframe
-    >>> df = pd.DataFrame({'col1': ['Philip', 'Turanga', 'bob'], \
-        'col2': [50, 100, 70], \
-        'col3': [False, True, True]})
+
+    >>> df = pd.DataFrame(
+            {
+             'col1': ['Philip', 'Turanga', 'bob'],
+             'col2': [50, 100, 70],
+             'col3': [False, True, True]
+            })
     >>> df["col1"] = df["col1"].astype("string")
     >>> skim(df)
     """
@@ -566,38 +570,46 @@ def clean_columns(
     replace: Optional[Dict[str, str]] = None,
     remove_accents: bool = True,
 ) -> pd.DataFrame:
-    """Function to clean column names, originally from the dataprep python package.
+    """Clean messy column names of a pandas dataframe.
 
     Args:
-    df
-        Dataframe from which column names are to be cleaned.
-    case
-        The desired case style of the column name.
-            - 'snake': 'column_name'
-            - 'kebab': 'column-name'
-            - 'camel': 'columnName'
-            - 'pascal': 'ColumnName'
-            - 'const': 'COLUMN_NAME'
-            - 'sentence': 'Column name'
-            - 'title': 'Column Name'
-            - 'lower': 'column name'
-            - 'upper': 'COLUMN NAME'
-        (default: 'snake')
-    replace
-        Values to replace in the column names.
-            - {'old_value': 'new_value'}
-        (default: None)
-    remove_accents
-        If True, strip accents from the column names.
-        (default: True)
+        df (pd.DataFrame): Dataframe from which column names are to be cleaned.
+        case (str, optional): The desired case style of the column name. Defaults to "snake".
+
+                - 'snake': 'column_name'
+                - 'kebab': 'column-name'
+                - 'camel': 'columnName'
+                - 'pascal': 'ColumnName'
+                - 'const': 'COLUMN_NAME'
+                - 'sentence': 'Column name'
+                - 'title': 'Column Name'
+                - 'lower': 'column name'
+                - 'upper': 'COLUMN NAME'
+
+        replace (Optional[Dict[str, str]], optional): Values to replace in the column names. Defaults to None.
+
+                - {'old_value': 'new_value'}
+
+        remove_accents (bool, optional): If True, strip accents from the column names. Defaults to True.
+
+    Raises:
+        ValueError: If case is not valid.
+
+    Returns:
+        pd.DataFrame: Dataframe with cleaned column names.
 
     Examples
     --------
     Clean column names by converting the names to camel case style, removing accents,
     and correcting a mispelling.
-    >>> df = pd.DataFrame({'FirstNom': ['Philip', 'Turanga'], \
-        'lastName': ['Fry', 'Leela'], \
-        'Téléphone': ['555-234-5678', '(604) 111-2335']})
+
+    >>> df = pd.DataFrame(
+                          {
+                           'FirstNom': ['Philip', 'Turanga'],
+                           'lastName': ['Fry', 'Leela'],
+                           'Téléphone': ['555-234-5678', '(604) 111-2335']
+                          })
+
     >>> clean_columns(df, case='camel', replace={'Nom': 'Name'})
       firstName lastName       telephone
     0    Philip      Fry    555-234-5678
@@ -762,6 +774,7 @@ def generate_test_data() -> pd.DataFrame:
     Examples
     --------
     Generate test data to demonstrate how skimpy works.
+
     >>> df = generate_test_data()
     """
     seed = 34729
