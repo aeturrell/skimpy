@@ -153,3 +153,9 @@ your approach.
 - Run `make clean`
 
 - Run `make`
+
+To upload the documentation, it's
+
+```bash
+poetry run ghp-import -n -p -f docs/_build/html
+```
