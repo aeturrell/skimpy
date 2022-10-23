@@ -80,7 +80,7 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "int"
         elif col[1] == "floating":
             data_type = "float64"
-        elif col[1] == "datetime64[ns]":
+        elif col[1] == "datetime64":
             data_type = "datetime64[ns]"
         elif col[1] == "categorical":
             data_type = "category"

@@ -49,7 +49,7 @@ df = generate_test_data()
 skim(df)
 ```
 
-    /Users/aet/Documents/git_projects/skimpy/src/skimpy/__init__.py:91: FutureWarning: Passing unit-less datetime64 dtype to .astype is deprecated and will raise in a future version. Pass 'datetime64[ns]' instead
+    /Users/arthurturrell/Documents/git_projects/skimpy/src/skimpy/__init__.py:91: FutureWarning: Passing unit-less datetime64 dtype to .astype is deprecated and will raise in a future version. Pass 'datetime64[ns]' instead
       df[col[0]] = df[col[0]].astype(data_type)
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭──────────────────────────────────────────────── skimpy summary ─────────────────────────────────────────────────╮
