@@ -41,7 +41,6 @@ You need Python and the following tools:
 - [Poetry](https://python-poetry.org/)
 - [Nox](https://nox.thea.codes/)
 - [nox-poetry](https://nox-poetry.readthedocs.io/)
-- [Quarto](https://quarto.org/)
 - [Make](https://www.gnu.org/software/make/)
 
 Before you install poetry, you may wish to run
@@ -66,7 +65,7 @@ $ poetry run python
 $ poetry run skimpy
 ```
 
-To build the documentation, you will also need [Quarto](https://quarto.org/) and [Make](https://www.gnu.org/software/make/). You can preview the docs using `poetry run quarto preview --execute`. You can build them with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README. (Remember to use pre-commit after updating the documentation.)
+To build the documentation, you will also need [Make](https://www.gnu.org/software/make/). You can build the docs locally with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README. (Remember to use pre-commit after updating the documentation.)
 
 ## How to test the project
 
