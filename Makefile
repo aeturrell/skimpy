@@ -5,17 +5,17 @@
 all: README.md site
 
 # Build the readme
-README.md: index.ipynb
-		poetry run jupyter nbconvert --to markdown --execute index.ipynb \
-		&& rm -rf index_files \
-		&& mv index.md README.md \
+README.md: docs/index.ipynb
+		poetry run jupyter nbconvert --to markdown --execute docs/index.ipynb \
+		&& mv docs/index.md README.md \
 		&& poetry run python clean_readme.py \
-		&& poetry run nbstripout index.ipynb
+		&& poetry run nbstripout docs/index.ipynb
+
 
 
 # Build the github pages site
 site:
-		poetry run quarto render --execute
+		poetry run jupyter-book build docs/
 
 clean:
 	rm README.md
