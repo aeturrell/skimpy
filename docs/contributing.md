@@ -15,8 +15,7 @@ Here is a list of important resources for contributors:
 
 ## How to report a bug
 
-Report bugs on the [Issue
-Tracker](https://github.com/aeturrell/skimpy/issues).
+Report bugs on the [Issue Tracker](https://github.com/aeturrell/skimpy/issues).
 
 When filing an issue, make sure to answer these questions:
 
