@@ -30,7 +30,7 @@ ipykernel = "^6.7.0"
 numpy = "^1.22.2"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.1.1"
+pytest = "^7.2.0"
 coverage = {extras = ["toml"], version = "^6.5"}
 safety = "^2.3.5"
 mypy = "^0.982"
