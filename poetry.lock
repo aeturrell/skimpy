@@ -1002,7 +1002,7 @@ Sphinx = ">=2"
 
 [[package]]
 name = "jupyterlab"
-version = "3.5.1"
+version = "3.5.2"
 description = "JupyterLab computational environment"
 category = "dev"
 optional = false
@@ -1021,8 +1021,7 @@ tomli = "*"
 tornado = ">=6.1.0"
 
 [package.extras]
-test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "pytest (>=6.0)", "pytest-check-links (>=0.5)", "pytest-console-scripts", "pytest-cov", "requests", "requests-cache", "virtualenv"]
-ui-tests = ["build"]
+test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "pytest (>=6.0)", "pytest-check-links (>=0.5)", "pytest-console-scripts", "pytest-cov", "pytest-jupyter (>=0.6.0)", "pytest-tornasync", "requests", "requests-cache", "virtualenv"]
 
 [[package]]
 name = "jupyterlab-pygments"
@@ -2695,7 +2694,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "2ad244fa8478de559be53e5fd55bf2707fec7513a42732ff9ef6fbaeeb802098"
+content-hash = "18b8b7e068e66e20dd4361928f12aeea4542fc1544bbfbd2abdb331400a4aa0f"
 
 [metadata.files]
 alabaster = [
@@ -3287,8 +3286,8 @@ jupyter-sphinx = [
     {file = "jupyter_sphinx-0.3.2.tar.gz", hash = "sha256:37fc9408385c45326ac79ca0452fbd7ae2bf0e97842d626d2844d4830e30aaf2"},
 ]
 jupyterlab = [
-    {file = "jupyterlab-3.5.1-py3-none-any.whl", hash = "sha256:c6748b4f21850c0095ed2187ce86d7e06edd9d1180cc4e6a572c4013163c0c74"},
-    {file = "jupyterlab-3.5.1.tar.gz", hash = "sha256:59a1b2d79d4b3ebee4d997c8bed8cf450f460c7c35f46b613a93f0b7712b47fc"},
+    {file = "jupyterlab-3.5.2-py3-none-any.whl", hash = "sha256:16e9b8320dcec469c70bb883e993e0bb84c4ea1a734063731f66922cf72add1b"},
+    {file = "jupyterlab-3.5.2.tar.gz", hash = "sha256:10ac094215ffb872ddffbe2982bf1c039a79fecc326e191e7cc5efd84f331dad"},
 ]
 jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.2.2-py2.py3-none-any.whl", hash = "sha256:2405800db07c9f770863bcf8049a529c3dd4d3e28536638bd7c1c01d2748309f"},
