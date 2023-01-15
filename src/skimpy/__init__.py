@@ -465,7 +465,7 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 @typechecked
 def skim(
-    df: pd.DataFrame, header_style: str = "bold cyan", **colour_kwargs: str
+    df_in: pd.DataFrame, header_style: str = "bold cyan", **colour_kwargs: str
 ) -> None:
     """Skim a data frame and return statistics.
 
@@ -477,7 +477,7 @@ def skim(
     The colour_kwargs (str) are defined in _dataframe_to_rich_table.
 
     Args:
-        df (pd.DataFrame): Dataframe to skim
+        df_in (pd.DataFrame): Dataframe to skim
         header_style (str): A style to use for headers. See Rich API Styles.
         colour_kwargs (dict[str]): colour keyword arguments for rich table
 
@@ -494,11 +494,13 @@ def skim(
     >>> df["col1"] = df["col1"].astype("string")
     >>> skim(df)
     """
-    if hasattr(df, "name") and "name" not in df.columns:
-        name = df.name
+    if hasattr(df_in, "name") and "name" not in df_in.columns:
+        name = df_in.name
     else:
         name = "dataframe"
 
+    # Make a copy so as not to mess with dataframe
+    df = df_in.copy()
     # Perform inference of datatypes
     df = _infer_datatypes(df)
 

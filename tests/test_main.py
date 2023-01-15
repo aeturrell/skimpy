@@ -374,3 +374,17 @@ def test_014_user_contrib_two_object_cols() -> None:
     DATA_URL = "https://raw.githubusercontent.com/DataBooth/data-public/main/beach-safe/nsw_beach_rss_list.csv"
     df = pd.read_csv(DATA_URL)
     skim(df)
+
+
+def test_015_ensure_no_data_changed() -> None:
+    """Found a bug where time deltas were changed after skimpy being used.
+    Using a copying strategy to avoid; test checks it actually fixed the bug.
+    """
+    df_check = pd.DataFrame(
+        {
+            "header": [pd.Timedelta(365, "d"), pd.Timedelta(-19, "d")],
+            "header_1": ["length_one", "length_two"],
+        }
+    )
+    skim(df_check)
+    assert type(df_check["header"].iloc[0]) == pd._libs.tslibs.timedeltas.Timedelta
