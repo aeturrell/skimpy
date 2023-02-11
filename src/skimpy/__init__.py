@@ -469,7 +469,7 @@ def skim(
 ) -> None:
     """Skim a data frame and return statistics.
 
-    skim is an alternative to pandas.DataFrame.summary(), quickly providing
+    skim is an alternative to pandas.DataFrame.describe(), quickly providing
     an overview of a data frame. It produces a different set of summary
     functions based on the types of columns in the dataframe. You may get
     better results from ensuring that you set the datatypes in your dataframe
