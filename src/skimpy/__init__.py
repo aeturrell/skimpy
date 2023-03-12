@@ -204,7 +204,7 @@ def _dataframe_to_rich_table(
     Returns:
         rich.table.Table: instance of Table from the rich package
     """
-    str_limit: int = 20  # For longer strings, limit chars shown.
+    COL_STR_LEN_LIMIT: int = 20  # For longer strings, limit chars shown.
     df = df.reset_index().rename(columns={"index": "column_name"})
     table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
     # generate dict of types to colours
@@ -239,11 +239,11 @@ def _dataframe_to_rich_table(
         for row in rows
     ]
     for col in df.columns:
-        table.add_column(str(col), overflow="fold")
+        table.add_column(str(col), overflow="fold", max_width=COL_STR_LEN_LIMIT)
     for row in rows:
         row = [
             Text(
-                str(item)[:str_limit],
+                str(item),
                 style=pos_to_colour[i],
                 justify=pos_to_justification[i],
             )

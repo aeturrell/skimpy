@@ -388,3 +388,15 @@ def test_015_ensure_no_data_changed() -> None:
     )
     skim(df_check)
     assert type(df_check["header"].iloc[0]) == pd._libs.tslibs.timedeltas.Timedelta
+
+
+def test_016_long_col_names() -> None:
+    """User raised issue with behaviour when column names are long."""
+    df = generate_test_data()
+    df = df.rename(
+        columns={
+            "length": "this_is_the_length_col_long_name",
+            "location": "this_is_a_longwinded_way_of_saying_location_column",
+        }
+    )
+    skim(df)
