@@ -638,7 +638,6 @@ def clean_columns(
     cleaned = [
         1 if new_columns[i] != orig_columns[i] else 0 for i in range(len(orig_columns))
     ]
-    print(f"{sum(cleaned)} column names have been cleaned")
     return df
 
 
