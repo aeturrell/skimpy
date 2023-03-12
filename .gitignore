@@ -13,4 +13,4 @@ settings.json
 /.quarto/
 .venv/
 
-.luarc.json
+/.luarc.json
