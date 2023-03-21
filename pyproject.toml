@@ -55,7 +55,7 @@ matplotlib = "^3.7.1"
 nbstripout = "^0.6.1"
 black = "^22.12.0"
 jupyter-book = "^0.15.0"
-furo = "^2022.9.29"
+furo = "^2022.12.7"
 ghp-import = "^2.1.0"
 
 [tool.poetry.scripts]
