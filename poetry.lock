@@ -1701,14 +1701,14 @@ test = ["jupyter-server[test] (>=1.15,<3)", "pytest", "pytest-cov"]
 
 [[package]]
 name = "jupyter-server-ydoc"
-version = "0.6.1"
+version = "0.8.0"
 description = "A Jupyter Server Extension Providing Y Documents."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyter_server_ydoc-0.6.1-py3-none-any.whl", hash = "sha256:18275ff1ce7e93bbda2301ca066273b3951fc50b0d9c8fc33788374134ad7920"},
-    {file = "jupyter_server_ydoc-0.6.1.tar.gz", hash = "sha256:ab10864708c81fa41ab9f2ed3626b54ff6926eaf14545d1d439714978dad6e9f"},
+    {file = "jupyter_server_ydoc-0.8.0-py3-none-any.whl", hash = "sha256:969a3a1a77ed4e99487d60a74048dc9fa7d3b0dcd32e60885d835bbf7ba7be11"},
+    {file = "jupyter_server_ydoc-0.8.0.tar.gz", hash = "sha256:a6fe125091792d16c962cc3720c950c2b87fcc8c3ecf0c54c84e9a20b814526c"},
 ]
 
 [package.dependencies]
@@ -1741,14 +1741,14 @@ test = ["pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)", "ypy-we
 
 [[package]]
 name = "jupyterlab"
-version = "3.6.1"
+version = "3.6.2"
 description = "JupyterLab computational environment"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyterlab-3.6.1-py3-none-any.whl", hash = "sha256:ad6707dd0149b629d0ed5b56916cfcdb816b376c6af3190337faba09e27ea29e"},
-    {file = "jupyterlab-3.6.1.tar.gz", hash = "sha256:aee98c174180e98a30470297d10b959e8e64f2288970c0de65f0a6d2b4807034"},
+    {file = "jupyterlab-3.6.2-py3-none-any.whl", hash = "sha256:6c87c5910f886a14009352bc63f640961b206f73ed650dcf94d65f9dfcb30f95"},
+    {file = "jupyterlab-3.6.2.tar.gz", hash = "sha256:e55bc40c36c2a52b76cf301138507a5488eb769137dd39d9f31a6259a00c6b03"},
 ]
 
 [package.dependencies]
@@ -1756,8 +1756,8 @@ ipython = "*"
 jinja2 = ">=2.1"
 jupyter-core = "*"
 jupyter-server = ">=1.16.0,<3"
-jupyter-server-ydoc = ">=0.6.0,<0.7.0"
-jupyter-ydoc = ">=0.2.2,<0.3.0"
+jupyter-server-ydoc = ">=0.8.0,<0.9.0"
+jupyter-ydoc = ">=0.2.3,<0.3.0"
 jupyterlab-server = ">=2.19,<3.0"
 nbclassic = "*"
 notebook = "<7"
@@ -4688,4 +4688,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "82eeb8c6721fa47b5612a486d2926c9e2876065e2687b29a650b826d616392cc"
+content-hash = "4f2e8cb5c894f58eda5348c3747d8f541edeb4d02ee7f925ad3ccff5670e8117"
