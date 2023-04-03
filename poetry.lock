@@ -1741,14 +1741,14 @@ test = ["pre-commit", "pytest", "pytest-asyncio", "websockets (>=10.0)", "ypy-we
 
 [[package]]
 name = "jupyterlab"
-version = "3.6.2"
+version = "3.6.3"
 description = "JupyterLab computational environment"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyterlab-3.6.2-py3-none-any.whl", hash = "sha256:6c87c5910f886a14009352bc63f640961b206f73ed650dcf94d65f9dfcb30f95"},
-    {file = "jupyterlab-3.6.2.tar.gz", hash = "sha256:e55bc40c36c2a52b76cf301138507a5488eb769137dd39d9f31a6259a00c6b03"},
+    {file = "jupyterlab-3.6.3-py3-none-any.whl", hash = "sha256:6aba0caa771697d02fbf409f9767b2fdb4ee32ce935940e3b9a0d5d48d994d0f"},
+    {file = "jupyterlab-3.6.3.tar.gz", hash = "sha256:373e9cfb8a72edd294be14f16662563a220cecf0fb26de7aab1af9a29b689b82"},
 ]
 
 [package.dependencies]
@@ -4688,4 +4688,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "5ecbe29faaef373495685f28c7eb3cb19c2ca308daf9df8080bd342f8db1f124"
+content-hash = "be8ead98ac54dc7dbc0e1a4755c2996b8dc3e6d5f7d632e86b2b235686d2a04b"
