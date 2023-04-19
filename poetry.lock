@@ -1489,14 +1489,14 @@ qtconsole = "*"
 
 [[package]]
 name = "jupyter-book"
-version = "0.15.0"
+version = "0.15.1"
 description = "Build a book with Jupyter Notebooks and Sphinx."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyter-book-0.15.0.tar.gz", hash = "sha256:794c37cc2fba931fce42f321ce41ba4776f6ae2717d24bc2f9f0810f89a412ea"},
-    {file = "jupyter_book-0.15.0-py3-none-any.whl", hash = "sha256:a66809de74bf6c14fb9791c7f968331ed779822d3dd0f5e2a77a6ea71355d3d1"},
+    {file = "jupyter-book-0.15.1.tar.gz", hash = "sha256:8a1634ec16f7eedee0d116f1e5fb7c48203289ad92da42e09519dc71d956c010"},
+    {file = "jupyter_book-0.15.1-py3-none-any.whl", hash = "sha256:7671264952abd1ca3f5e713b03e138dda710c92a985c49154f398817fe089968"},
 ]
 
 [package.dependencies]
@@ -4688,4 +4688,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "d8e9569b4fe76d401287ff066bfa576a66c0739a97557f75cf72373eb12b4747"
+content-hash = "16d12d6eeaa2429c16a578dd04b44855c2d661eed699e4aa0930cf76de209b9f"
