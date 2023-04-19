@@ -1,10 +1,10 @@
 """Test cases for the __main__ module."""
 import datetime
+import subprocess
 
 import numpy as np
 import pandas as pd
 import pytest
-import subprocess
 from click.testing import CliRunner
 
 from skimpy import __main__
@@ -404,8 +404,7 @@ def test_016_long_col_names() -> None:
 
 
 def test_017_create_readme_doc() -> None:
-    """Test that the readme.md can be created
-    """
+    """Test that the readme.md can be created"""
     cmd_str = "poetry run jupyter nbconvert --to markdown --execute docs/index.ipynb"
     subprocess.run(cmd_str, shell=True)
     subprocess.run(["rm", "docs/index.md"])
