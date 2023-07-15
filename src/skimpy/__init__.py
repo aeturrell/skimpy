@@ -80,6 +80,12 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "int"
         elif col[1] == "floating":
             data_type = "float64"
+        elif col[1] == "timedelta64":
+            print("issue1")
+            data_type = "timedelta64[ns]"
+        elif col[1] == "timedelta64[ns]":
+            print("issue2")
+            data_type = "timedelta64[ns]"
         elif col[1] == "datetime64":
             data_type = "datetime64[ns]"
         elif col[1] == "categorical":
@@ -423,6 +429,29 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
+def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """Summarise dataframe columns that have timedelta type. (NB not object type).
+
+    Args:
+        xf (pd.DataFrame):  Dataframe with columns of only timedelta types
+
+    Returns:
+        pd.DataFrame: A dataframe of summary statistics, with a number of rows
+        determined by number of columns of xf
+    """
+    count_nans_vec = xf.isna().sum()
+    data_dict = {
+        MISSING_COL: count_nans_vec,
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        NUM_COL_MEAN: xf.mean(),
+        "median": xf.min(),
+        "max": xf.max(),
+    }
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
+
+
+@typechecked
 def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have datetime type.
 
@@ -540,17 +569,26 @@ def skim(
         "datetime": _datetime_variable_summary_table,
         "string": _string_variable_summary_table,
         "bool": _bool_variable_summary_table,
+        "timedelta64[ns]": _timedelta_variable_summary_table,
     }
     list_of_tabs = []
     for col_type, summary_func in types_funcs_dict.items():
-        xf = df.select_dtypes(col_type)
+        if col_type == "number":
+            # timedelta and datetime are technically integers, so exclude these
+            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta"])
+        else:
+            xf = df.select_dtypes(col_type)
         if not xf.empty:
             sum_df = summary_func(xf)
-            list_of_tabs.append(
-                _dataframe_to_rich_table(
-                    col_type, _round_dataframe(sum_df)  # , **colour_kwargs
+            if col_type != "timedelta64[ns]":
+                # timedelta doesn't play nicely with rounding
+                list_of_tabs.append(
+                    _dataframe_to_rich_table(
+                        col_type, _round_dataframe(sum_df)  # , **colour_kwargs
+                    )
                 )
-            )
+            else:
+                list_of_tabs.append(_dataframe_to_rich_table(col_type, sum_df))
     # Put all of the info together
     grid = Table.grid(expand=True)
     tables_list = [dat_sum_table, types_sum_table]
