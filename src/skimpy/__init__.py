@@ -83,7 +83,6 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             print("issue1")
             data_type = "timedelta64[ns]"
         elif col[1] == "timedelta64[ns]":
-            print("issue2")
             data_type = "timedelta64[ns]"
         elif col[1] == "datetime64":
             data_type = "datetime64[ns]"
@@ -597,9 +596,8 @@ def skim(
         if not xf.empty:
             sum_df = summary_func(xf)
             list_of_tabs.append(
-                _dataframe_to_rich_table(
-                                        col_type, sum_df)  # , **colour_kwargs
-                )
+                _dataframe_to_rich_table(col_type, sum_df)  # , **colour_kwargs
+            )
     # Put all of the info together
     grid = Table.grid(expand=True)
     tables_list = [dat_sum_table, types_sum_table]
@@ -861,7 +859,7 @@ def generate_test_data() -> pd.DataFrame:
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
     df.loc[[3, 12, 0], "date_no_freq"] = pd.NaT
-    timedelta_array = rng.multinomial(40, [1/7]*5, len_df).ravel()
+    timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
     df["time diff"] = pd.Series([pd.Timedelta(x, "d") for x in timedelta_array])
     df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
     return df
