@@ -1,19 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
         <link rel="canonical" href="https://aeturrell.github.io/skimpy/_modules/skimpy.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><meta name="generator" content="sphinx-4.5.0, furo 2022.09.29"/>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
         <title>skimpy - Skimpy</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -157,7 +157,7 @@
   <span class="sidebar-brand-text">Skimpy</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -282,6 +282,12 @@
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;floating&quot;</span><span class="p">:</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;float64&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;timedelta64&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;issue1&quot;</span><span class="p">)</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;issue2&quot;</span><span class="p">)</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">:</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;datetime64[ns]&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;categorical&quot;</span><span class="p">:</span>
@@ -406,7 +412,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        rich.table.Table: instance of Table from the rich package</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">str_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># For longer strings, limit chars shown.</span>
+    <span class="n">COL_STR_LEN_LIMIT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># For longer strings, limit chars shown.</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;column_name&quot;</span><span class="p">})</span>
     <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">show_footer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># generate dict of types to colours</span>
@@ -441,11 +447,11 @@
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span>
     <span class="p">]</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;fold&quot;</span><span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col</span><span class="p">),</span> <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;fold&quot;</span><span class="p">,</span> <span class="n">max_width</span><span class="o">=</span><span class="n">COL_STR_LEN_LIMIT</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
         <span class="n">row</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">Text</span><span class="p">(</span>
-                <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)[:</span><span class="n">str_limit</span><span class="p">],</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
                 <span class="n">style</span><span class="o">=</span><span class="n">pos_to_colour</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
                 <span class="n">justify</span><span class="o">=</span><span class="n">pos_to_justification</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
             <span class="p">)</span>
@@ -625,6 +631,29 @@
 
 
 <span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_timedelta_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have timedelta type. (NB not object type).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only timedelta types</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A dataframe of summary statistics, with a number of rows</span>
+<span class="sd">        determined by number of columns of xf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">NUM_COL_MEAN</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;median&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+
+<span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_datetime_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have datetime type.</span>
 
@@ -671,7 +700,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Skim a data frame and return statistics.</span>
 
-<span class="sd">    skim is an alternative to pandas.DataFrame.summary(), quickly providing</span>
+<span class="sd">    skim is an alternative to pandas.DataFrame.describe(), quickly providing</span>
 <span class="sd">    an overview of a data frame. It produces a different set of summary</span>
 <span class="sd">    functions based on the types of columns in the dataframe. You may get</span>
 <span class="sd">    better results from ensuring that you set the datatypes in your dataframe</span>
@@ -742,17 +771,26 @@
         <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="n">_datetime_variable_summary_table</span><span class="p">,</span>
         <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">_string_variable_summary_table</span><span class="p">,</span>
         <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">_bool_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span> <span class="n">_timedelta_variable_summary_table</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">list_of_tabs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">col_type</span><span class="p">,</span> <span class="n">summary_func</span> <span class="ow">in</span> <span class="n">types_funcs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">xf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col_type</span> <span class="o">==</span> <span class="s2">&quot;number&quot;</span><span class="p">:</span>
+            <span class="c1"># timedelta and datetime are technically integers, so exclude these</span>
+            <span class="n">xf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">col_type</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;timedelta&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">xf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">sum_df</span> <span class="o">=</span> <span class="n">summary_func</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
-            <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">_dataframe_to_rich_table</span><span class="p">(</span>
-                    <span class="n">col_type</span><span class="p">,</span> <span class="n">_round_dataframe</span><span class="p">(</span><span class="n">sum_df</span><span class="p">)</span>  <span class="c1"># , **colour_kwargs</span>
+            <span class="k">if</span> <span class="n">col_type</span> <span class="o">!=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span>
+                <span class="c1"># timedelta doesn&#39;t play nicely with rounding</span>
+                <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">_dataframe_to_rich_table</span><span class="p">(</span>
+                        <span class="n">col_type</span><span class="p">,</span> <span class="n">_round_dataframe</span><span class="p">(</span><span class="n">sum_df</span><span class="p">)</span>  <span class="c1"># , **colour_kwargs</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_dataframe_to_rich_table</span><span class="p">(</span><span class="n">col_type</span><span class="p">,</span> <span class="n">sum_df</span><span class="p">))</span>
     <span class="c1"># Put all of the info together</span>
     <span class="n">grid</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">tables_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dat_sum_table</span><span class="p">,</span> <span class="n">types_sum_table</span><span class="p">]</span>
@@ -840,7 +878,6 @@
     <span class="n">cleaned</span> <span class="o">=</span> <span class="p">[</span>
         <span class="mi">1</span> <span class="k">if</span> <span class="n">new_columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">orig_columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">orig_columns</span><span class="p">))</span>
     <span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span><span class="si">}</span><span class="s2"> column names have been cleaned&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span></div>
 
 
@@ -1036,9 +1073,7 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -1053,15 +1088,16 @@
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
