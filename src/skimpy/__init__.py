@@ -1,7 +1,6 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
 import re
 from collections import defaultdict
-from dataclasses import MISSING
 from itertools import chain
 from typing import Any
 from typing import Dict
@@ -84,7 +83,6 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             print("issue1")
             data_type = "timedelta64[ns]"
         elif col[1] == "timedelta64[ns]":
-            print("issue2")
             data_type = "timedelta64[ns]"
         elif col[1] == "datetime64":
             data_type = "datetime64[ns]"
@@ -111,6 +109,20 @@ def _round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     for col in df.select_dtypes("number"):
         df[col] = df[col].apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
     return df
+
+
+@typechecked
+def _round_series(s: pd.Series) -> pd.Series:
+    """Rounds numerical series to 2 s.f.
+
+    Args:
+        s (pd.Series): Input series
+
+    Returns:
+        pd.Series: Series with numbers rounded to 2 s.f.
+    """
+    s = s.apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
+    return s
 
 
 @typechecked
@@ -316,14 +328,14 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
-        NUM_COL_MEAN: xf.mean(),
-        "sd": xf.std(),
+        NUM_COL_MEAN: _round_series(xf.mean()),
+        "sd": _round_series(xf.std()),
     }
     display_quantiles_as_pct = 100
     quantiles_dict = dict(
         zip(
             ["p" + str(int(x * display_quantiles_as_pct)) for x in QUANTILES],
-            [xf.quantile(x) for x in QUANTILES],
+            [_round_series(xf.quantile(x)) for x in QUANTILES],
         )
     )
     data_dict.update(quantiles_dict)
@@ -376,7 +388,7 @@ def _bool_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """
     data_dict = {
         "true": xf.sum(),
-        "true rate": xf.sum() / xf.shape[0],
+        "true rate": _round_series(xf.sum() / xf.shape[0]),
     }
     hist_series = pd.concat(
         [_create_unicode_hist(xf[col].dropna()) for col in xf.columns], axis=0
@@ -401,14 +413,16 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
-        "words per row": pd.Series(
-            dict(
-                zip(
-                    xf.columns,
-                    [
-                        xf[xf.columns[0]].str.count(" ").add(1).sum() / len(xf)
-                        for col in xf.columns
-                    ],
+        "words per row": _round_series(
+            pd.Series(
+                dict(
+                    zip(
+                        xf.columns,
+                        [
+                            xf[xf.columns[0]].str.count(" ").add(1).sum() / len(xf)
+                            for col in xf.columns
+                        ],
+                    )
                 )
             )
         ),
@@ -440,6 +454,7 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
         determined by number of columns of xf
     """
     count_nans_vec = xf.isna().sum()
+    # NB: timedelta doesn't play nicely with rounding
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
@@ -580,15 +595,9 @@ def skim(
             xf = df.select_dtypes(col_type)
         if not xf.empty:
             sum_df = summary_func(xf)
-            if col_type != "timedelta64[ns]":
-                # timedelta doesn't play nicely with rounding
-                list_of_tabs.append(
-                    _dataframe_to_rich_table(
-                        col_type, _round_dataframe(sum_df)  # , **colour_kwargs
-                    )
-                )
-            else:
-                list_of_tabs.append(_dataframe_to_rich_table(col_type, sum_df))
+            list_of_tabs.append(
+                _dataframe_to_rich_table(col_type, sum_df)  # , **colour_kwargs
+            )
     # Put all of the info together
     grid = Table.grid(expand=True)
     tables_list = [dat_sum_table, types_sum_table]
@@ -850,4 +859,7 @@ def generate_test_data() -> pd.DataFrame:
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
     df.loc[[3, 12, 0], "date_no_freq"] = pd.NaT
+    timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
+    df["time diff"] = pd.Series([pd.Timedelta(x, "d") for x in timedelta_array])
+    df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
     return df
