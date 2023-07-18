@@ -3368,13 +3368,13 @@ test = ["pytest (>=6,!=7.0.0,!=7.0.1)", "pytest-cov (>=3.0.0)", "pytest-qt"]
 
 [[package]]
 name = "reorder-python-imports"
-version = "3.9.0"
+version = "3.10.0"
 description = "Tool for reordering python imports"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "reorder_python_imports-3.9.0-py2.py3-none-any.whl", hash = "sha256:3f9c16e8781f54c944756d0d1eb34a8c863554f7a4eb3693f574fe19b1a29b56"},
-    {file = "reorder_python_imports-3.9.0.tar.gz", hash = "sha256:49292ed537829a6bece9fb3746fc1bbe98f52643be5de01a4e13680268a5b0ec"},
+    {file = "reorder_python_imports-3.10.0-py2.py3-none-any.whl", hash = "sha256:4dbfe21e27f569384b5e43539cb5696ef161f5c43827ee5d7de69febbfacc7c6"},
+    {file = "reorder_python_imports-3.10.0.tar.gz", hash = "sha256:52bf76318bcfde5c6001f442c862ccf94dcdff42c0f9ec43a2ac6f23560c60bf"},
 ]
 
 [package.dependencies]
@@ -4504,4 +4504,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "528043cde37e0ccfb1556451b06a9d345b3a6430739507917e7422fcbec1cd4d"
+content-hash = "604365ae47030401d5bcbd075664f04c3a0f8edc06826f210c144819b7dd1e54"
