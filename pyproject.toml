@@ -20,7 +20,7 @@ Changelog = "https://github.com/aeturrell/skimpy/releases"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0.0"
-click = "^8.1.3"
+click = "^8.1.6"
 rich = ">=10.9,<14.0"
 pandas = "^2.0.3"
 Pygments = "^2.10.0"
@@ -28,8 +28,13 @@ typeguard = "^2.12.1"
 jupyter = "^1.0.0"
 ipykernel = "^6.7.0"
 numpy = "^1.22.2"
+matplotlib = "^3.7.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.scripts]
+skimpy = "skimpy.__main__:main"
+
+[tool.poetry.group.dev.dependencies]
+nox = "^2023.4.22"
 pytest = "^7.4.0"
 coverage = {extras = ["toml"], version = "^7.2"}
 safety = "^2.3.5"
@@ -48,7 +53,6 @@ reorder-python-imports = "^3.10.0"
 pre-commit-hooks = "^4.4.0"
 Pygments = "^2.9.0"
 autopep8 = "^2.0.0"
-nox = "^2022.11.21"
 jupyter = "^1.0.0"
 jupyterlab = "^3.6.3"
 matplotlib = "^3.7.1"
@@ -57,9 +61,6 @@ black = "^22.12.0"
 jupyter-book = "^0.15.1"
 furo = "^2022.9.29"
 ghp-import = "^2.1.0"
-
-[tool.poetry.scripts]
-skimpy = "skimpy.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
