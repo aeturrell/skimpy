@@ -99,21 +99,6 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def _round_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Rounds dataframe to 2 s.f.
-
-    Args:
-        df (pd.DataFrame): Input dataframe
-
-    Returns:
-        pd.DataFrame: Dataframe with numbers rounded to 2 s.f.
-    """
-    for col in df.select_dtypes("number"):
-        df[col] = df[col].apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
-    return df
-
-
-@typechecked
 def _round_series(s: pd.Series) -> pd.Series:
     """Rounds numerical series to 2 s.f.
 
