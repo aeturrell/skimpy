@@ -13,7 +13,6 @@ from skimpy import _bool_variable_summary_table
 from skimpy import _convert_case
 from skimpy import _infer_datatypes
 from skimpy import _map_row_positions_to_text_style
-from skimpy import _round_dataframe
 from skimpy import _round_series
 from skimpy import _simplify_datetimes_in_array
 from skimpy import _string_variable_summary_table
