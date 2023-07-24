@@ -61,10 +61,11 @@ MISSING_COL = "NA"
 def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
     """Infers the, and applies new, datatypes of dataframe columns.
 
-    :param df: input dataframe of ambiguous col type
-    :type df: pd.DataFrame
-    :return: dataframe with column datatypes set to best of knowledge
-    :rtype: pd.DataFrame
+    Args:
+        df (pd.DataFrame): User data that we'd like to infer types on.
+
+    Returns:
+        pd.DataFrame: Same dataframe, but typed wherever possible.
     """
     df_types = (
         pd.DataFrame(df.apply(pd.api.types.infer_dtype, axis=0))
@@ -80,7 +81,6 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
         elif col[1] == "floating":
             data_type = "float64"
         elif col[1] == "timedelta64":
-            print("issue1")
             data_type = "timedelta64[ns]"
         elif col[1] == "timedelta64[ns]":
             data_type = "timedelta64[ns]"
@@ -90,6 +90,8 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "category"
         elif col[1] == "boolean":
             data_type = "bool"
+        elif col[1] == "complex":
+            data_type = "complex128"
         else:
             data_type = col[1]
         df[col[0]] = df[col[0]].astype(data_type)
@@ -435,7 +437,8 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
                         for col in xf.columns
                     ],
                 )
-            )
+            ),
+            dtype="int",
         ),
     }
     summary_df = pd.DataFrame(data_dict)

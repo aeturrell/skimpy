@@ -6,12 +6,15 @@ import numpy as np
 import pandas as pd
 import pytest
 from click.testing import CliRunner
+from pandas.testing import assert_frame_equal
 
 from skimpy import __main__
+from skimpy import _bool_variable_summary_table
 from skimpy import _convert_case
 from skimpy import _infer_datatypes
 from skimpy import _map_row_positions_to_text_style
 from skimpy import _simplify_datetimes_in_array
+from skimpy import _string_variable_summary_table
 from skimpy import clean_columns
 from skimpy import generate_test_data
 from skimpy import skim
@@ -408,3 +411,91 @@ def test_017_create_readme_doc() -> None:
     cmd_str = "poetry run jupyter nbconvert --to markdown --execute docs/index.ipynb"
     subprocess.run(cmd_str, shell=True)
     subprocess.run(["rm", "docs/index.md"])
+
+
+def test_18_empty_dataframe_infer_type():
+    """Test empty DataFrame input."""
+    empty_df = pd.DataFrame()
+    result = _infer_datatypes(empty_df)
+    assert_frame_equal(result, empty_df)
+
+
+def test_19_infer_various_data_types():
+    """Test DataFrame with various data types."""
+    data = {
+        "string_col": ["apple", "banana", "orange"],
+        "int_col": [1, 2, 3],
+        "float_col": [1.1, 2.2, 3.3],
+        "timedelta_col": pd.to_timedelta([1, 2, 3], unit="D"),
+        "datetime_col": pd.to_datetime(["2023-07-22", "2023-07-23", "2023-07-24"]),
+        "categorical_col": pd.Categorical(["cat", "dog", "bird"]),
+        "bool_col": [True, False, True],
+    }
+    df = pd.DataFrame(data)
+    result = _infer_datatypes(df)
+    expected_data_types = [
+        "string",
+        "int64",
+        "float64",
+        "timedelta64[ns]",
+        "datetime64[ns]",
+        "category",
+        "bool",
+    ]
+    assert list(result.dtypes.astype("string").values) == expected_data_types
+
+
+def test_20_unsupported_data_types():
+    """Test currently unsupported data types."""
+    data = {
+        "complex_col": [1 + 2j, 3 + 4j, 5 + 6j],
+    }
+    df = pd.DataFrame(data)
+    result = _infer_datatypes(df)
+    expected_data_types = ["complex128"]
+    assert list(result.dtypes.astype("string").values) == expected_data_types
+
+
+def test_21_dataframe_with_null_values():
+    """Test DataFrame with null (None) values."""
+    data = {
+        "col1": [1, None, 3],
+        "col2": [None, 2, None],
+        "col3": [1.1, 2.2, None],
+    }
+    df = pd.DataFrame(data)
+    result = _infer_datatypes(df)
+    expected_data_types = ["float64"] * 3
+    assert list(result.dtypes.astype("string").values) == expected_data_types
+
+
+def test_22_string_summary():
+    """test summarising string columns of dataframes."""
+    string_list = [
+        "How are you?",
+        "What weather!",
+        "Indeed, it was the most outrageously pompous cat I have ever seen.",
+        "",
+        "blah",
+    ]
+    df = pd.DataFrame(string_list, columns=["text"], dtype="string")
+    df.loc[[3], "text"] = None
+    result_df = _string_variable_summary_table(df)
+    expected_values = [1, 20.0, 3.6, 18]
+    for i, col in enumerate(result_df.columns):
+        assert result_df.iloc[0, i] == expected_values[i]
+
+
+def test_23_bool_summary():
+    """test summarising bool columns of dataframes."""
+    bool_list = [
+        True,
+        False,
+        None,  # interpreted as False
+        True,
+    ]
+    df = pd.DataFrame(bool_list, columns=["bool"], dtype="bool")
+    result_df = _bool_variable_summary_table(df)
+    expected_values = [2, 0.5, "█    █"]
+    for i, col in enumerate(result_df.columns):
+        assert result_df.iloc[0, i] == expected_values[i]
