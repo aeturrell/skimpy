@@ -13,6 +13,8 @@ from skimpy import _bool_variable_summary_table
 from skimpy import _convert_case
 from skimpy import _infer_datatypes
 from skimpy import _map_row_positions_to_text_style
+from skimpy import _round_dataframe
+from skimpy import _round_series
 from skimpy import _simplify_datetimes_in_array
 from skimpy import _string_variable_summary_table
 from skimpy import clean_columns
@@ -433,16 +435,20 @@ def test_19_infer_various_data_types():
     }
     df = pd.DataFrame(data)
     result = _infer_datatypes(df)
+    # NB: Windows uses int32 sometimes so need to only compare trunk datatype
+    resulting_dtypes = list(
+        result.dtypes.astype("string").str.split("[1-9][0-9]", regex=True).str[0]
+    )
     expected_data_types = [
         "string",
-        "int64",
-        "float64",
-        "timedelta64[ns]",
-        "datetime64[ns]",
+        "int",
+        "float",
+        "timedelta",
+        "datetime",
         "category",
         "bool",
     ]
-    assert list(result.dtypes.astype("string").values) == expected_data_types
+    assert resulting_dtypes == expected_data_types
 
 
 def test_20_unsupported_data_types():
@@ -499,3 +505,15 @@ def test_23_bool_summary():
     expected_values = [2, 0.5, "█    █"]
     for i, col in enumerate(result_df.columns):
         assert result_df.iloc[0, i] == expected_values[i]
+
+
+def test_24_round_series():
+    """Rounding."""
+    ints_to_round = [10001, 9999, 101, 99, 1, 0, -9, -251]
+    doubles_to_round = [10001.543, 0.99, -0.643, 20.1]
+    assert list(_round_series(pd.Series(ints_to_round)).values) == list(
+        np.array([1.0e04, 1.0e04, 1.0e02, 9.9e01, 1.0e00, 0.0e00, -9.0e00, -2.5e02])
+    )
+    assert list(_round_series(pd.Series(doubles_to_round)).values) == list(
+        np.array([10000.0, 0.99, -0.64, 20.0])
+    )
