@@ -314,7 +314,7 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
         NUM_COL_MEAN: _round_series(xf.mean()),
         "sd": _round_series(xf.std()),
     }
@@ -350,7 +350,7 @@ def _category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
         "ordered": pd.Series(
             dict(zip(xf.columns, [xf[col].cat.ordered for col in xf.columns]))
         ),
@@ -399,7 +399,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
         "words per row": _round_series(
             pd.Series(
                 dict(
@@ -445,7 +445,7 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     # NB: timedelta doesn't play nicely with rounding
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
         NUM_COL_MEAN: xf.mean(),
         "median": xf.min(),
         "max": xf.max(),
@@ -468,7 +468,7 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
         DATE_COL_FIRST: pd.Series(
             dict(
                 zip(
