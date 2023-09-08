@@ -406,7 +406,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
                     zip(
                         xf.columns,
                         [
-                            xf[xf.columns[0]].str.count(" ").add(1).sum() / len(xf)
+                            xf[col].str.count(" ").add(1).sum() / len(xf)
                             for col in xf.columns
                         ],
                     )
@@ -417,10 +417,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(
                 zip(
                     xf.columns,
-                    [
-                        xf[xf.columns[0]].str.count(" ").add(1).sum()
-                        for col in xf.columns
-                    ],
+                    [xf[col].str.count(" ").add(1).sum() for col in xf.columns],
                 )
             ),
             dtype="int",
