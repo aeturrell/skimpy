@@ -14,7 +14,7 @@ def main(input) -> None:
     Args:
         input ([csv]): A csv file to produce summary statistics on
     """
-    df = pd.read_csv(input, infer_datetime_format=True, parse_dates=True)
+    df = pd.read_csv(input, parse_dates=True)
     df = df.infer_objects()
     skim(df)
 
