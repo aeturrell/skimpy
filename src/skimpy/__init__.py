@@ -36,18 +36,18 @@ CASE_STYLES = {
 }
 
 console = Console()
-QUANTILES = [0, 0.25, 0.75, 1]
+QUANTILES = [0, 0.25, 0.5, 0.75, 1]
 HIST_BINS = 6
 UNICODE_HIST = {
     0: " ",
     1 / 8: "▁",
     1 / 4: "▂",
     3 / 8: "▃",
-    1 / 2: "▄",
+    # 1 / 2: "▄",
     5 / 8: "▅",
     3 / 4: "▆",
     7 / 8: "▇",
-    1: "█",
+    # 1: "█",
 }
 # These are defined globally because they are used in more than one function
 DATE_COL_FIRST = "first"
