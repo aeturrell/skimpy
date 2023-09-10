@@ -35,6 +35,13 @@ try:
 except ImportError:
     from typing_extensions import TypeAlias
 
+# polars check
+try:
+    import polars as pl
+except ImportError:
+    # no nothing
+    pass
+
 NULL_VALUES = {np.nan, "", None}
 
 CASE_STYLES = {
@@ -556,11 +563,10 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def skim(
-    df_in: pd.DataFrame,
+def skim_polars(
+    df_in: pl.DataFrame,
     return_data: bool = False,
     header_style: str = "bold cyan",
-    **colour_kwargs: str,
 ) -> Optional[JSON]:
     """Skim a data frame and return statistics.
 
@@ -569,7 +575,50 @@ def skim(
     functions based on the types of columns in the dataframe. You may get
     better results from ensuring that you set the datatypes in your dataframe
     you want before running skim.
-    The colour_kwargs (str) are defined in _dataframe_to_rich_table.
+
+    Note that any unknown column types, or mixed column types, will not be
+    processed.
+
+    Args:
+        df_in (pl.DataFrame): Dataframe to skim.
+        return_data (bool): Whether to return a JSON encoding summary info.
+        header_style (str): A style to use for headers. See Rich API Styles.
+
+    Returns:
+        (Optional, dict[str, dict[str, Any]]): results table in a dictionary
+    """
+
+    df_out = df_in.to_pandas()
+    if return_data:
+        json_out = skim(
+            df_out,
+            return_data=return_data,
+            header_style=header_style,
+        )
+        return json_out
+    else:
+        skim(
+            df_out,
+            return_data=return_data,
+            header_style=header_style,
+        )
+        return None
+
+
+@typechecked
+def skim(
+    df_in: pd.DataFrame,
+    return_data: bool = False,
+    header_style: str = "bold cyan",
+) -> Optional[JSON]:
+    """Skim a data frame and return statistics.
+
+    skim is an alternative to pandas.DataFrame.describe(), quickly providing
+    an overview of a data frame. It produces a different set of summary
+    functions based on the types of columns in the dataframe. You may get
+    better results from ensuring that you set the datatypes in your dataframe
+    you want before running skim.
+
     Note that any unknown column types, or mixed column types, will not be
     processed.
 
@@ -577,7 +626,9 @@ def skim(
         df_in (pd.DataFrame): Dataframe to skim.
         return_data (bool): Whether to return a JSON encoding summary info.
         header_style (str): A style to use for headers. See Rich API Styles.
-        colour_kwargs (dict[str]): colour keyword arguments for rich table.
+
+    Returns:
+        (Optional, dict[str, dict[str, Any]]): results table in a dictionary
 
     Examples
     --------
@@ -667,9 +718,7 @@ def skim(
             # specialised and unsupported col types, such as datetime.date,
             # that are actually registered as object type
             col_type_to_rich = str(col_type)
-            list_of_tabs.append(
-                _dataframe_to_rich_table(col_type_to_rich, sum_df)  # , **colour_kwargs
-            )
+            list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
             json_data.update({col_type_to_rich: sum_df.to_dict()})
     # Put all of the info together
     grid = Table.grid(expand=True)
