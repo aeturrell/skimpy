@@ -82,6 +82,7 @@ def test_005_inference_datatypes() -> None:
     df["booly"] = [True, True, False]
     # as example that isn't supported
     df["complex"] = np.array([[1 + 1j], [1 + 1j], [1 + 1j]])
+    df["actual_date"] = df["date2"].dt.date
     df = _infer_datatypes(df)
     dtypes = df.dtypes.apply(lambda x: str(x)).str.split(r"(\d+)").str[0]
     assert list(dtypes) == [
@@ -93,6 +94,7 @@ def test_005_inference_datatypes() -> None:
         "datetime",
         "bool",
         "complex",
+        "object",
     ]
 
 

@@ -1,4 +1,5 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
+import datetime
 import re
 from collections import defaultdict
 from itertools import chain
@@ -38,6 +39,11 @@ CASE_STYLES = {
 console = Console()
 QUANTILES = [0, 0.25, 0.5, 0.75, 1]
 HIST_BINS = 6
+# NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
+# systems, so, to make skimpy work on all systems, hist blocks are pinned to
+# nearest available consistent width block. This produces some distortion in
+# histogram but these are just visual indicators anyway and shouldn't be used
+# for deep inference.
 UNICODE_HIST = {
     0: " ",
     1 / 8: "▁",
@@ -92,6 +98,11 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "bool"
         elif col[1] == "complex":
             data_type = "complex128"
+        elif col[1] == "date":
+            # do nothing: "date" isn't supported, so we leave as an object.
+            # later on, we will still be able to pick up "date" using
+            # .select_dtypes, which is the important bit.
+            continue
         else:
             data_type = col[1]
         df[col[0]] = df[col[0]].astype(data_type)
@@ -279,7 +290,8 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
 
     Given a pandas series of numerical values, returns a series with one
     entry, the original series name, and a histogram made up of unicode
-    characters.
+    characters. However, note that the histogram is very approximate, partly
+    due to limitations in how unicode is displayed across systems.
 
     Args:
         series (pd.Series): Numeric column of data frame for analysis
@@ -566,10 +578,12 @@ def skim(
     types_funcs_dict = {
         "number": _numeric_variable_summary_table,
         "category": _category_variable_summary_table,
-        "datetime": _datetime_variable_summary_table,
-        "string": _string_variable_summary_table,
         "bool": _bool_variable_summary_table,
+        "datetime": _datetime_variable_summary_table,
+        datetime.date: _datetime_variable_summary_table,  # Re-use of fn intended.
+        # Please note that datetime.date is not directly supported by pandas and registers as being of type "object"
         "timedelta64[ns]": _timedelta_variable_summary_table,
+        "string": _string_variable_summary_table,
     }
     list_of_tabs = []
     for col_type, summary_func in types_funcs_dict.items():
@@ -580,8 +594,12 @@ def skim(
             xf = df.select_dtypes(col_type)
         if not xf.empty:
             sum_df = summary_func(xf)
+            # for rich tables, we need to stringify
+            # specialised and unsupported col types, such as datetime.date,
+            # that are actually registered as object type
+            col_type_to_rich = str(col_type)
             list_of_tabs.append(
-                _dataframe_to_rich_table(col_type, sum_df)  # , **colour_kwargs
+                _dataframe_to_rich_table(col_type_to_rich, sum_df)  # , **colour_kwargs
             )
     # Put all of the info together
     grid = Table.grid(expand=True)
@@ -839,11 +857,13 @@ def generate_test_data() -> pd.DataFrame:
     df.loc[[3, 5, 8, 9, 14, 22], "text"] = None
     df["text"] = df["text"].astype("string")
     # add a datetime column
-    df["date"] = pd.date_range("2018-01-01", periods=len_df, freq="M")
-    df["date_no_freq"] = rng.choice(
+    df["datetime"] = pd.date_range("2018-01-01", periods=len_df, freq="M")
+    df["datetime_no_freq"] = rng.choice(
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
     df.loc[[3, 12, 0], "date_no_freq"] = pd.NaT
+    df["datetime.date"] = df["datetime"].dt.date
+    df["datetime.date_no_freq"] = df["datetime_no_freq"].dt.date
     timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
     df["time diff"] = pd.Series([pd.Timedelta(x, "d") for x in timedelta_array])
     df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
