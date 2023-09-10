@@ -26,10 +26,14 @@ from rich.text import Text
 from typeguard import typechecked
 
 # TypeAlias is only built-in for 3.10 and above
-if sys.version_info > (3, 9):
+try:
     from typing import TypeAlias
-else:
+except ImportError:
     from typing_extensions import TypeAlias
+
+    # if we're on an older Python version, we may need this too
+    from __future__ import annotations
+
 
 NULL_VALUES = {np.nan, "", None}
 
