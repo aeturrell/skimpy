@@ -13,6 +13,7 @@ from skimpy import _bool_variable_summary_table
 from skimpy import _convert_case
 from skimpy import _infer_datatypes
 from skimpy import _map_row_positions_to_text_style
+from skimpy import _replace_values
 from skimpy import _round_series
 from skimpy import _simplify_datetimes_in_array
 from skimpy import _string_variable_summary_table
@@ -560,3 +561,20 @@ def test_27_missing_case_entered():
             }
         )
         clean_columns(df, case="FAKECASE", replace={"Nom": "Name"})
+
+
+def test_28_special_name_values():
+    """There are special null column names that complicate replace name ops."""
+    # yes, pandas lets you do this.
+    df = pd.DataFrame(
+        {
+            np.nan: ["Philip", "Turanga"],
+            None: ["Fry", "Leela"],
+            "": ["555-234-5678", "(604) 111-2335"],
+        }
+    )
+    ans_one = _replace_values(np.nan, {"Philip": "new_name"})
+    ans_two = _replace_values(None, {"Fry": "new_name"})
+    ans_three = _replace_values("", {"555-234-5678": "new_name"})
+    ans_list = [ans_one, ans_two, ans_three]
+    assert ans_list == [np.nan, None, ""]
