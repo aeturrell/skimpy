@@ -578,3 +578,74 @@ def test_28_special_name_values():
     ans_three = _replace_values("", {"555-234-5678": "new_name"})
     ans_list = [ans_one, ans_two, ans_three]
     assert ans_list == [np.nan, None, ""]
+
+
+def test_29_json_return_data():
+    """Test the return data function."""
+    data = {
+        "string_col": ["apple", "banana", "orange"],
+        "int_col": [1, 2, 3],
+        "float_col": [1.1, 2.2, 3.3],
+        "timedelta_col": pd.to_timedelta([1, 2, 3], unit="D"),
+        "datetime_col": pd.to_datetime(["2023-07-22", "2023-07-23", "2023-07-24"]),
+        "categorical_col": pd.Categorical(["cat", "dog", "bird"]),
+        "bool_col": [True, False, True],
+    }
+    df = pd.DataFrame(data)
+    ret_json = skim(df, return_data=True)
+    expected_output = {
+        "Data Summary": {"Number of rows": 3, "Number of columns": 7},
+        "Data Types": {
+            "string": 1,
+            "int64": 1,
+            "float64": 1,
+            "timedelta64[ns]": 1,
+            "datetime64[ns]": 1,
+            "category": 1,
+            "bool": 1,
+        },
+        "Categories": {"Columns": {"categorical_col"}},
+        "number": {
+            "NA": {"int_col": 0, "float_col": 0},
+            "NA %": {"int_col": 0.0, "float_col": 0.0},
+            "mean": {"int_col": 2.0, "float_col": 2.2},
+            "sd": {"int_col": 1.0, "float_col": 1.1},
+            "p0": {"int_col": 1.0, "float_col": 1.1},
+            "p25": {"int_col": 1.5, "float_col": 1.7},
+            "p50": {"int_col": 2.0, "float_col": 2.2},
+            "p75": {"int_col": 2.5, "float_col": 2.8},
+            "p100": {"int_col": 3.0, "float_col": 3.3},
+            "hist": {"int_col": "▇  ▇ ▇", "float_col": "▇  ▇ ▇"},
+        },
+        "category": {
+            "NA": {"categorical_col": 0},
+            "NA %": {"categorical_col": 0.0},
+            "ordered": {"categorical_col": False},
+            "unique": {"categorical_col": 3},
+        },
+        "bool": {
+            "true": {"bool_col": 2},
+            "true rate": {"bool_col": 0.67},
+            "hist": {"bool_col": "▅    ▇"},
+        },
+        "datetime": {
+            "NA": {"datetime_col": 0},
+            "NA %": {"datetime_col": 0.0},
+            "first": {"datetime_col": pd.Timestamp("2023-07-22 00:00:00")},
+            "last": {"datetime_col": pd.Timestamp("2023-07-24 00:00:00")},
+        },
+        "timedelta64[ns]": {
+            "NA": {"timedelta_col": 0},
+            "NA %": {"timedelta_col": 0.0},
+            "mean": {"timedelta_col": pd.Timedelta("2 days 00:00:00")},
+            "median": {"timedelta_col": pd.Timedelta("1 days 00:00:00")},
+            "max": {"timedelta_col": pd.Timedelta("3 days 00:00:00")},
+        },
+        "string": {
+            "NA": {"string_col": 0},
+            "NA %": {"string_col": 0.0},
+            "words per row": {"string_col": 1.0},
+            "total words": {"string_col": 3},
+        },
+    }
+    assert ret_json == expected_output

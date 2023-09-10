@@ -1,12 +1,15 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
 import datetime
 import re
+import sys
 from collections import defaultdict
 from itertools import chain
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import TypedDict
+from typing import Union
 from unicodedata import normalize
 
 import numpy as np
@@ -21,6 +24,12 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
+
+# TypeAlias is only built-in for 3.10 and above
+if sys.version_info > (3, 9):
+    from typing import TypeAlias
+else:
+    from typing_extensions import TypeAlias
 
 NULL_VALUES = {np.nan, "", None}
 
@@ -68,6 +77,9 @@ UNSUPPORTED_INFERRED_TYPES = [
     "mixed-integer-float",
     "unknown-array",
 ]
+
+# JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
+JSON: TypeAlias = dict[str, dict[str, Any]]
 
 
 @typechecked
@@ -537,8 +549,11 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 @typechecked
 def skim(
-    df_in: pd.DataFrame, header_style: str = "bold cyan", **colour_kwargs: str
-) -> None:
+    df_in: pd.DataFrame,
+    return_data: bool = False,
+    header_style: str = "bold cyan",
+    **colour_kwargs: str,
+) -> Optional[JSON]:
     """Skim a data frame and return statistics.
 
     skim is an alternative to pandas.DataFrame.describe(), quickly providing
@@ -551,9 +566,10 @@ def skim(
     processed.
 
     Args:
-        df_in (pd.DataFrame): Dataframe to skim
+        df_in (pd.DataFrame): Dataframe to skim.
+        return_data (bool): Whether to return a JSON encoding summary info.
         header_style (str): A style to use for headers. See Rich API Styles.
-        colour_kwargs (dict[str]): colour keyword arguments for rich table
+        colour_kwargs (dict[str]): colour keyword arguments for rich table.
 
     Examples
     --------
@@ -580,35 +596,45 @@ def skim(
     # Perform inference of datatypes
     df = _infer_datatypes(df)
 
+    # main data dict
+    json_data = {}
     # Data summary
     tab_1_data = {"Number of rows": df.shape[0], "Number of columns": df.shape[1]}
+    dat_sum_table_title = "Data Summary"
     dat_sum_table = Table(
-        title="Data Summary", show_header=True, header_style=header_style
+        title=dat_sum_table_title, show_header=True, header_style=header_style
     )
     dat_sum_table.add_column(name)
     dat_sum_table.add_column("Values")
     for key, val in tab_1_data.items():
         dat_sum_table.add_row(key, str(val))
-    # Data tpes
+    json_data.update({dat_sum_table_title: tab_1_data})
+    # Data types
+    data_types_title = "Data Types"
     types_sum_table = Table(
-        title="Data Types", show_header=True, header_style=header_style
+        title=data_types_title, show_header=True, header_style=header_style
     )
     tab_2_data = df.dtypes.astype(str).value_counts().to_dict()
     types_sum_table.add_column("Column Type")
     types_sum_table.add_column("Count")
     for key, val in tab_2_data.items():
         types_sum_table.add_row(key, str(val))
+    json_data.update({data_types_title: tab_2_data})
     # Categorys
     if "category" in df.dtypes.astype(str).to_list():
+        cat_section_title = "Categories"
         xf = pd.DataFrame(df.dtypes.astype(str))
         cat_sum_table = Table(
-            title="Categories", show_header=True, header_style=header_style
+            title=cat_section_title, show_header=True, header_style=header_style
         )
         header_string = f"[{header_style}]Categorical Variables[/{header_style}]"
         cat_sum_table.add_column(header_string)
         cat_names = list(xf[xf[0] == "category"].index)
         for cat in cat_names:
             cat_sum_table.add_row(cat)
+        json_data.update(
+            {cat_section_title: {"Columns": {cat_name for cat_name in cat_names}}}
+        )
     # Summaries of cols of specific types
     types_funcs_dict = {
         "number": _numeric_variable_summary_table,
@@ -636,6 +662,7 @@ def skim(
             list_of_tabs.append(
                 _dataframe_to_rich_table(col_type_to_rich, sum_df)  # , **colour_kwargs
             )
+            json_data.update({col_type_to_rich: sum_df.to_dict()})
     # Put all of the info together
     grid = Table.grid(expand=True)
     tables_list = [dat_sum_table, types_sum_table]
@@ -648,6 +675,10 @@ def skim(
     # Weirdly, iteration over list of tabs misses last entry
     grid.add_row(list_of_tabs[-1])
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
+    if return_data:
+        return json_data
+    else:
+        return None
 
 
 @typechecked
@@ -896,9 +927,9 @@ def generate_test_data() -> pd.DataFrame:
     df["datetime_no_freq"] = rng.choice(
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
-    df.loc[[3, 12, 0], "date_no_freq"] = pd.NaT
     df["datetime.date"] = df["datetime"].dt.date
     df["datetime.date_no_freq"] = df["datetime_no_freq"].dt.date
+    df.loc[[3, 12, 0], "datetime_no_freq"] = pd.NaT
     timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
     df["time diff"] = pd.Series([pd.Timedelta(x, "d") for x in timedelta_array])
     df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
