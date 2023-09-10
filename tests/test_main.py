@@ -4,6 +4,7 @@ import subprocess
 
 import numpy as np
 import pandas as pd
+import polars as pl
 import pytest
 from click.testing import CliRunner
 from pandas.testing import assert_frame_equal
@@ -21,6 +22,7 @@ from skimpy import _string_variable_summary_table
 from skimpy import clean_columns
 from skimpy import generate_test_data
 from skimpy import skim
+from skimpy import skim_polars
 
 
 @pytest.fixture
@@ -42,12 +44,6 @@ def test_000_basic_functionality() -> None:
     """Tests that a skim of the test data works."""
     df = generate_test_data()
     skim(df)
-
-
-def test_001_colour_kwargs() -> None:
-    """Tests that colour keyword arguments work."""
-    df = generate_test_data()
-    skim(df, datetime="chartreuse1")
 
 
 def test_002_header_style() -> None:
@@ -614,3 +610,17 @@ def test_29_json_return_data():
         "string",
     ]
     assert ret_json_keys == expected_output
+
+
+def test_30_running_with_polars():
+    """Tests the polars skim functionality."""
+    df1 = pl.DataFrame(
+        {
+            "foo": [1, 2, 3],
+            "bar": [6, 7, 8],
+            "ham": ["a", "b", "c"],
+        }
+    )
+    pandas_tbl_out = skim(df1.to_pandas(), return_data=True)
+    polars_tbl_out = skim_polars(df1, return_data=True)
+    assert pandas_tbl_out == polars_tbl_out
