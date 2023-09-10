@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 from click.testing import CliRunner
 from pandas.testing import assert_frame_equal
+from typeguard import typeguard_ignore
 
 from skimpy import __main__
 from skimpy import _bool_variable_summary_table
@@ -124,6 +125,7 @@ def test_006_test_row_map() -> None:
     assert answers == row_dict
 
 
+@typeguard_ignore
 def test_007_simplify_datetimes_in_array() -> None:
     """Tests whether datetimes in an array are simplified."""
     df = pd.DataFrame()
@@ -194,6 +196,7 @@ def df_null_headers() -> pd.DataFrame:
     return df
 
 
+@typeguard_ignore
 def test_008_clean_default(df_headers: pd.DataFrame) -> None:
     df_clean = clean_columns(df_headers)
     df_check = pd.DataFrame(
@@ -211,6 +214,7 @@ def test_008_clean_default(df_headers: pd.DataFrame) -> None:
     assert df_check.equals(df_clean)
 
 
+@typeguard_ignore
 def test_009_clean_case_style(df_headers: pd.DataFrame) -> None:
     df_clean_kebab = clean_columns(df_headers, case="kebab")
     df_clean_camel = clean_columns(df_headers, case="camel")
@@ -326,6 +330,7 @@ def test_009_clean_case_style(df_headers: pd.DataFrame) -> None:
     assert df_check_upper.equals(df_clean_upper)
 
 
+@typeguard_ignore
 def test_010_clean_replace(df_headers: pd.DataFrame) -> None:
     df_clean = clean_columns(df_headers, replace={"éditeur": "publisher", "★": "star"})
     df_check = pd.DataFrame(
@@ -343,6 +348,7 @@ def test_010_clean_replace(df_headers: pd.DataFrame) -> None:
     assert df_check.equals(df_clean)
 
 
+@typeguard_ignore
 def test_011_clean_keep_accents(df_headers: pd.DataFrame) -> None:
     df_clean = clean_columns(df_headers, remove_accents=False)
     df_check = pd.DataFrame(
@@ -360,6 +366,7 @@ def test_011_clean_keep_accents(df_headers: pd.DataFrame) -> None:
     assert df_check.equals(df_clean)
 
 
+@typeguard_ignore
 def test_012_clean_null_headers(df_null_headers: pd.DataFrame) -> None:
     df_clean = clean_columns(df_null_headers)
     df_check = pd.DataFrame(

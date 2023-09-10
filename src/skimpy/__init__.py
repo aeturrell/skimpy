@@ -863,7 +863,7 @@ def _remove_accents(name: Any) -> Any:
 
 
 @typechecked
-def _rename_duplicates(names: pd.Index, case: str) -> Any:
+def _rename_duplicates(names: pd.Index | list[str], case: str) -> Any:
     """Rename duplicated column names to append a number at the end."""
     if case in {"snake", "const"}:
         sep = "_"
