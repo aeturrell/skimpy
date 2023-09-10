@@ -1,4 +1,5 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
+from __future__ import annotations  # This is here to get 'dict' typing for <3.10
 import datetime
 import re
 import sys
@@ -27,13 +28,9 @@ from typeguard import typechecked
 
 # TypeAlias is only built-in for 3.10 and above
 try:
-    from typing import TypeAlias
+    from typing import TypeAlias  # type: ignore
 except ImportError:
     from typing_extensions import TypeAlias
-
-    # if we're on an older Python version, we may need this too
-    from __future__ import annotations
-
 
 NULL_VALUES = {np.nan, "", None}
 
