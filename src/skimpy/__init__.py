@@ -1,5 +1,6 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
 from __future__ import annotations  # This is here to get 'dict' typing for <3.10
+
 import datetime
 import re
 import sys
@@ -79,8 +80,12 @@ UNSUPPORTED_INFERRED_TYPES = [
     "unknown-array",
 ]
 
-# JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | None
-JSON: TypeAlias = dict[str, dict[str, Any]]
+try:
+    JSON: TypeAlias = dict[str, dict[str, Any]]
+except TypeError:
+    from typing import Dict
+
+    JSON: TypeAlias = Dict[str, Dict[str, Any]]  # type: ignore
 
 
 @typechecked
