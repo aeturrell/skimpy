@@ -24,10 +24,10 @@ click = "^8.1.6"
 rich = ">=10.9,<14.0"
 pandas = "^2.0.3"
 Pygments = "^2.10.0"
-typeguard = "^2.12.1"
 jupyter = "^1.0.0"
 ipykernel = "^6.7.0"
 numpy = "^1.22.2"
+typeguard = "4.1.4"
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"
@@ -38,7 +38,6 @@ pytest = "^7.4.0"
 coverage = {extras = ["toml"], version = "^7.2"}
 safety = "^2.3.5"
 mypy = "^1.4"
-typeguard = "^2.12.1"
 xdoctest = {extras = ["colors"], version = "^1.1.1"}
 pre-commit = "^3.3.1"
 flake8 = "^5.0.4"
