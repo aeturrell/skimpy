@@ -26,6 +26,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
+
 # the JSON # type: ignore comments throughout are sops to Python 3.8 issues
 
 # TypeAlias is only built-in for 3.10 and above
