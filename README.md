@@ -22,13 +22,13 @@ A light weight tool for creating summary statistics from dataframes.
 [![Soure](https://img.shields.io/badge/source%20code-github-lightgrey?style=for-the-badge)](https://github.com/aeturrell/skimpy)
 
 **skimpy** is a light weight tool that provides
-summary statistics about variables in data frames within the console or your interactive Python window.
-Think of it as a super-charged version of `df.describe()`.
+summary statistics about variables in **pandas** or **Polars** data frames within the console or your interactive Python window.
+Think of it as a super-charged version of **pandas**' `df.describe()`.
 [You can find the documentation here](https://aeturrell.github.io/skimpy/).
 
 ## Quickstart
 
-_skim_ a dataframe and produce summary statistics within the console
+_skim_ a **Pandas** dataframe and produce summary statistics within the console
 using:
 
 ```python
@@ -37,10 +37,10 @@ from skimpy import skim
 skim(df)
 ```
 
-where `df` is a dataframe.
+where `df` is a dataframe. Alternatively, use `skim_polars()` on **Polars** dataframes.
 
 If you need to a dataset to try _skimpy_ out on, you can use the
-built-in test dataframe:
+built-in test **Pandas** data frame:
 
 ```python
 from skimpy import skim, generate_test_data
@@ -55,8 +55,8 @@ skim(df)
 │ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> dataframe         </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Values </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Column Type </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Count </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Categorical Variables </span>┃                                │
 │ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩                                │
 │ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │                                │
-│ │ Number of columns │ 14     │ │ datetime64  │ 3     │ │ location              │                                │
-│ └───────────────────┴────────┘ │ category    │ 2     │ └───────────────────────┘                                │
+│ │ Number of columns │ 13     │ │ category    │ 2     │ │ location              │                                │
+│ └───────────────────┴────────┘ │ datetime64  │ 2     │ └───────────────────────┘                                │
 │                                │ object      │ 2     │                                                          │
 │                                │ int64       │ 1     │                                                          │
 │                                │ bool        │ 1     │                                                          │
@@ -86,14 +86,13 @@ skim(df)
 │ │ <span style="color: #af87ff; text-decoration-color: #af87ff">booly_col                         </span> │ <span style="color: #008080; text-decoration-color: #008080">            516</span> │ <span style="color: #008080; text-decoration-color: #008080">                         0.52</span> │ <span style="color: #008000; text-decoration-color: #008000">      ▇    ▇       </span> │  │
 │ └────────────────────────────────────┴─────────────────┴───────────────────────────────┴─────────────────────┘  │
 │ <span style="font-style: italic">                                                   datetime                                                   </span>  │
-│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
-│ ┃<span style="font-weight: bold"> column_name                 </span>┃<span style="font-weight: bold"> NA       </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first             </span>┃<span style="font-weight: bold"> last              </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
-│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime                   </span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">   2018-01-31    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2101-04-30    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M             </span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime_no_freq           </span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">   1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None          </span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">date_no_freq               </span> │ <span style="color: #008080; text-decoration-color: #008080">    1000</span> │ <span style="color: #008080; text-decoration-color: #008080">     100</span> │ <span style="color: #800000; text-decoration-color: #800000">       NaT       </span> │ <span style="color: #800000; text-decoration-color: #800000">       NaT       </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None          </span> │  │
-│ └─────────────────────────────┴──────────┴──────────┴───────────────────┴───────────────────┴────────────────┘  │
-│ <span style="font-style: italic">                                       &lt;class 'datetime.date'&gt; (object)                                       </span>  │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold"> column_name                  </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first              </span>┃<span style="font-weight: bold"> last              </span>┃<span style="font-weight: bold"> frequency       </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime                    </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">    2018-01-31    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2101-04-30    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M              </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime_no_freq            </span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.3</span> │ <span style="color: #800000; text-decoration-color: #800000">    1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None           </span> │  │
+│ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │
+│ <span style="font-style: italic">                                           &lt;class 'datetime.date'&gt;                                            </span>  │
 │ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column_name                      </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first            </span>┃<span style="font-weight: bold"> last             </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
@@ -117,7 +116,7 @@ skim(df)
 
 It is recommended that you set your datatypes before using _skimpy_ (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the _skim_ function will try and guess what the datatypes of your columns are.
 
-**skimpy** also comes with a `clean_columns` function as a convenience. This slugifies column names. For example,
+**skimpy** also comes with a `clean_columns` function as a convenience (with thanks to the [**dataprep**](https://dataprep.ai/) package). This slugifies column names. For example,
 
 ```python
 import pandas as pd
@@ -191,9 +190,6 @@ for key, value in dict_main_deps.items():
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pygments ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.10</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">typeguard ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.12</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
-</pre>
-
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">jupyter ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
 </pre>
 
@@ -201,6 +197,15 @@ for key, value in dict_main_deps.items():
 </pre>
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">numpy ^<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.22</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">typeguard <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.1</span>.<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">polars <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'version'</span>: <span style="color: #008000; text-decoration-color: #008000">'^0.19.0'</span>, <span style="color: #008000; text-decoration-color: #008000">'optional'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">pyarrow <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'version'</span>: <span style="color: #008000; text-decoration-color: #008000">'^13.0.0'</span>, <span style="color: #008000; text-decoration-color: #008000">'optional'</span>: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">}</span>
 </pre>
 
 You can try this package out right now in your browser using this
@@ -224,7 +229,7 @@ $ pip install git+https://github.com/aeturrell/skimpy.git
 
 For development, see {ref}`contributing`.
 
-## Usage
+## Use
 
 This package is mostly designed to be used within an interactive console
 session or Jupyter notebook
@@ -251,21 +256,6 @@ $ skimpy file.csv
   [rich](https://github.com/willmcgugan/rich) package.
 - Rounds numerical output to 2 significant figures
 
-## Citing Skimpy
-
-```text
-@misc{aeturrell_2022_skimpy,
-  author       = {Arthur Turrell},
-  title        = {Skimpy: v0.0.7},
-  month        = oct,
-  year         = 2022,
-  version      = {0.0.7},
-  url          = {https://github.com/aeturrell/skimpy}
-}
-```
-
-Using **Skimpy** in your paper? Let us know by raising an issue beginning with "citation" and we'll add it to this page.
-
 ## Contributing
 
 Contributions are very welcome. To learn more, see the page on {ref}`contributing`.
@@ -287,3 +277,5 @@ This project was generated from [\@cjolowicz](https://github.com/cjolowicz)\'s [
 skimpy was inspired by the R package [skimr](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [pandas_profiling](https://pandas-profiling.github.io/pandas-profiling) and [dataprep](https://dataprep.ai/), from which the `clean_columns` function comes.
 
 The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Jupyter Book](https://jupyterbook.org). Tests are run with [nox](https://nox.thea.codes/en/stable/).
+
+Using **skimpy** in your paper? Let us know by raising an issue beginning with "citation" and we'll add it to this page.

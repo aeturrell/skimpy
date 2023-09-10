@@ -486,9 +486,9 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
-        NUM_COL_MEAN: xf.mean(),
-        "median": xf.min(),
-        "max": xf.max(),
+        NUM_COL_MEAN: xf.mean().dt.floor("s"),
+        "median": xf.min().dt.floor("s"),
+        "max": xf.max().dt.ceil("s"),
     }
     summary_df = pd.DataFrame(data_dict)
     return summary_df
@@ -568,7 +568,9 @@ def skim_polars(
     return_data: bool = False,
     header_style: str = "bold cyan",
 ) -> Optional[JSON]:
-    """Skim a data frame and return statistics.
+    """Skim a Polars data frame and return statistics.
+
+    This is a the skim you know and love, but for Polars dataframes.
 
     skim is an alternative to pandas.DataFrame.describe(), quickly providing
     an overview of a data frame. It produces a different set of summary
@@ -579,13 +581,16 @@ def skim_polars(
     Note that any unknown column types, or mixed column types, will not be
     processed.
 
+    If return_data=True, this function also returns the skim table summary in
+    a dictionary of results.
+
     Args:
         df_in (pl.DataFrame): Dataframe to skim.
-        return_data (bool): Whether to return a JSON encoding summary info.
+        return_data (bool): Whether to return dictionary of results.
         header_style (str): A style to use for headers. See Rich API Styles.
 
     Returns:
-        (Optional, dict[str, dict[str, Any]]): results table in a dictionary
+        (Optional, dict[str, dict[str, Any]]): optional results table
     """
 
     df_out = df_in.to_pandas()
@@ -611,7 +616,7 @@ def skim(
     return_data: bool = False,
     header_style: str = "bold cyan",
 ) -> Optional[JSON]:
-    """Skim a data frame and return statistics.
+    """Skim a pandas data frame and return statistics.
 
     skim is an alternative to pandas.DataFrame.describe(), quickly providing
     an overview of a data frame. It produces a different set of summary
@@ -622,13 +627,16 @@ def skim(
     Note that any unknown column types, or mixed column types, will not be
     processed.
 
+    If return_data=True, this function also returns the skim table summary in
+    a dictionary of results.
+
     Args:
-        df_in (pd.DataFrame): Dataframe to skim.
-        return_data (bool): Whether to return a JSON encoding summary info.
+        df_in (pl.DataFrame): Dataframe to skim.
+        return_data (bool): Whether to return dictionary of results.
         header_style (str): A style to use for headers. See Rich API Styles.
 
     Returns:
-        (Optional, dict[str, dict[str, Any]]): results table in a dictionary
+        (Optional, dict[str, dict[str, Any]]): optional results table
 
     Examples
     --------

@@ -11,6 +11,8 @@ API Reference
 
 .. autofunction:: skim
 
+.. autofunction:: skim_polars
+
 .. autofunction:: clean_columns
 
 .. autofunction:: generate_test_data
