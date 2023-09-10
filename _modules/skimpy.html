@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
         <link rel="canonical" href="https://aeturrell.github.io/skimpy/_modules/skimpy.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 5.0.2 and Furo 2023.03.27 -->
         <title>skimpy - Skimpy</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -201,14 +201,19 @@
         <article role="main">
           <h1>Source code for skimpy</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;skimpy provides summary statistics about variables in pandas data frames.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>  <span class="c1"># This is here to get &#39;dict&#39; typing for &lt;3.10</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">MISSING</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">unicodedata</span> <span class="kn">import</span> <span class="n">normalize</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -223,6 +228,21 @@
 <span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">rich.text</span> <span class="kn">import</span> <span class="n">Text</span>
 <span class="kn">from</span> <span class="nn">typeguard</span> <span class="kn">import</span> <span class="n">typechecked</span>
+
+<span class="c1"># the JSON # type: ignore comments throughout are sops to Python 3.8 issues</span>
+
+<span class="c1"># TypeAlias is only built-in for 3.10 and above</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeAlias</span>  <span class="c1"># type: ignore</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypeAlias</span>
+
+<span class="c1"># polars check</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># no nothing</span>
+    <span class="k">pass</span>
 
 <span class="n">NULL_VALUES</span> <span class="o">=</span> <span class="p">{</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">}</span>
 
@@ -239,18 +259,23 @@
 <span class="p">}</span>
 
 <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
-<span class="n">QUANTILES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">QUANTILES</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">HIST_BINS</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="c1"># NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font</span>
+<span class="c1"># systems, so, to make skimpy work on all systems, hist blocks are pinned to</span>
+<span class="c1"># nearest available consistent width block. This produces some distortion in</span>
+<span class="c1"># histogram but these are just visual indicators anyway and shouldn&#39;t be used</span>
+<span class="c1"># for deep inference.</span>
 <span class="n">UNICODE_HIST</span> <span class="o">=</span> <span class="p">{</span>
     <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
     <span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▁&quot;</span><span class="p">,</span>
     <span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;▂&quot;</span><span class="p">,</span>
     <span class="mi">3</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▃&quot;</span><span class="p">,</span>
-    <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;▄&quot;</span><span class="p">,</span>
+    <span class="c1"># 1 / 2: &quot;▄&quot;,</span>
     <span class="mi">5</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▅&quot;</span><span class="p">,</span>
     <span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;▆&quot;</span><span class="p">,</span>
     <span class="mi">7</span> <span class="o">/</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;▇&quot;</span><span class="p">,</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;█&quot;</span><span class="p">,</span>
+    <span class="c1"># 1: &quot;█&quot;,</span>
 <span class="p">}</span>
 <span class="c1"># These are defined globally because they are used in more than one function</span>
 <span class="n">DATE_COL_FIRST</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
@@ -259,15 +284,30 @@
 <span class="n">COMPLETE_COL</span> <span class="o">=</span> <span class="s2">&quot;NA %&quot;</span>
 <span class="n">MISSING_COL</span> <span class="o">=</span> <span class="s2">&quot;NA&quot;</span>
 
+<span class="n">UNSUPPORTED_INFERRED_TYPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;mixed-integer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mixed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mixed-integer-float&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unknown-array&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">JSON</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
+<span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+    <span class="n">JSON</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
+
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_infer_datatypes</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Infers the, and applies new, datatypes of dataframe columns.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Infers the, and applies new, datatypes of dataframe columns.</span>
 
-<span class="sd">    :param df: input dataframe of ambiguous col type</span>
-<span class="sd">    :type df: pd.DataFrame</span>
-<span class="sd">    :return: dataframe with column datatypes set to best of knowledge</span>
-<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): User data that we&#39;d like to infer types on.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Same dataframe, but typed wherever possible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df_types</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">infer_dtype</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
@@ -283,10 +323,6 @@
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;floating&quot;</span><span class="p">:</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;float64&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;timedelta64&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;issue1&quot;</span><span class="p">)</span>
-            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span>
-        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;issue2&quot;</span><span class="p">)</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">:</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;datetime64[ns]&quot;</span>
@@ -294,30 +330,35 @@
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span>
         <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
             <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;bool&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">data_type</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;complex&quot;</span><span class="p">:</span>
+            <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;complex128&quot;</span>
+        <span class="k">elif</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
+            <span class="c1"># do nothing: &quot;date&quot; isn&#39;t supported, so we leave as an object.</span>
+            <span class="c1"># later on, we will still be able to pick up &quot;date&quot; using</span>
+            <span class="c1"># .select_dtypes, which is the important bit.</span>
+            <span class="k">continue</span>
+        <span class="c1"># There is no else statement here because logic should never get to this point.</span>
         <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span>
 
 
 <span class="nd">@typechecked</span>
-<span class="k">def</span> <span class="nf">_round_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Rounds dataframe to 2 s.f.</span>
+<span class="k">def</span> <span class="nf">_round_series</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rounds numerical series to 2 s.f.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        df (pd.DataFrame): Input dataframe</span>
+<span class="sd">        s (pd.Series): Input series</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        pd.DataFrame: Dataframe with numbers rounded to 2 s.f.</span>
+<span class="sd">        pd.Series: Series with numbers rounded to 2 s.f.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s2">&quot;number&quot;</span><span class="p">):</span>
-        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">df</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">s</span>
 
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_map_row_positions_to_text_style</span><span class="p">(</span><span class="n">types_to_property</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Maps positions in summary dataframe (eg row) to a Rich text property.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maps positions in summary dataframe (eg row) to a Rich text property.</span>
 
 <span class="sd">    :param types_to_property: Datatype, datetime, mapping to Rich text property</span>
 <span class="sd">    :type types_to_property: dict</span>
@@ -354,7 +395,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_simplify_datetimes_in_array</span><span class="p">(</span><span class="n">rows</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Simplifies 2001/01/01 00:00:00 to 2001/01/01.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simplifies 2001/01/01 00:00:00 to 2001/01/01.</span>
 
 <span class="sd">    :param rows: contain summary info, including datetimes</span>
 <span class="sd">    :type rows: np.ndarray</span>
@@ -389,7 +430,7 @@
     <span class="nb">bool</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;turquoise2&quot;</span><span class="p">,</span>
     <span class="nb">object</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;medium_purple1&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rich</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">Table</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Converts a dataframe into a rich table.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a dataframe into a rich table.</span>
 
 <span class="sd">    To pretty print a dataframe to the console or interactive console, it needs</span>
 <span class="sd">    to first be converted into a rich table. This function performs that</span>
@@ -462,7 +503,7 @@
 
 
 <span class="k">def</span> <span class="nf">_find_nearest</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Find the nearest numerical match to value in an array.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the nearest numerical match to value in an array.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        array (np.ndarray): An array of numbers to match with.</span>
@@ -478,11 +519,12 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_create_unicode_hist</span><span class="p">(</span><span class="n">series</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return a histogram rendered in block unicode.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a histogram rendered in block unicode.</span>
 
 <span class="sd">    Given a pandas series of numerical values, returns a series with one</span>
 <span class="sd">    entry, the original series name, and a histogram made up of unicode</span>
-<span class="sd">    characters.</span>
+<span class="sd">    characters. However, note that the histogram is very approximate, partly</span>
+<span class="sd">    due to limitations in how unicode is displayed across systems.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        series (pd.Series): Numeric column of data frame for analysis</span>
@@ -505,7 +547,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_numeric_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have numeric type.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have numeric type.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame): Dataframe with columns of only numeric types</span>
@@ -517,15 +559,15 @@
     <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
-        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">NUM_COL_MEAN</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
-        <span class="s2">&quot;sd&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">NUM_COL_MEAN</span><span class="p">:</span> <span class="n">_round_series</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+        <span class="s2">&quot;sd&quot;</span><span class="p">:</span> <span class="n">_round_series</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span>
     <span class="p">}</span>
     <span class="n">display_quantiles_as_pct</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="n">quantiles_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span>
             <span class="p">[</span><span class="s2">&quot;p&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">display_quantiles_as_pct</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">QUANTILES</span><span class="p">],</span>
-            <span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">QUANTILES</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">_round_series</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">QUANTILES</span><span class="p">],</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="n">data_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">quantiles_dict</span><span class="p">)</span>
@@ -541,7 +583,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_category_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have category type.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have category type.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only category types</span>
@@ -553,7 +595,7 @@
     <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
-        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
         <span class="s2">&quot;ordered&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">ordered</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">]))</span>
         <span class="p">),</span>
@@ -567,7 +609,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_bool_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have boolean type.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have boolean type.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only category types</span>
@@ -578,7 +620,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
-        <span class="s2">&quot;true rate&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;true rate&quot;</span><span class="p">:</span> <span class="n">_round_series</span><span class="p">(</span><span class="n">xf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
     <span class="p">}</span>
     <span class="n">hist_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
         <span class="p">[</span><span class="n">_create_unicode_hist</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
@@ -590,7 +632,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_string_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have string type. (NB not object type).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have string type. (NB not object type).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only string types</span>
@@ -602,15 +644,17 @@
     <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
-        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="s2">&quot;words per row&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(</span>
-                <span class="nb">zip</span><span class="p">(</span>
-                    <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-                    <span class="p">[</span>
-                        <span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span>
-                    <span class="p">],</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;words per row&quot;</span><span class="p">:</span> <span class="n">_round_series</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                <span class="nb">dict</span><span class="p">(</span>
+                    <span class="nb">zip</span><span class="p">(</span>
+                        <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                        <span class="p">[</span>
+                            <span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span>
+                        <span class="p">],</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">),</span>
@@ -618,12 +662,10 @@
             <span class="nb">dict</span><span class="p">(</span>
                 <span class="nb">zip</span><span class="p">(</span>
                     <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-                    <span class="p">[</span>
-                        <span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-                        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span>
-                    <span class="p">],</span>
+                    <span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">xf</span><span class="o">.</span><span class="n">columns</span><span class="p">],</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">}</span>
     <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
@@ -632,7 +674,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_timedelta_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have timedelta type. (NB not object type).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have timedelta type. (NB not object type).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame):  Dataframe with columns of only timedelta types</span>
@@ -642,9 +684,10 @@
 <span class="sd">        determined by number of columns of xf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1"># NB: timedelta doesn&#39;t play nicely with rounding</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
-        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
         <span class="n">NUM_COL_MEAN</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
         <span class="s2">&quot;median&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
         <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">xf</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
@@ -655,7 +698,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_datetime_variable_summary_table</span><span class="p">(</span><span class="n">xf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have datetime type.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Summarise dataframe columns that have datetime type.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        xf (pd.DataFrame): A dataframe with only datetime columns</span>
@@ -667,7 +710,7 @@
     <span class="n">count_nans_vec</span> <span class="o">=</span> <span class="n">xf</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">MISSING_COL</span><span class="p">:</span> <span class="n">count_nans_vec</span><span class="p">,</span>
-        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">COMPLETE_COL</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">count_nans_vec</span> <span class="o">/</span> <span class="n">xf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
         <span class="n">DATE_COL_FIRST</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span>
                 <span class="nb">zip</span><span class="p">(</span>
@@ -694,23 +737,108 @@
     <span class="k">return</span> <span class="n">summary_df</span>
 
 
-<div class="viewcode-block" id="skim"><a class="viewcode-back" href="../api.html#skimpy.skim">[docs]</a><span class="nd">@typechecked</span>
-<span class="k">def</span> <span class="nf">skim</span><span class="p">(</span>
-    <span class="n">df_in</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">header_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">colour_kwargs</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Skim a data frame and return statistics.</span>
+<span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">_delete_unsupported_columns</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This will remove the pd.api.types.infer_dtype types that are not</span>
+<span class="sd">    supported.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (pd.DataFrame): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_types</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">infer_dtype</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;column&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;type&quot;</span><span class="p">})</span>
+    <span class="p">)</span>
+    <span class="n">df_types</span><span class="p">[</span><span class="s2">&quot;delete&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_types</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">UNSUPPORTED_INFERRED_TYPES</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_types</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;delete&quot;</span><span class="p">]:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;column&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Your input dataframe only has unsupported column types, eg </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">UNSUPPORTED_INFERRED_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<div class="viewcode-block" id="skim_polars"><a class="viewcode-back" href="../api.html#skimpy.skim_polars">[docs]</a><span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">skim_polars</span><span class="p">(</span>
+    <span class="n">df_in</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">return_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">header_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">JSON</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Skim a Polars data frame and return statistics.</span>
+
+<span class="sd">    This is a the skim you know and love, but for Polars dataframes.</span>
 
 <span class="sd">    skim is an alternative to pandas.DataFrame.describe(), quickly providing</span>
 <span class="sd">    an overview of a data frame. It produces a different set of summary</span>
 <span class="sd">    functions based on the types of columns in the dataframe. You may get</span>
 <span class="sd">    better results from ensuring that you set the datatypes in your dataframe</span>
 <span class="sd">    you want before running skim.</span>
-<span class="sd">    The colour_kwargs (str) are defined in _dataframe_to_rich_table.</span>
+
+<span class="sd">    Note that any unknown column types, or mixed column types, will not be</span>
+<span class="sd">    processed.</span>
+
+<span class="sd">    If return_data=True, this function also returns the skim table summary in</span>
+<span class="sd">    a dictionary of results.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        df_in (pd.DataFrame): Dataframe to skim</span>
+<span class="sd">        df_in (pl.DataFrame): Dataframe to skim.</span>
+<span class="sd">        return_data (bool): Whether to return dictionary of results.</span>
 <span class="sd">        header_style (str): A style to use for headers. See Rich API Styles.</span>
-<span class="sd">        colour_kwargs (dict[str]): colour keyword arguments for rich table</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (Optional, dict[str, dict[str, Any]]): optional results table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">df_out</span> <span class="o">=</span> <span class="n">df_in</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">return_data</span><span class="p">:</span>
+        <span class="n">json_out</span> <span class="o">=</span> <span class="n">skim</span><span class="p">(</span>
+            <span class="n">df_out</span><span class="p">,</span>
+            <span class="n">return_data</span><span class="o">=</span><span class="n">return_data</span><span class="p">,</span>
+            <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_out</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">skim</span><span class="p">(</span>
+            <span class="n">df_out</span><span class="p">,</span>
+            <span class="n">return_data</span><span class="o">=</span><span class="n">return_data</span><span class="p">,</span>
+            <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="skim"><a class="viewcode-back" href="../api.html#skimpy.skim">[docs]</a><span class="nd">@typechecked</span>
+<span class="k">def</span> <span class="nf">skim</span><span class="p">(</span>
+    <span class="n">df_in</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">return_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">header_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">JSON</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Skim a pandas data frame and return statistics.</span>
+
+<span class="sd">    skim is an alternative to pandas.DataFrame.describe(), quickly providing</span>
+<span class="sd">    an overview of a data frame. It produces a different set of summary</span>
+<span class="sd">    functions based on the types of columns in the dataframe. You may get</span>
+<span class="sd">    better results from ensuring that you set the datatypes in your dataframe</span>
+<span class="sd">    you want before running skim.</span>
+
+<span class="sd">    Note that any unknown column types, or mixed column types, will not be</span>
+<span class="sd">    processed.</span>
+
+<span class="sd">    If return_data=True, this function also returns the skim table summary in</span>
+<span class="sd">    a dictionary of results.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df_in (pl.DataFrame): Dataframe to skim.</span>
+<span class="sd">        return_data (bool): Whether to return dictionary of results.</span>
+<span class="sd">        header_style (str): A style to use for headers. See Rich API Styles.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (Optional, dict[str, dict[str, Any]]): optional results table</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -732,46 +860,60 @@
 
     <span class="c1"># Make a copy so as not to mess with dataframe</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df_in</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># remove any columns with types that are not currently supported</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_delete_unsupported_columns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="c1"># Perform inference of datatypes</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">_infer_datatypes</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
+    <span class="c1"># main data dict</span>
+    <span class="n">json_data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Data summary</span>
     <span class="n">tab_1_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Number of rows&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Number of columns&quot;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+    <span class="n">dat_sum_table_title</span> <span class="o">=</span> <span class="s2">&quot;Data Summary&quot;</span>
     <span class="n">dat_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Data Summary&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">dat_sum_table_title</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
     <span class="p">)</span>
     <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Values&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab_1_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">dat_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-    <span class="c1"># Data tpes</span>
+    <span class="n">json_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">dat_sum_table_title</span><span class="p">:</span> <span class="n">tab_1_data</span><span class="p">})</span>
+    <span class="c1"># Data types</span>
+    <span class="n">data_types_title</span> <span class="o">=</span> <span class="s2">&quot;Data Types&quot;</span>
     <span class="n">types_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Data Types&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">data_types_title</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
     <span class="p">)</span>
     <span class="n">tab_2_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
     <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Column Type&quot;</span><span class="p">)</span>
     <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tab_2_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">types_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+    <span class="n">json_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">data_types_title</span><span class="p">:</span> <span class="n">tab_2_data</span><span class="p">})</span>
     <span class="c1"># Categorys</span>
     <span class="k">if</span> <span class="s2">&quot;category&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+        <span class="n">cat_section_title</span> <span class="o">=</span> <span class="s2">&quot;Categories&quot;</span>
         <span class="n">xf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
         <span class="n">cat_sum_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Categories&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">cat_section_title</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="n">header_style</span>
         <span class="p">)</span>
         <span class="n">header_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">header_style</span><span class="si">}</span><span class="s2">]Categorical Variables[/</span><span class="si">{</span><span class="n">header_style</span><span class="si">}</span><span class="s2">]&quot;</span>
         <span class="n">cat_sum_table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">header_string</span><span class="p">)</span>
         <span class="n">cat_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xf</span><span class="p">[</span><span class="n">xf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">cat_names</span><span class="p">:</span>
             <span class="n">cat_sum_table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+        <span class="n">json_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">cat_section_title</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Columns&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">cat_name</span> <span class="k">for</span> <span class="n">cat_name</span> <span class="ow">in</span> <span class="n">cat_names</span><span class="p">}}}</span>
+        <span class="p">)</span>
     <span class="c1"># Summaries of cols of specific types</span>
     <span class="n">types_funcs_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">_numeric_variable_summary_table</span><span class="p">,</span>
         <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">_category_variable_summary_table</span><span class="p">,</span>
-        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="n">_datetime_variable_summary_table</span><span class="p">,</span>
-        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">_string_variable_summary_table</span><span class="p">,</span>
         <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">_bool_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="n">_datetime_variable_summary_table</span><span class="p">,</span>
+        <span class="c1"># Please note that datetime.date is not directly supported by pandas and registers as being of type &quot;object&quot;</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">:</span> <span class="n">_datetime_variable_summary_table</span><span class="p">,</span>  <span class="c1"># Re-use of fn intended.</span>
         <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span> <span class="n">_timedelta_variable_summary_table</span><span class="p">,</span>
+        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">_string_variable_summary_table</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">list_of_tabs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">col_type</span><span class="p">,</span> <span class="n">summary_func</span> <span class="ow">in</span> <span class="n">types_funcs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -782,15 +924,12 @@
             <span class="n">xf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">xf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">sum_df</span> <span class="o">=</span> <span class="n">summary_func</span><span class="p">(</span><span class="n">xf</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">col_type</span> <span class="o">!=</span> <span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">:</span>
-                <span class="c1"># timedelta doesn&#39;t play nicely with rounding</span>
-                <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">_dataframe_to_rich_table</span><span class="p">(</span>
-                        <span class="n">col_type</span><span class="p">,</span> <span class="n">_round_dataframe</span><span class="p">(</span><span class="n">sum_df</span><span class="p">)</span>  <span class="c1"># , **colour_kwargs</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_dataframe_to_rich_table</span><span class="p">(</span><span class="n">col_type</span><span class="p">,</span> <span class="n">sum_df</span><span class="p">))</span>
+            <span class="c1"># for rich tables, we need to stringify</span>
+            <span class="c1"># specialised and unsupported col types, such as datetime.date,</span>
+            <span class="c1"># that are actually registered as object type</span>
+            <span class="n">col_type_to_rich</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">col_type</span><span class="p">)</span>
+            <span class="n">list_of_tabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_dataframe_to_rich_table</span><span class="p">(</span><span class="n">col_type_to_rich</span><span class="p">,</span> <span class="n">sum_df</span><span class="p">))</span>
+            <span class="n">json_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">col_type_to_rich</span><span class="p">:</span> <span class="n">sum_df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()})</span>
     <span class="c1"># Put all of the info together</span>
     <span class="n">grid</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">tables_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dat_sum_table</span><span class="p">,</span> <span class="n">types_sum_table</span><span class="p">]</span>
@@ -802,7 +941,11 @@
         <span class="n">grid</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">sum_tab</span><span class="p">)</span>
     <span class="c1"># Weirdly, iteration over list of tabs misses last entry</span>
     <span class="n">grid</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">list_of_tabs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;skimpy summary&quot;</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;End&quot;</span><span class="p">))</span></div>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;skimpy summary&quot;</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;End&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">return_data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json_data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="clean_columns"><a class="viewcode-back" href="../api.html#skimpy.clean_columns">[docs]</a><span class="nd">@typechecked</span>
@@ -812,7 +955,7 @@
     <span class="n">replace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">remove_accents</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Clean messy column names of a pandas dataframe.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean messy column names of a pandas dataframe.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        df (pd.DataFrame): Dataframe from which column names are to be cleaned.</span>
@@ -859,7 +1002,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">case</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CASE_STYLES</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;case </span><span class="si">{</span><span class="n">case</span><span class="si">}</span><span class="s2"> is invalid, options are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CASE_STYLES</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;case </span><span class="si">{</span><span class="n">case</span><span class="si">}</span><span class="s2"> is invalid, options are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">CASE_STYLES</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Store original column names for creating cleaning report</span>
@@ -883,7 +1026,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_convert_case</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">case</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Convert case style of a column name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert case style of a column name.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name (Any): Column name.</span>
@@ -924,7 +1067,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_split_strip_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Split the string into separate words and strip punctuation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the string into separate words and strip punctuation.&quot;&quot;&quot;</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[!()*+\,\-./:;&lt;=&gt;?[\]^_{|}~]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\&#39;</span><span class="se">\&quot;</span><span class="s2">\`]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
 
@@ -935,7 +1078,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_split_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Split the string into separate words.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the string into separate words.&quot;&quot;&quot;</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\-_]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z][a-z]+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot; \1&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z]+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -943,7 +1086,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_replace_values</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Replace string values in the column name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace string values in the column name.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -971,7 +1114,7 @@
 
 <span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">_remove_accents</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the normal form for a Unicode string name using canonical decomposition.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the normal form for a Unicode string name using canonical decomposition.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">name</span>
 
@@ -979,8 +1122,8 @@
 
 
 <span class="nd">@typechecked</span>
-<span class="k">def</span> <span class="nf">_rename_duplicates</span><span class="p">(</span><span class="n">names</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">,</span> <span class="n">case</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Rename duplicated column names to append a number at the end.&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">_rename_duplicates</span><span class="p">(</span><span class="n">names</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">case</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rename duplicated column names to append a number at the end.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">case</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;snake&quot;</span><span class="p">,</span> <span class="s2">&quot;const&quot;</span><span class="p">}:</span>
         <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span>
     <span class="k">elif</span> <span class="n">case</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;camel&quot;</span><span class="p">,</span> <span class="s2">&quot;pascal&quot;</span><span class="p">}:</span>
@@ -1004,7 +1147,7 @@
 
 <div class="viewcode-block" id="generate_test_data"><a class="viewcode-back" href="../api.html#skimpy.generate_test_data">[docs]</a><span class="nd">@typechecked</span>
 <span class="k">def</span> <span class="nf">generate_test_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Generate dataframe with several different datatypes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate dataframe with several different datatypes.</span>
 
 <span class="sd">    For testing skimpy, it&#39;s convenient to have a dataset with many different</span>
 <span class="sd">    data types. This function creates that dataframe.</span>
@@ -1047,11 +1190,16 @@
     <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">22</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
     <span class="c1"># add a datetime column</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2018-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="n">len_df</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2018-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="n">len_df</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
         <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="s2">&quot;01/01/2022&quot;</span><span class="p">,</span> <span class="s2">&quot;03/04/2023&quot;</span><span class="p">,</span> <span class="s2">&quot;01/05/1992&quot;</span><span class="p">]))),</span> <span class="n">len_df</span>
     <span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;date_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">NaT</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime.date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime.date_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime_no_freq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;datetime_no_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">NaT</span>
+    <span class="n">timedelta_array</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">len_df</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">timedelta_array</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">120</span><span class="p">],</span> <span class="s2">&quot;time diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">NaT</span>
     <span class="k">return</span> <span class="n">df</span></div>
 </pre></div>
         </article>

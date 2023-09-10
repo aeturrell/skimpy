@@ -107,7 +107,7 @@ submit changes to this project.
 Your pull request needs to meet the following guidelines for acceptance:
 
 - The Nox test suite must pass without errors and warnings.
-- Include unit tests. This project aims to maintain 98% code
+- Include unit tests. This project aims to maintain 96% code
   coverage.
 - If your changes add functionality, update the documentation
   accordingly.
@@ -140,11 +140,11 @@ your approach.
 
 - Draft a new release based on that most recent merge commit, using the new version as the tag
 
-- Run `poetry build` to produce the distributable files
-
 - Confirm the release draft on gitub
 
 - The automatic release github action will push to PyPI.
+
+If you ever need distributable files, you can use the `poetry build` command locally.
 
 ## How to build the documentation
 

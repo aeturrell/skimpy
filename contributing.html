@@ -2,14 +2,14 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributor Code of Conduct" href="code_of_conduct.html" /><link rel="prev" title="Skimpy" href="index.html" />
         <link rel="canonical" href="https://aeturrell.github.io/skimpy/contributing.html" />
 
-    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 5.0.2 and Furo 2022.12.07 -->
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 5.0.2 and Furo 2023.03.27 -->
         <title>Contributing - Skimpy</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -243,18 +243,18 @@ Tracker</a>.</p>
 <li><p><a class="reference external" href="https://www.gnu.org/software/make/">Make</a></p></li>
 </ul>
 <p>Before you install poetry, you may wish to run</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry config virtualenvs.in-project <span class="nb">true</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>config<span class="w"> </span>virtualenvs.in-project<span class="w"> </span><span class="nb">true</span>
 </pre></div>
 </div>
 <p>to make poetry virtual environments get installed in the project folder. This makes it easier for VS Code to find the project kernel.</p>
 <p>Install the package with development requirements:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>install
 </pre></div>
 </div>
 <p>You can now run an interactive Python session, or the command-line
 interface:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run python
-$ poetry run skimpy
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python
+$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>skimpy
 </pre></div>
 </div>
 <p>To build the documentation, you will also need <a class="reference external" href="https://www.gnu.org/software/make/">Make</a>. You can build the docs locally with <code class="docutils literal notranslate"><span class="pre">make</span></code>, which runs a command to build the README and then another to build the website. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code> to remove the existing README. (Remember to use pre-commit after updating the documentation.)</p>
@@ -262,16 +262,16 @@ $ poetry run skimpy
 <section id="how-to-test-the-project">
 <h2>How to test the project<a class="headerlink" href="#how-to-test-the-project" title="Permalink to this heading">#</a></h2>
 <p>Run the full test suite:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run nox
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>nox
 </pre></div>
 </div>
 <p>List the available Nox sessions:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run nox --list-sessions
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>nox<span class="w"> </span>--list-sessions
 </pre></div>
 </div>
 <p>You can also run a specific Nox session. For example, invoke the unit
 test suite like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run nox --session<span class="o">=</span>tests
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>nox<span class="w"> </span>--session<span class="o">=</span>tests
 </pre></div>
 </div>
 <p>Unit tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory, and are written using
@@ -279,7 +279,7 @@ the <a class="reference external" href="https://pytest.readthedocs.io/">pytest</
 <p>You may need to use, for example, <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">run</span> <span class="pre">nox</span></code> to ensure that the
 tests are run in the right environment.</p>
 <p>For the pre-commit checks, use</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run pre-commit run --all-files
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 </pre></div>
 </div>
 </section>
@@ -290,7 +290,7 @@ submit changes to this project.</p>
 <p>Your pull request needs to meet the following guidelines for acceptance:</p>
 <ul class="simple">
 <li><p>The Nox test suite must pass without errors and warnings.</p></li>
-<li><p>Include unit tests. This project aims to maintain 98% code
+<li><p>Include unit tests. This project aims to maintain 96% code
 coverage.</p></li>
 <li><p>If your changes add functionality, update the documentation
 accordingly.</p></li>
@@ -301,7 +301,7 @@ accordingly.</p></li>
 <p>To run linting and code formatting checks before committing your change,
 you can install pre-commit as a Git hook by running the following
 command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run nox --session<span class="o">=</span>pre-commit -- install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>nox<span class="w"> </span>--session<span class="o">=</span>pre-commit<span class="w"> </span>--<span class="w"> </span>install
 </pre></div>
 </div>
 <p>It is recommended to open an issue before starting work on anything.
@@ -316,10 +316,10 @@ your approach.</p>
 <li><p>Commit the change with a new version label as the commit message (checking the tests pass)</p></li>
 <li><p>Head to github and merge into main</p></li>
 <li><p>Draft a new release based on that most recent merge commit, using the new version as the tag</p></li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">build</span></code> to produce the distributable files</p></li>
 <li><p>Confirm the release draft on gitub</p></li>
 <li><p>The automatic release github action will push to PyPI.</p></li>
 </ul>
+<p>If you ever need distributable files, you can use the <code class="docutils literal notranslate"><span class="pre">poetry</span> <span class="pre">build</span></code> command locally.</p>
 </section>
 <section id="how-to-build-the-documentation">
 <h2>How to build the documentation<a class="headerlink" href="#how-to-build-the-documentation" title="Permalink to this heading">#</a></h2>
@@ -328,7 +328,7 @@ your approach.</p>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">make</span></code></p></li>
 </ul>
 <p>To upload the documentation, it’s</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry run ghp-import -n -p -f docs/_build/html
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>ghp-import<span class="w"> </span>-n<span class="w"> </span>-p<span class="w"> </span>-f<span class="w"> </span>docs/_build/html
 </pre></div>
 </div>
 </section>
