@@ -62,6 +62,13 @@ NUM_COL_MEAN = "mean"
 COMPLETE_COL = "NA %"
 MISSING_COL = "NA"
 
+UNSUPPORTED_INFERRED_TYPES = [
+    "mixed-integer",
+    "mixed",
+    "mixed-integer-float",
+    "unknown-array",
+]
+
 
 @typechecked
 def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
@@ -88,8 +95,6 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "float64"
         elif col[1] == "timedelta64":
             data_type = "timedelta64[ns]"
-        elif col[1] == "timedelta64[ns]":
-            data_type = "timedelta64[ns]"
         elif col[1] == "datetime64":
             data_type = "datetime64[ns]"
         elif col[1] == "categorical":
@@ -103,8 +108,7 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             # later on, we will still be able to pick up "date" using
             # .select_dtypes, which is the important bit.
             continue
-        else:
-            data_type = col[1]
+        # There is no else statement here because logic should never get to this point.
         df[col[0]] = df[col[0]].astype(data_type)
     return df
 
@@ -505,6 +509,33 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
+def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """This will remove the pd.api.types.infer_dtype types that are not
+    supported.
+
+    Args:
+        df (pd.DataFrame): _description_
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    df_types = (
+        pd.DataFrame(df.apply(pd.api.types.infer_dtype, axis=0))
+        .reset_index()
+        .rename(columns={"index": "column", 0: "type"})
+    )
+    df_types["delete"] = df_types["type"].isin(UNSUPPORTED_INFERRED_TYPES)
+    for _, row in df_types.iterrows():
+        if row["delete"]:
+            df = df.drop(row["column"], axis=1)
+    if df.empty:
+        raise ValueError(
+            f"Your input dataframe only has unsupported column types, eg {', '.join(UNSUPPORTED_INFERRED_TYPES)}"
+        )
+    return df
+
+
+@typechecked
 def skim(
     df_in: pd.DataFrame, header_style: str = "bold cyan", **colour_kwargs: str
 ) -> None:
@@ -516,6 +547,8 @@ def skim(
     better results from ensuring that you set the datatypes in your dataframe
     you want before running skim.
     The colour_kwargs (str) are defined in _dataframe_to_rich_table.
+    Note that any unknown column types, or mixed column types, will not be
+    processed.
 
     Args:
         df_in (pd.DataFrame): Dataframe to skim
@@ -542,6 +575,8 @@ def skim(
 
     # Make a copy so as not to mess with dataframe
     df = df_in.copy()
+    # remove any columns with types that are not currently supported
+    df = _delete_unsupported_columns(df)
     # Perform inference of datatypes
     df = _infer_datatypes(df)
 
@@ -580,8 +615,8 @@ def skim(
         "category": _category_variable_summary_table,
         "bool": _bool_variable_summary_table,
         "datetime": _datetime_variable_summary_table,
-        datetime.date: _datetime_variable_summary_table,  # Re-use of fn intended.
         # Please note that datetime.date is not directly supported by pandas and registers as being of type "object"
+        datetime.date: _datetime_variable_summary_table,  # Re-use of fn intended.
         "timedelta64[ns]": _timedelta_variable_summary_table,
         "string": _string_variable_summary_table,
     }

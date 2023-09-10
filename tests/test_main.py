@@ -518,3 +518,45 @@ def test_24_round_series():
     assert list(_round_series(pd.Series(doubles_to_round)).values) == list(
         np.array([10000.0, 0.99, -0.64, 20.0])
     )
+
+
+def test_25_column_with_mixed_type():
+    """Columns of residual object type, or mixed columns, alongside useful ones."""
+    data_list = [
+        "How are you?",
+        23,
+        True,
+        304.92048,
+    ]
+    df = pd.DataFrame(data_list, columns=["object_col"], dtype="object")
+    # useful to throw in a date here as it's also of type object
+    df["date"] = pd.to_datetime("2003-01-01 00:00:00")
+    df["date"] = df["date"].dt.date
+    df["other_real_data"] = 55.008
+    skim(df)
+
+
+def test_26_only_unsupported_columns():
+    """test that an error is raised when only unsupported columns are passed."""
+    with pytest.raises(ValueError):
+        data_list = [
+            "How are you?",
+            23,
+            True,
+            304.92048,
+        ]
+        df = pd.DataFrame(data_list, columns=["object_col"], dtype="object")
+        skim(df)
+
+
+def test_27_missing_case_entered():
+    """Test for value error when case is misspecified."""
+    with pytest.raises(ValueError):
+        df = pd.DataFrame(
+            {
+                "FirstNom": ["Philip", "Turanga"],
+                "lastName": ["Fry", "Leela"],
+                "Téléphone": ["555-234-5678", "(604) 111-2335"],
+            }
+        )
+        clean_columns(df, case="FAKECASE", replace={"Nom": "Name"})
