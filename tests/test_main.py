@@ -13,6 +13,7 @@ from skimpy import _bool_variable_summary_table
 from skimpy import _convert_case
 from skimpy import _infer_datatypes
 from skimpy import _map_row_positions_to_text_style
+from skimpy import _replace_values
 from skimpy import _round_series
 from skimpy import _simplify_datetimes_in_array
 from skimpy import _string_variable_summary_table
@@ -82,6 +83,7 @@ def test_005_inference_datatypes() -> None:
     df["booly"] = [True, True, False]
     # as example that isn't supported
     df["complex"] = np.array([[1 + 1j], [1 + 1j], [1 + 1j]])
+    df["actual_date"] = df["date2"].dt.date
     df = _infer_datatypes(df)
     dtypes = df.dtypes.apply(lambda x: str(x)).str.split(r"(\d+)").str[0]
     assert list(dtypes) == [
@@ -93,6 +95,7 @@ def test_005_inference_datatypes() -> None:
         "datetime",
         "bool",
         "complex",
+        "object",
     ]
 
 
@@ -516,3 +519,62 @@ def test_24_round_series():
     assert list(_round_series(pd.Series(doubles_to_round)).values) == list(
         np.array([10000.0, 0.99, -0.64, 20.0])
     )
+
+
+def test_25_column_with_mixed_type():
+    """Columns of residual object type, or mixed columns, alongside useful ones."""
+    data_list = [
+        "How are you?",
+        23,
+        True,
+        304.92048,
+    ]
+    df = pd.DataFrame(data_list, columns=["object_col"], dtype="object")
+    # useful to throw in a date here as it's also of type object
+    df["date"] = pd.to_datetime("2003-01-01 00:00:00")
+    df["date"] = df["date"].dt.date
+    df["other_real_data"] = 55.008
+    skim(df)
+
+
+def test_26_only_unsupported_columns():
+    """test that an error is raised when only unsupported columns are passed."""
+    with pytest.raises(ValueError):
+        data_list = [
+            "How are you?",
+            23,
+            True,
+            304.92048,
+        ]
+        df = pd.DataFrame(data_list, columns=["object_col"], dtype="object")
+        skim(df)
+
+
+def test_27_missing_case_entered():
+    """Test for value error when case is misspecified."""
+    with pytest.raises(ValueError):
+        df = pd.DataFrame(
+            {
+                "FirstNom": ["Philip", "Turanga"],
+                "lastName": ["Fry", "Leela"],
+                "Téléphone": ["555-234-5678", "(604) 111-2335"],
+            }
+        )
+        clean_columns(df, case="FAKECASE", replace={"Nom": "Name"})
+
+
+def test_28_special_name_values():
+    """There are special null column names that complicate replace name ops."""
+    # yes, pandas lets you do this.
+    df = pd.DataFrame(
+        {
+            np.nan: ["Philip", "Turanga"],
+            None: ["Fry", "Leela"],
+            "": ["555-234-5678", "(604) 111-2335"],
+        }
+    )
+    ans_one = _replace_values(np.nan, {"Philip": "new_name"})
+    ans_two = _replace_values(None, {"Fry": "new_name"})
+    ans_three = _replace_values("", {"555-234-5678": "new_name"})
+    ans_list = [ans_one, ans_two, ans_three]
+    assert ans_list == [np.nan, None, ""]
