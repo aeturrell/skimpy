@@ -61,6 +61,7 @@ jupyter-book = "^0.15.1"
 furo = ">=2022.9.29,<2024.0.0"
 ghp-import = "^2.1.0"
 toml = "^0.10.2"
+typing-extensions = "^4.7.1"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
