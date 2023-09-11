@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "skimpy"
-version = "0.0.10"
+version = "0.0.11"
 description = "skimpy"
 authors = ["Arthur Turrell"]
 license = "MIT"
@@ -9,7 +9,7 @@ homepage = "https://aeturrell.github.io/skimpy/"
 repository = "https://github.com/aeturrell/skimpy"
 documentation = "https://aeturrell.github.io/skimpy/"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
