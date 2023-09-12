@@ -4394,13 +4394,13 @@ test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 
 [[package]]
 name = "typeguard"
-version = "4.1.4"
+version = "4.1.5"
 description = "Run-time type checker for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typeguard-4.1.4-py3-none-any.whl", hash = "sha256:342dff9923020018f3f1503eee9e32cbe97caa5f2f751388418bd458b68ede49"},
-    {file = "typeguard-4.1.4.tar.gz", hash = "sha256:be02ad8b191eefe7abc5818f846c905f56676a3f24aa5f1a783fda17825eee9b"},
+    {file = "typeguard-4.1.5-py3-none-any.whl", hash = "sha256:8923e55f8873caec136c892c3bed1f676eae7be57cdb94819281b3d3bc9c0953"},
+    {file = "typeguard-4.1.5.tar.gz", hash = "sha256:ea0a113bbc111bcffc90789ebb215625c963411f7096a7e9062d4e4630c155fd"},
 ]
 
 [package.dependencies]
@@ -4623,4 +4623,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0.0"
-content-hash = "1da856ece905e0eac43817edf00e938b9f7bf791d201e1e52402fc5f7fd2a50c"
+content-hash = "bdc833ec95c1f1dab29019cc46e4fc54e95a23c9653bd7aed2a3ba918a2259e8"
