@@ -3476,13 +3476,13 @@ rpds-py = ">=0.7.0"
 
 [[package]]
 name = "reorder-python-imports"
-version = "3.11.0"
+version = "3.12.0"
 description = "Tool for reordering python imports"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "reorder_python_imports-3.11.0-py2.py3-none-any.whl", hash = "sha256:1317e154f35b57130d6f2acd3df0abbeaac3c8a5c767454ff5bd4989d07dfdbe"},
-    {file = "reorder_python_imports-3.11.0.tar.gz", hash = "sha256:b39776d1f43083f6f537d14642a9b70ea6d7aa91a013330543d2ae7d12e2e7e2"},
+    {file = "reorder_python_imports-3.12.0-py2.py3-none-any.whl", hash = "sha256:930c23a42192b365e20e191a4d304d93e645bd44c242d8bc64accc4a3b2b0f3d"},
+    {file = "reorder_python_imports-3.12.0.tar.gz", hash = "sha256:f93106a662b0c034ca81c91fd1c2f21a1e94ece47c9f192672e2a13c8ec1856c"},
 ]
 
 [package.dependencies]
