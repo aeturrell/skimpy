@@ -2828,17 +2828,17 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polars"
-version = "0.19.9"
+version = "0.19.11"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.19.9-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:733525ad608b8668de3749aa21d1c61bd96944b1d88895765b34d8340421a1d2"},
-    {file = "polars-0.19.9-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:5091fe78dbf82a2e30380cd6e73a3411b65a1ea9dd55afd07065944534fa5246"},
-    {file = "polars-0.19.9-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5b3fc4b2ed02efa29855c8f4dbc26d2e45d2c1a586f6ae692489d3e7786abb27"},
-    {file = "polars-0.19.9-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:02314810dbdd0821645e7ce05a2295102992a229d46938c7f520ccde68625cc9"},
-    {file = "polars-0.19.9-cp38-abi3-win_amd64.whl", hash = "sha256:3c99bbe5ee2a2938fe750c8df429c42967d47e302b2b4b6dcb9b4267c8d42510"},
-    {file = "polars-0.19.9.tar.gz", hash = "sha256:4936b563c609c9def81c2a85ab856ee4b162d2d87566858671fd9f5cba49aa46"},
+    {file = "polars-0.19.11-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:de8158e5f09346ec4622057b7afa7e5339eed61c3c3e874b469c9cb27339df51"},
+    {file = "polars-0.19.11-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:c76c2107260a1ca8a57f02d77ea12dc4db2090d7404b814570474db0392ecf6b"},
+    {file = "polars-0.19.11-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a5c6cf2aa2d301230a80277f8711646453b89eadd6058baf30b7104f420daad2"},
+    {file = "polars-0.19.11-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2ac2890c96736dee83335b1f0b403233aba18b86760505e81eb9f96112afc55d"},
+    {file = "polars-0.19.11-cp38-abi3-win_amd64.whl", hash = "sha256:95be83cb0bbd2d608849e24a973ea3135bd25ae6ce7168e31ad25a02e7773122"},
+    {file = "polars-0.19.11.tar.gz", hash = "sha256:156eab31d9f9bac218bbd391559c667848372a5c584472784695e4fac087fd5b"},
 ]
 
 [package.extras]
