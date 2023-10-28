@@ -6,6 +6,7 @@ import re
 import sys
 from collections import defaultdict
 from itertools import chain
+from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import List
@@ -56,7 +57,6 @@ CASE_STYLES = {
     "upper",
 }
 
-console = Console()
 QUANTILES = [0, 0.25, 0.5, 0.75, 1]
 HIST_BINS = 6
 # NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
@@ -614,6 +614,7 @@ def skim_polars(
 def skim(
     df_in: pd.DataFrame,
     return_data: bool = False,
+    record_results_path: Union[str, None] = None,
     header_style: str = "bold cyan",
 ) -> Optional[JSON]:
     """Skim a pandas data frame and return statistics.
@@ -633,6 +634,7 @@ def skim(
     Args:
         df_in (pl.DataFrame): Dataframe to skim.
         return_data (bool): Whether to return dictionary of results.
+        record_results_path (str): name to save svg to, eg "results.svg"
         header_style (str): A style to use for headers. See Rich API Styles.
 
     Returns:
@@ -739,7 +741,10 @@ def skim(
         grid.add_row(sum_tab)
     # Weirdly, iteration over list of tabs misses last entry
     grid.add_row(list_of_tabs[-1])
+    console = Console(record=True)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
+    if record_results_path is not None:
+        console.save_svg(record_results_path)
     if return_data:
         return json_data
     else:

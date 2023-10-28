@@ -624,3 +624,9 @@ def test_30_running_with_polars():
     pandas_tbl_out = skim(df1.to_pandas(), return_data=True)
     polars_tbl_out = skim_polars(df1, return_data=True)
     assert pandas_tbl_out == polars_tbl_out
+
+
+def text_31_exporting_to_svg(tmp_path):
+    """Export results to a file."""
+    df = generate_test_data()
+    skim(df, record_results_path=tmp_path / "blah.svg")
