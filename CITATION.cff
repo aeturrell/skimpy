@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Want to cite this software? Use the below."
+authors:
+- family-names: "Turrell"
+  given-names: "Arthur"
+  orcid: "https://orcid.org/0000-0002-2525-0773"
+title: "Skimpy: a Python package for producing visual summary statistics of pandas and polars data frames"
+version: 0.0.11
+doi: https://pypi.org/project/skimpy/
+date-released: 2023-09-11
+url: "https://github.com/aeturrell/skimpy"
