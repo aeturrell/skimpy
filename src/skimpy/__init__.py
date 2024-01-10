@@ -3,15 +3,12 @@ from __future__ import annotations  # This is here to get 'dict' typing for <3.1
 
 import datetime
 import re
-import sys
 from collections import defaultdict
 from itertools import chain
-from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
-from typing import TypedDict
 from typing import Union
 from unicodedata import normalize
 
@@ -20,7 +17,6 @@ import pandas as pd
 import rich
 from numpy.random import Generator
 from numpy.random import PCG64
-from rich import print
 from rich.columns import Columns
 from rich.console import Console
 from rich.panel import Panel
@@ -92,8 +88,6 @@ UNSUPPORTED_INFERRED_TYPES = [
 try:
     JSON: TypeAlias = dict[str, dict[str, Any]]  # type: ignore
 except TypeError:
-    from typing import Dict
-
     JSON: TypeAlias = Dict[str, Dict[str, Any]]  # type: ignore
 
 
@@ -280,7 +274,7 @@ def _dataframe_to_rich_table(
         rows = _simplify_datetimes_in_array(rows)
     rows = [
         [
-            str(s).rstrip("0").rstrip(".") if ("." and type(s) == float) else s
+            str(s).rstrip("0").rstrip(".") if ("." and isinstance(s, float)) else s
             for s in row
         ]
         for row in rows
@@ -808,9 +802,6 @@ def clean_columns(
             f"case {case} is invalid, options are: {', '.join(c for c in CASE_STYLES)}"
         )
 
-    # Store original column names for creating cleaning report
-    orig_columns = df.columns.astype(str).tolist()
-
     if replace:
         df = df.rename(columns=lambda col: _replace_values(col, replace))
 
@@ -819,11 +810,6 @@ def clean_columns(
 
     df = df.rename(columns=lambda col: _convert_case(col, case))
     df.columns = _rename_duplicates(df.columns, case)
-    # Count the number of changed column names
-    new_columns = df.columns.astype(str).tolist()
-    cleaned = [
-        1 if new_columns[i] != orig_columns[i] else 0 for i in range(len(orig_columns))
-    ]
     return df
 
 
