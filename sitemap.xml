@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://aeturrell.github.io/skimpy/LICENSE.html</loc>
-    <lastmod>2024-01-17T18:17:31.985Z</lastmod>
+    <loc>https://aeturrell.github.io/skimpy/contributing.html</loc>
+    <lastmod>2024-01-17T18:19:27.902Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/features.html</loc>
+    <lastmod>2024-01-17T18:19:28.240Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/code_of_conduct.html</loc>
+    <lastmod>2024-01-17T18:19:28.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/skim_polars.html</loc>
+    <lastmod>2024-01-17T18:19:28.903Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/clean_columns.html</loc>
+    <lastmod>2024-01-17T18:19:29.227Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/index.html</loc>
+    <lastmod>2024-01-17T18:19:29.524Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/generate_test_data.html</loc>
+    <lastmod>2024-01-17T18:19:29.795Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/skim.html</loc>
+    <lastmod>2024-01-17T18:19:30.094Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/index.html</loc>
+    <lastmod>2024-01-17T18:19:30.422Z</lastmod>
   </url>
 </urlset>
