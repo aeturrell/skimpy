@@ -15,9 +15,10 @@ README.md: docs/index.ipynb
 
 # Build the github pages site
 site:
-		poetry run quartodoc build docs/
-		poetry run quarto render docs/ --execute
+		poetry run quartodoc build --config docs/_quarto.yml
+		cd docs; poetry run quarto render --execute
 		rm docs/.gitignore
+		poetry run nbstripout docs/*.ipynb
 		poetry run pre-commit run --all-files
 
 
