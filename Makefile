@@ -1,6 +1,6 @@
 # This makes the documentation and readme for skimpy
 
-.PHONY: all clean site
+.PHONY: all clean site publish
 
 all: README.md site
 
@@ -24,3 +24,11 @@ site:
 
 clean:
 	rm README.md
+
+
+
+publish:
+		cd docs;poetry run quarto publish gh-pages
+		rm docs/.gitignore
+		poetry run nbstripout docs/*.ipynb
+		poetry run pre-commit run --all-files
