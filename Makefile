@@ -1,6 +1,6 @@
 # This makes the documentation and readme for skimpy
 
-.PHONY: all clean site
+.PHONY: all clean site publish
 
 all: README.md site
 
@@ -15,7 +15,20 @@ README.md: docs/index.ipynb
 
 # Build the github pages site
 site:
-		poetry run jupyter-book build docs/
+		poetry run quartodoc build --config docs/_quarto.yml
+		cd docs; poetry run quarto render --execute
+		rm docs/.gitignore
+		poetry run nbstripout docs/*.ipynb
+		poetry run pre-commit run --all-files
+
 
 clean:
 	rm README.md
+
+
+
+publish:
+		cd docs;poetry run quarto publish gh-pages
+		rm docs/.gitignore
+		poetry run nbstripout docs/*.ipynb
+		poetry run pre-commit run --all-files

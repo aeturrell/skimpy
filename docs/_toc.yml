@@ -1,9 +1,0 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
-format: jb-book
-root: index
-chapters:
-- file: contributing
-- file: code_of_conduct
-- file: api.rst

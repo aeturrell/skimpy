@@ -1,4 +1,3 @@
-(contributing)=
 # Contributing
 
 Thank you for your interest in improving this project. This project is
@@ -11,7 +10,7 @@ Here is a list of important resources for contributors:
 - [Source Code](https://github.com/aeturrell/skimpy)
 - [Documentation](https://aeturrell.github.io/skimpy/)
 - [Issue Tracker](https://github.com/aeturrell/skimpy/issues)
-- {ref}`code_of_conduct`
+- [Code of Conduct](code_of_conduct.qmd)
 
 ## How to report a bug
 
@@ -30,8 +29,7 @@ steps to reproduce the issue.
 
 ## How to request a feature
 
-Request features on the [Issue
-Tracker](https://github.com/aeturrell/skimpy/issues).
+Request features on the [Issue Tracker](https://github.com/aeturrell/skimpy/issues).
 
 ## How to set up your development environment
 
@@ -41,6 +39,7 @@ You need Python and the following tools:
 - [Nox](https://nox.thea.codes/)
 - [nox-poetry](https://nox-poetry.readthedocs.io/)
 - [Make](https://www.gnu.org/software/make/)
+- [Quarto](https://quarto.org/)
 
 Before you install poetry, you may wish to run
 
@@ -48,7 +47,7 @@ Before you install poetry, you may wish to run
 poetry config virtualenvs.in-project true
 ```
 
-to make poetry virtual environments get installed in the project folder. This makes it easier for VS Code to find the project kernel.
+to make poetry virtual environments get installed in the project folder. This makes it easier for Visual Studio Code and other IDEs to find the project kernel.
 
 Install the package with development requirements:
 
@@ -64,7 +63,11 @@ $ poetry run python
 $ poetry run skimpy
 ```
 
-To build the documentation, you will also need [Make](https://www.gnu.org/software/make/). You can build the docs locally with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README. (Remember to use pre-commit after updating the documentation.)
+To build the documentation, you will also need [Make](https://www.gnu.org/software/make/) and [Quarto](https://quarto.org/) (these are non-Python dependencies).
+
+You can build the docs locally to look at them with `make`, which runs a command to build the README and then another to build the website which can then be found in `docs/_site/.` It's `make clean` to remove the existing README.
+
+To publish new docs to GitHub Pages (where the documentation is displayed as web pages), it's `make publish`—but only devs with admin rights will be able to execute this.
 
 ## How to test the project
 

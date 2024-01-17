@@ -10,7 +10,11 @@
 __pycache__/
 settings.json
 .DS_store
+/docs/.quarto/
 /.quarto/
 .venv/
-
+/docs_old/
+docs/reference/*
+docs/_sidebar.yml
 /.luarc.json
+docs/_site/
