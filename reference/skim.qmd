@@ -1,0 +1,45 @@
+# skim { #skimpy.skim }
+
+`skim(df_in, return_data=False, record_results_path=None, header_style='bold cyan')`
+
+Skim a pandas data frame and return statistics.
+
+skim is an alternative to pandas.DataFrame.describe(), quickly providing
+an overview of a data frame. It produces a different set of summary
+functions based on the types of columns in the dataframe. You may get
+better results from ensuring that you set the datatypes in your dataframe
+you want before running skim.
+
+Note that any unknown column types, or mixed column types, will not be
+processed.
+
+If return_data=True, this function also returns the skim table summary in
+a dictionary of results.
+
+## Parameters
+
+| Name                  | Type                    | Description                                      | Default       |
+|-----------------------|-------------------------|--------------------------------------------------|---------------|
+| `df_in`               | polars.polars.DataFrame | Dataframe to skim.                               | _required_    |
+| `return_data`         | bool                    | Whether to return dictionary of results.         | `False`       |
+| `record_results_path` | str                     | name to save svg to, eg "results.svg"            | `None`        |
+| `header_style`        | str                     | A style to use for headers. See Rich API Styles. | `'bold cyan'` |
+
+## Returns
+
+| Type                                                    | Description            |
+|---------------------------------------------------------|------------------------|
+| (typing.Optional, dict\[str, dict\[str, typing.Any\]\]) | optional results table |
+
+## Examples
+
+Skim a dataframe
+
+    >>> df = pd.DataFrame(
+            {
+            'col1': ['Philip', 'Turanga', 'bob'],
+            'col2': [50, 100, 70],
+            'col3': [False, True, True]
+            })
+    >>> df["col1"] = df["col1"].astype("string")
+    >>> skim(df)

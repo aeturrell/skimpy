@@ -1,0 +1,317 @@
+[
+  {
+    "objectID": "contributing.html",
+    "href": "contributing.html",
+    "title": "Contributing",
+    "section": "",
+    "text": "Thank you for your interest in improving this project. This project is open-source under the MIT license and welcomes contributions in the form of bug reports, feature requests, and pull requests.\nHere is a list of important resources for contributors:\n\nSource Code\nDocumentation\nIssue Tracker\nCode of Conduct\n\n\n\nReport bugs on the Issue Tracker.\nWhen filing an issue, make sure to answer these questions:\n\nWhich operating system and Python version are you using?\nWhich version of this project are you using?\nWhat did you do?\nWhat did you expect to see?\nWhat did you see instead?\n\nThe best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue.\n\n\n\nRequest features on the Issue Tracker.\n\n\n\nYou need Python and the following tools:\n\nPoetry\nNox\nnox-poetry\nMake\nQuarto\n\nBefore you install poetry, you may wish to run\npoetry config virtualenvs.in-project true\nto make poetry virtual environments get installed in the project folder. This makes it easier for Visual Studio Code and other IDEs to find the project kernel.\nInstall the package with development requirements:\n$ poetry install\nYou can now run an interactive Python session, or the command-line interface:\n$ poetry run python\n$ poetry run skimpy\nTo build the documentation, you will also need Make and Quarto (these are non-Python dependencies). You can build the docs locally with make, which runs a command to build the README and then another to build the website. make clean to remove the existing README.\n\n\n\nRun the full test suite:\n$ poetry run nox\nList the available Nox sessions:\n$ poetry run nox --list-sessions\nYou can also run a specific Nox session. For example, invoke the unit test suite like this:\n$ poetry run nox --session=tests\nUnit tests are located in the tests directory, and are written using the pytest testing framework.\nYou may need to use, for example, poetry run nox to ensure that the tests are run in the right environment.\nFor the pre-commit checks, use\n$ poetry run pre-commit run --all-files\n\n\n\nOpen a pull request to submit changes to this project.\nYour pull request needs to meet the following guidelines for acceptance:\n\nThe Nox test suite must pass without errors and warnings.\nInclude unit tests. This project aims to maintain 96% code coverage.\nIf your changes add functionality, update the documentation accordingly.\nRun make to generate the new documentation.\nRun the pre-commit suite before committing.\n\nFeel free to submit early, though—we can always iterate on this.\nTo run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:\n$ poetry run nox --session=pre-commit -- install\nIt is recommended to open an issue before starting work on anything. This will allow a chance to talk it over with the owners and validate your approach.\n\n\n\n\nOpen a new branch with the version name\nChange the version in pyproject.toml\nCommit the change with a new version label as the commit message (checking the tests pass)\nHead to github and merge into main\nDraft a new release based on that most recent merge commit, using the new version as the tag\nConfirm the release draft on gitub\nThe automatic release github action will push to PyPI.\n\nIf you ever need distributable files, you can use the poetry build command locally.\n\n\n\n\nRun make clean\nRun make\n\nTo upload the documentation, it’s\npoetry run ghp-import -n -p -f docs/_build/html"
+  },
+  {
+    "objectID": "contributing.html#how-to-report-a-bug",
+    "href": "contributing.html#how-to-report-a-bug",
+    "title": "Contributing",
+    "section": "",
+    "text": "Report bugs on the Issue Tracker.\nWhen filing an issue, make sure to answer these questions:\n\nWhich operating system and Python version are you using?\nWhich version of this project are you using?\nWhat did you do?\nWhat did you expect to see?\nWhat did you see instead?\n\nThe best way to get your bug fixed is to provide a test case, and/or steps to reproduce the issue."
+  },
+  {
+    "objectID": "contributing.html#how-to-request-a-feature",
+    "href": "contributing.html#how-to-request-a-feature",
+    "title": "Contributing",
+    "section": "",
+    "text": "Request features on the Issue Tracker."
+  },
+  {
+    "objectID": "contributing.html#how-to-set-up-your-development-environment",
+    "href": "contributing.html#how-to-set-up-your-development-environment",
+    "title": "Contributing",
+    "section": "",
+    "text": "You need Python and the following tools:\n\nPoetry\nNox\nnox-poetry\nMake\nQuarto\n\nBefore you install poetry, you may wish to run\npoetry config virtualenvs.in-project true\nto make poetry virtual environments get installed in the project folder. This makes it easier for Visual Studio Code and other IDEs to find the project kernel.\nInstall the package with development requirements:\n$ poetry install\nYou can now run an interactive Python session, or the command-line interface:\n$ poetry run python\n$ poetry run skimpy\nTo build the documentation, you will also need Make and Quarto (these are non-Python dependencies). You can build the docs locally with make, which runs a command to build the README and then another to build the website. make clean to remove the existing README."
+  },
+  {
+    "objectID": "contributing.html#how-to-test-the-project",
+    "href": "contributing.html#how-to-test-the-project",
+    "title": "Contributing",
+    "section": "",
+    "text": "Run the full test suite:\n$ poetry run nox\nList the available Nox sessions:\n$ poetry run nox --list-sessions\nYou can also run a specific Nox session. For example, invoke the unit test suite like this:\n$ poetry run nox --session=tests\nUnit tests are located in the tests directory, and are written using the pytest testing framework.\nYou may need to use, for example, poetry run nox to ensure that the tests are run in the right environment.\nFor the pre-commit checks, use\n$ poetry run pre-commit run --all-files"
+  },
+  {
+    "objectID": "contributing.html#how-to-submit-changes",
+    "href": "contributing.html#how-to-submit-changes",
+    "title": "Contributing",
+    "section": "",
+    "text": "Open a pull request to submit changes to this project.\nYour pull request needs to meet the following guidelines for acceptance:\n\nThe Nox test suite must pass without errors and warnings.\nInclude unit tests. This project aims to maintain 96% code coverage.\nIf your changes add functionality, update the documentation accordingly.\nRun make to generate the new documentation.\nRun the pre-commit suite before committing.\n\nFeel free to submit early, though—we can always iterate on this.\nTo run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:\n$ poetry run nox --session=pre-commit -- install\nIt is recommended to open an issue before starting work on anything. This will allow a chance to talk it over with the owners and validate your approach."
+  },
+  {
+    "objectID": "contributing.html#how-to-create-a-package-release",
+    "href": "contributing.html#how-to-create-a-package-release",
+    "title": "Contributing",
+    "section": "",
+    "text": "Open a new branch with the version name\nChange the version in pyproject.toml\nCommit the change with a new version label as the commit message (checking the tests pass)\nHead to github and merge into main\nDraft a new release based on that most recent merge commit, using the new version as the tag\nConfirm the release draft on gitub\nThe automatic release github action will push to PyPI.\n\nIf you ever need distributable files, you can use the poetry build command locally."
+  },
+  {
+    "objectID": "contributing.html#how-to-build-the-documentation",
+    "href": "contributing.html#how-to-build-the-documentation",
+    "title": "Contributing",
+    "section": "",
+    "text": "Run make clean\nRun make\n\nTo upload the documentation, it’s\npoetry run ghp-import -n -p -f docs/_build/html"
+  },
+  {
+    "objectID": "features.html",
+    "href": "features.html",
+    "title": "Features",
+    "section": "",
+    "text": "Skimpy provides:\nYou can find a full guide to the API on the reference pages."
+  },
+  {
+    "objectID": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "href": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "title": "Features",
+    "section": "Skim a dataframe and return the statistics",
+    "text": "Skim a dataframe and return the statistics\nIf you want to export your results to a dictionary, just pass return_data=True to the skim function and make sure there’s a left-hand side variable to copy the dictionary into. Of course, you can use this returned data in any further application as you need!\n\nfrom skimpy import skim\nfrom skimpy import generate_test_data\nfrom rich import print\nimport pandas as pd\n\ndf = generate_test_data()\n\nsummary = skim(df, return_data=True)\n\nAnd the dictionary has contents as follows:\n\nprint(summary)"
+  },
+  {
+    "objectID": "features.html#clean-up-messy-dataframe-column-names",
+    "href": "features.html#clean-up-messy-dataframe-column-names",
+    "title": "Features",
+    "section": "Clean up messy dataframe column names",
+    "text": "Clean up messy dataframe column names\nskimpy also comes with a clean_columns function as a convenience (with thanks to the dataprep package). This slugifies column names in pandas dataframes. For example,\n\nfrom skimpy import clean_columns\n\ncolumns = [\n    \"bs lncs;n edbn \",\n    \"Nín hǎo. Wǒ shì zhōng guó rén\",\n    \"___This is a test___\",\n    \"ÜBER Über German Umlaut\",\n]\nmessy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])\nprint(\"Column names:\")\nprint(list(messy_df.columns))\n\nNow let’s clean these—by default what we get back is in snake case:\n\nclean_df = clean_columns(messy_df)\nprint(list(clean_df.columns))\n\nOther naming conventions are available, for example camel case:\n\nclean_df = clean_columns(messy_df, case=\"camel\")\nprint(list(clean_df.columns))"
+  },
+  {
+    "objectID": "features.html#export-the-visual-summary-table-to-svg",
+    "href": "features.html#export-the-visual-summary-table-to-svg",
+    "title": "Features",
+    "section": "Export the visual summary table to SVG",
+    "text": "Export the visual summary table to SVG\nTo export the figure containing the table of summary statistics, pass an argument to skim’s record_results_path= keyword argument. This will save an SVG file to the given (relative) path."
+  },
+  {
+    "objectID": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "href": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "title": "Features",
+    "section": "Run skim on a csv file from the command line",
+    "text": "Run skim on a csv file from the command line\nAlthough it’s usually better to set datatypes before running skimpy on data, we provide a command line utility that can work with CSV files as a convenience.\nYou can run this with the below—but note that the command is skimpy, the name of the package, rather than skim, as in the Python function.\n$ skimpy file.csv"
+  },
+  {
+    "objectID": "code_of_conduct.html",
+    "href": "code_of_conduct.html",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n\n\nExamples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting\n\n\n\n\nCommunity leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.\n\n\n\nThis Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.\n\n\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident.\n\n\n\nCommunity leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community.\n\n\n\n\nThis Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
+    "objectID": "code_of_conduct.html#our-pledge",
+    "href": "code_of_conduct.html#our-pledge",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
+  },
+  {
+    "objectID": "code_of_conduct.html#our-standards",
+    "href": "code_of_conduct.html#our-standards",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Examples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting"
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement-responsibilities",
+    "href": "code_of_conduct.html#enforcement-responsibilities",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
+  },
+  {
+    "objectID": "code_of_conduct.html#scope",
+    "href": "code_of_conduct.html#scope",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement",
+    "href": "code_of_conduct.html#enforcement",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident."
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement-guidelines",
+    "href": "code_of_conduct.html#enforcement-guidelines",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community."
+  },
+  {
+    "objectID": "code_of_conduct.html#attribution",
+    "href": "code_of_conduct.html#attribution",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
+    "objectID": "reference/skim_polars.html",
+    "href": "reference/skim_polars.html",
+    "title": "skim_polars",
+    "section": "",
+    "text": "skim_polars(df_in, return_data=False, header_style='bold cyan')\nSkim a Polars data frame and return statistics.\nThis is a the skim you know and love, but for Polars dataframes.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\nIf return_data=True, this function also returns the skim table summary in a dictionary of results.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\npolars.polars.DataFrame\nDataframe to skim.\nrequired\n\n\nreturn_data\nbool\nWhether to return dictionary of results.\nFalse\n\n\nheader_style\nstr\nA style to use for headers. See Rich API Styles.\n'bold cyan'\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\n(typing.Optional, dict[str, dict[str, typing.Any]])\noptional results table"
+  },
+  {
+    "objectID": "reference/skim_polars.html#parameters",
+    "href": "reference/skim_polars.html#parameters",
+    "title": "skim_polars",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\npolars.polars.DataFrame\nDataframe to skim.\nrequired\n\n\nreturn_data\nbool\nWhether to return dictionary of results.\nFalse\n\n\nheader_style\nstr\nA style to use for headers. See Rich API Styles.\n'bold cyan'"
+  },
+  {
+    "objectID": "reference/skim_polars.html#returns",
+    "href": "reference/skim_polars.html#returns",
+    "title": "skim_polars",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\n(typing.Optional, dict[str, dict[str, typing.Any]])\noptional results table"
+  },
+  {
+    "objectID": "reference/clean_columns.html",
+    "href": "reference/clean_columns.html",
+    "title": "clean_columns",
+    "section": "",
+    "text": "clean_columns(df, case='snake', replace=None, remove_accents=True)\nClean messy column names in a pandas dataframe.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf\npandas.pandas.DataFrame\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\ntyping.Optional[typing.Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf case is not valid.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\npandas.pandas.DataFrame\npd.DataFrame: Dataframe with cleaned column names.\n\n\n\n\n\n\nClean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335"
+  },
+  {
+    "objectID": "reference/clean_columns.html#parameters",
+    "href": "reference/clean_columns.html#parameters",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf\npandas.pandas.DataFrame\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\ntyping.Optional[typing.Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue"
+  },
+  {
+    "objectID": "reference/clean_columns.html#raises",
+    "href": "reference/clean_columns.html#raises",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf case is not valid."
+  },
+  {
+    "objectID": "reference/clean_columns.html#returns",
+    "href": "reference/clean_columns.html#returns",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\npandas.pandas.DataFrame\npd.DataFrame: Dataframe with cleaned column names."
+  },
+  {
+    "objectID": "reference/clean_columns.html#examples",
+    "href": "reference/clean_columns.html#examples",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Clean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335"
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "Function reference",
+    "section": "",
+    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas data frame and return statistics.\n\n\nskim_polars\nSkim a Polars data frame and return statistics.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes."
+  },
+  {
+    "objectID": "reference/index.html#function-reference-1",
+    "href": "reference/index.html#function-reference-1",
+    "title": "Function reference",
+    "section": "",
+    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas data frame and return statistics.\n\n\nskim_polars\nSkim a Polars data frame and return statistics.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes."
+  },
+  {
+    "objectID": "reference/generate_test_data.html",
+    "href": "reference/generate_test_data.html",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "generate_test_data()\nGenerate a pandas dataframe with several different datatypes.\nFor testing skimpy, it’s convenient to have a dataset with many different data types. This function creates that dataframe.\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\npandas.pandas.DataFrame\npd.DataFrame: dataframe with columns spanning several data types.\n\n\n\n\n\n\nGenerate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()"
+  },
+  {
+    "objectID": "reference/generate_test_data.html#returns",
+    "href": "reference/generate_test_data.html#returns",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\npandas.pandas.DataFrame\npd.DataFrame: dataframe with columns spanning several data types."
+  },
+  {
+    "objectID": "reference/generate_test_data.html#examples",
+    "href": "reference/generate_test_data.html#examples",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "Generate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()"
+  },
+  {
+    "objectID": "reference/skim.html",
+    "href": "reference/skim.html",
+    "title": "skim",
+    "section": "",
+    "text": "skim(df_in, return_data=False, record_results_path=None, header_style='bold cyan')\nSkim a pandas data frame and return statistics.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\nIf return_data=True, this function also returns the skim table summary in a dictionary of results.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\npolars.polars.DataFrame\nDataframe to skim.\nrequired\n\n\nreturn_data\nbool\nWhether to return dictionary of results.\nFalse\n\n\nrecord_results_path\nstr\nname to save svg to, eg “results.svg”\nNone\n\n\nheader_style\nstr\nA style to use for headers. See Rich API Styles.\n'bold cyan'\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\n(typing.Optional, dict[str, dict[str, typing.Any]])\noptional results table\n\n\n\n\n\n\nSkim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)"
+  },
+  {
+    "objectID": "reference/skim.html#parameters",
+    "href": "reference/skim.html#parameters",
+    "title": "skim",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\npolars.polars.DataFrame\nDataframe to skim.\nrequired\n\n\nreturn_data\nbool\nWhether to return dictionary of results.\nFalse\n\n\nrecord_results_path\nstr\nname to save svg to, eg “results.svg”\nNone\n\n\nheader_style\nstr\nA style to use for headers. See Rich API Styles.\n'bold cyan'"
+  },
+  {
+    "objectID": "reference/skim.html#returns",
+    "href": "reference/skim.html#returns",
+    "title": "skim",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\n(typing.Optional, dict[str, dict[str, typing.Any]])\noptional results table"
+  },
+  {
+    "objectID": "reference/skim.html#examples",
+    "href": "reference/skim.html#examples",
+    "title": "skim",
+    "section": "",
+    "text": "Skim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Skimpy",
+    "section": "",
+    "text": "A light weight tool for creating summary statistics from dataframes.\nskimpy is a light weight tool that provides summary statistics about variables in pandas or Polars data frames within the console or your interactive Python window.\nThink of it as a super-charged version of pandas’ df.describe()."
+  },
+  {
+    "objectID": "index.html#quickstart",
+    "href": "index.html#quickstart",
+    "title": "Skimpy",
+    "section": "Quickstart",
+    "text": "Quickstart\nskim a pandas dataframe and produce summary statistics within the console using:\nfrom skimpy import skim\n\nskim(df)\nwhere df is a dataframe. Alternatively, use skim_polars() on Polars dataframes.\nIf you need to a dataset to try skimpy out on, you can use the built-in test Pandas data frame:\n\nfrom skimpy import skim, generate_test_data\n\ndf = generate_test_data()\nskim(df)\n\nIt is recommended that you set your datatypes before using skimpy (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the skim() function will try and guess what the datatypes of your columns are."
+  },
+  {
+    "objectID": "index.html#requirements",
+    "href": "index.html#requirements",
+    "title": "Skimpy",
+    "section": "Requirements",
+    "text": "Requirements\nYou can find a full list of requirements in the pyproject.toml file.\nYou can try this package out right now in your browser using this Google Colab notebook (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release)."
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "Skimpy",
+    "section": "Installation",
+    "text": "Installation\nYou can install the latest release of skimpy via pip from PyPI:\n$ pip install skimpy\nTo install the development version from git, use:\n$ pip install git+https://github.com/aeturrell/skimpy.git\nFor development, see contributing."
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Skimpy",
+    "section": "License",
+    "text": "License\nDistributed under the terms of the MIT license, skimpy is free and open source software."
+  },
+  {
+    "objectID": "index.html#issues",
+    "href": "index.html#issues",
+    "title": "Skimpy",
+    "section": "Issues",
+    "text": "Issues\nIf you encounter any problems, please file an issue along with a detailed description."
+  },
+  {
+    "objectID": "index.html#credits",
+    "href": "index.html#credits",
+    "title": "Skimpy",
+    "section": "Credits",
+    "text": "Credits\nThis project was generated from @cjolowicz's Hypermodern Python Cookiecutter template.\nskimpy was inspired by the R package skimr and by exploratory Python packages including ydata_profiling and dataprep, from which the clean_columns function comes.\nThis package would not have been possible without the Rich package.\nThe package is built with poetry, while the documentation is built with Quarto and Quartodoc (a Python package). Tests are run with nox.\nUsing skimpy in your paper? Let us know by raising an issue beginning with “citation” and we’ll add it to this page."
+  }
+]
