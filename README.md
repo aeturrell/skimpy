@@ -154,8 +154,10 @@ If you encounter any problems, please [file an issue](https://github.com/aeturre
 
 This project was generated from [\@cjolowicz](https://github.com/cjolowicz)\'s [Hypermodern Python Cookiecutter](https://github.com/cjolowicz/cookiecutter-hypermodern-python) template.
 
-skimpy was inspired by the R package [skimr](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [pandas_profiling](https://pandas-profiling.github.io/pandas-profiling) and [dataprep](https://dataprep.ai/), from which the `clean_columns` function comes.
+**skimpy** was inspired by the R package [**skimr**](https://docs.ropensci.org/skimr/articles/skimr.html) and by exploratory Python packages including [**ydata_profiling**](https://docs.profiling.ydata.ai) and [**dataprep**](https://dataprep.ai/), from which the `clean_columns` function comes.
 
-The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Quarto](https://quarto.org/) and [Quartodoc](https://github.com/machow/quartodoc). Tests are run with [nox](https://nox.thea.codes/en/stable/).
+This package would not have been possible without the [**Rich**](https://github.com/Textualize/rich) package.
+
+The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Quarto](https://quarto.org/) and [Quartodoc](https://github.com/machow/quartodoc) (a Python package). Tests are run with [nox](https://nox.thea.codes/en/stable/).
 
 Using **skimpy** in your paper? Let us know by raising an issue beginning with "citation" and we'll add it to this page.

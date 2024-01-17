@@ -29,8 +29,7 @@ steps to reproduce the issue.
 
 ## How to request a feature
 
-Request features on the [Issue
-Tracker](https://github.com/aeturrell/skimpy/issues).
+Request features on the [Issue Tracker](https://github.com/aeturrell/skimpy/issues).
 
 ## How to set up your development environment
 
@@ -40,6 +39,7 @@ You need Python and the following tools:
 - [Nox](https://nox.thea.codes/)
 - [nox-poetry](https://nox-poetry.readthedocs.io/)
 - [Make](https://www.gnu.org/software/make/)
+- [Quarto](https://quarto.org/)
 
 Before you install poetry, you may wish to run
 
@@ -47,7 +47,7 @@ Before you install poetry, you may wish to run
 poetry config virtualenvs.in-project true
 ```
 
-to make poetry virtual environments get installed in the project folder. This makes it easier for VS Code to find the project kernel.
+to make poetry virtual environments get installed in the project folder. This makes it easier for Visual Studio Code and other IDEs to find the project kernel.
 
 Install the package with development requirements:
 
@@ -63,7 +63,7 @@ $ poetry run python
 $ poetry run skimpy
 ```
 
-To build the documentation, you will also need [Make](https://www.gnu.org/software/make/). You can build the docs locally with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README. (Remember to use pre-commit after updating the documentation.)
+To build the documentation, you will also need [Make](https://www.gnu.org/software/make/) and [Quarto](https://quarto.org/) (these are non-Python dependencies). You can build the docs locally with `make`, which runs a command to build the README and then another to build the website. `make clean` to remove the existing README.
 
 ## How to test the project
 
