@@ -157,6 +157,4 @@ If you ever need distributable files, you can use the `poetry build` command loc
 
 To upload the documentation, it's
 
-```bash
-poetry run ghp-import -n -p -f docs/_build/html
-```
+- Run `make publish`
