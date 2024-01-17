@@ -215,7 +215,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can now run an interactive Python session, or the command-line interface:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> poetry run python</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> poetry run skimpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To build the documentation, you will also need <a href="https://www.gnu.org/software/make/">Make</a> and <a href="https://quarto.org/">Quarto</a> (these are non-Python dependencies). You can build the docs locally with <code>make</code>, which runs a command to build the README and then another to build the website. <code>make clean</code> to remove the existing README.</p>
+<p>To build the documentation, you will also need <a href="https://www.gnu.org/software/make/">Make</a> and <a href="https://quarto.org/">Quarto</a> (these are non-Python dependencies).</p>
+<p>You can build the docs locally to look at them with <code>make</code>, which runs a command to build the README and then another to build the website which can then be found in <code>docs/_site/.</code> It’s <code>make clean</code> to remove the existing README.</p>
+<p>To publish new docs to GitHub Pages (where the documentation is displayed as web pages), it’s <code>make publish</code>—but only devs with admin rights will be able to execute this.</p>
 </section>
 <section id="how-to-test-the-project" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-test-the-project">How to test the project</h2>
