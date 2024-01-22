@@ -762,7 +762,7 @@ def skim_get_figure(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
     if not isinstance(save_path, str):
         save_path_str = str(save_path)
-    if(sys.version_info.minor>9):
+    try:  # for python >=3.10
         match format.lower():
             case "svg":
                 console.save_svg(save_path_str)
@@ -772,7 +772,7 @@ def skim_get_figure(
                 console.save_text(save_path_str)
             case _:
                 raise ValueError("Format must be: svg, html, or text")
-    else:  # for python <3.10
+    except SyntaxError:  # for python <3.10
         if(format.lower() == "svg"):
             console.save_svg(save_path_str)
         elif(format.lower() == "html"):
