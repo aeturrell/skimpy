@@ -762,25 +762,24 @@ def skim_get_figure(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
     if not isinstance(save_path, str):
         save_path_str = str(save_path)
-    try:  # for python >=3.10
-        match format.lower():
-            case "svg":
-                console.save_svg(save_path_str)
-            case "html":
-                console.save_html(save_path_str)
-            case "text":
-                console.save_text(save_path_str)
-            case _:
-                raise ValueError("Format must be: svg, html, or text")
-    except SyntaxError:  # for python <3.10
-        if(format.lower() == "svg"):
-            console.save_svg(save_path_str)
-        elif(format.lower() == "html"):
-            console.save_html(save_path_str)
-        elif(format.lower() == "text"):
-            console.save_text(save_path_str)
-        else:
-            raise ValueError("Format must be: svg, html, or text")
+    # for when support is python >=3.10 only
+    # match format.lower():
+    #     case "svg":
+    #         console.save_svg(save_path_str)
+    #     case "html":
+    #         console.save_html(save_path_str)
+    #     case "text":
+    #         console.save_text(save_path_str)
+    #     case _:
+    #         raise ValueError("Format must be: svg, html, or text")
+    if(format.lower() == "svg"):
+        console.save_svg(save_path_str)
+    elif(format.lower() == "html"):
+        console.save_html(save_path_str)
+    elif(format.lower() == "text"):
+        console.save_text(save_path_str)
+    else:
+        raise ValueError("Format must be: svg, html, or text")
 
 
 @typechecked
