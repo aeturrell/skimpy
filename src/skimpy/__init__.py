@@ -3,6 +3,7 @@ from __future__ import annotations  # This is here to get 'dict' typing for <3.1
 
 import datetime
 import os
+import sys
 import re
 from collections import defaultdict
 from itertools import chain
@@ -761,13 +762,25 @@ def skim_get_figure(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
     if not isinstance(save_path, str):
         save_path_str = str(save_path)
-    match format.lower():
-        case "svg":
+    if(sys.version_info.minor>9):
+        match format.lower():
+            case "svg":
+                console.save_svg(save_path_str)
+            case "html":
+                console.save_html(save_path_str)
+            case "text":
+                console.save_text(save_path_str)
+            case _:
+                raise ValueError("Format must be: svg, html, or text")
+    else:  # for python <3.10
+        if(format.lower() == "svg"):
             console.save_svg(save_path_str)
-        case "html":
+        elif(format.lower() == "html"):
             console.save_html(save_path_str)
-        case "text":
+        elif(format.lower() == "text"):
             console.save_text(save_path_str)
+        else:
+            raise ValueError("Format must be: svg, html, or text")
 
 
 @typechecked
