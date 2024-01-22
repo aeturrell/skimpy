@@ -42,6 +42,7 @@ quartodoc:
         # the functions being documented in the package.
         # you can refer to anything: class methods, modules, etc..
         - skim
-        - skim_polars
+        - skim_get_data
+        - skim_get_figure
         - clean_columns
         - generate_test_data

@@ -2,6 +2,7 @@
 from __future__ import annotations  # This is here to get 'dict' typing for <3.10
 
 import datetime
+import os
 import re
 from collections import defaultdict
 from itertools import chain
@@ -9,9 +10,9 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import Union
 from unicodedata import normalize
-import os
 
 import numpy as np
 import pandas as pd
@@ -560,14 +561,14 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 @typechecked
 def _skim_computation(
     df_in: pd.DataFrame,
-) -> (Table.grid, JSON):
+) -> Tuple[rich.table.Table, JSON]:
     """Performs the under-the-hood summary statistics.
 
     Args:
         df_in (pd.DataFrame): Input pandas dataframe to create a summary of.
 
     Returns:
-        [Table.grid, JSON]: Rich table grid to print to console, JSON of summary stats.
+        [rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = df_in.name
@@ -698,8 +699,8 @@ def skim(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
-def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]):
-    if(isinstance(df_in, pl.DataFrame)):
+def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]) -> pd.DataFrame:
+    if isinstance(df_in, pl.DataFrame):
         df_out = df_in.to_pandas()
     else:
         df_out = df_in.copy()
@@ -709,7 +710,7 @@ def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]):
 @typechecked
 def skim_get_data(
     df_in: Union[pd.DataFrame, pl.DataFrame],
-) -> JSON:
+) -> Union[JSON, str]:
     """Skim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.
 
     skim is an alternative to pandas.DataFrame.describe(), quickly providing
@@ -725,7 +726,7 @@ def skim_get_data(
         df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to get summary statistics on.
 
     Returns:
-        JSON: Dictionary of summary statistics.
+        Union[JSON, str]: Dictionary of summary statistics.
     """
     df_out = _convert_to_pandas(df_in)
     _, json_data = _skim_computation(df_out)
@@ -758,13 +759,15 @@ def skim_get_figure(
     grid, _ = _skim_computation(df_out)
     console = Console(record=True)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
+    if not isinstance(save_path, str):
+        save_path_str = str(save_path)
     match format.lower():
         case "svg":
-            console.save_svg(save_path)
+            console.save_svg(save_path_str)
         case "html":
-            console.save_html(save_path)
+            console.save_html(save_path_str)
         case "text":
-            console.save_text(save_path)
+            console.save_text(save_path_str)
 
 
 @typechecked

@@ -633,7 +633,19 @@ def test_running_with_polars_return_data():
     assert pandas_tbl_out == polars_tbl_out
 
 
-def text_31_exporting_to_svg(tmp_path):
+def test_exporting_to_svg(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
-    skim(df, record_results_path=tmp_path / "blah.svg")
+    skim_get_figure(df, save_path=tmp_path / "blah.svg")
+
+
+def test_exporting_to_html(tmp_path):
+    """Export results to a file."""
+    df = generate_test_data()
+    skim_get_figure(df, save_path=tmp_path / "blah.html")
+
+
+def test_exporting_to_text(tmp_path):
+    """Export results to a file."""
+    df = generate_test_data()
+    skim_get_figure(df, save_path=tmp_path / "blah.txt")
