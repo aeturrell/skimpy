@@ -30,7 +30,7 @@ clean:
 publish:
 		poetry run quartodoc build --config docs/_quarto.yml
 		cd docs;poetry run quarto render --execute
-		cd docs;poetry run quarto publish gh-pages
+		cd docs;poetry run quarto publish gh-pages --no-render
 		rm docs/.gitignore
 		poetry run nbstripout docs/*.ipynb
 		poetry run pre-commit run --all-files
