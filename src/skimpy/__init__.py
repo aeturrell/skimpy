@@ -2,6 +2,7 @@
 from __future__ import annotations  # This is here to get 'dict' typing for <3.10
 
 import datetime
+import os
 import re
 from collections import defaultdict
 from itertools import chain
@@ -9,6 +10,7 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Tuple
 from typing import Union
 from unicodedata import normalize
 
@@ -557,95 +559,16 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def skim_polars(
-    df_in: pl.DataFrame,
-    return_data: bool = False,
-    header_style: str = "bold cyan",
-) -> Optional[JSON]:
-    """Skim a Polars data frame and return statistics.
-
-    This is a the skim you know and love, but for Polars dataframes.
-
-    skim is an alternative to pandas.DataFrame.describe(), quickly providing
-    an overview of a data frame. It produces a different set of summary
-    functions based on the types of columns in the dataframe. You may get
-    better results from ensuring that you set the datatypes in your dataframe
-    you want before running skim.
-
-    Note that any unknown column types, or mixed column types, will not be
-    processed.
-
-    If return_data=True, this function also returns the skim table summary in
-    a dictionary of results.
-
-    Args:
-        df_in (pl.DataFrame): Dataframe to skim.
-        return_data (bool): Whether to return dictionary of results.
-        header_style (str): A style to use for headers. See Rich API Styles.
-
-    Returns:
-        (Optional, dict[str, dict[str, Any]]): optional results table
-    """
-
-    df_out = df_in.to_pandas()
-    if return_data:
-        json_out = skim(
-            df_out,
-            return_data=return_data,
-            header_style=header_style,
-        )
-        return json_out
-    else:
-        skim(
-            df_out,
-            return_data=return_data,
-            header_style=header_style,
-        )
-        return None
-
-
-@typechecked
-def skim(
+def _skim_computation(
     df_in: pd.DataFrame,
-    return_data: bool = False,
-    record_results_path: Union[str, None] = None,
-    header_style: str = "bold cyan",
-) -> Optional[JSON]:
-    """Skim a pandas data frame and return statistics.
-
-    skim is an alternative to pandas.DataFrame.describe(), quickly providing
-    an overview of a data frame. It produces a different set of summary
-    functions based on the types of columns in the dataframe. You may get
-    better results from ensuring that you set the datatypes in your dataframe
-    you want before running skim.
-
-    Note that any unknown column types, or mixed column types, will not be
-    processed.
-
-    If return_data=True, this function also returns the skim table summary in
-    a dictionary of results.
+) -> Tuple[rich.table.Table, JSON]:
+    """Performs the under-the-hood summary statistics.
 
     Args:
-        df_in (pl.DataFrame): Dataframe to skim.
-        return_data (bool): Whether to return dictionary of results.
-        record_results_path (str): name to save svg to, eg "results.svg"
-        header_style (str): A style to use for headers. See Rich API Styles.
+        df_in (pd.DataFrame): Input pandas dataframe to create a summary of.
 
     Returns:
-        (Optional, dict[str, dict[str, Any]]): optional results table
-
-    Examples
-    --------
-    Skim a dataframe
-
-        >>> df = pd.DataFrame(
-                {
-                'col1': ['Philip', 'Turanga', 'bob'],
-                'col2': [50, 100, 70],
-                'col3': [False, True, True]
-                })
-        >>> df["col1"] = df["col1"].astype("string")
-        >>> skim(df)
+        [rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = df_in.name
@@ -659,6 +582,7 @@ def skim(
     # Perform inference of datatypes
     df = _infer_datatypes(df)
 
+    header_style = "bold cyan"  # fixed
     # main data dict
     json_data = {}
     # Data summary
@@ -735,14 +659,126 @@ def skim(
         grid.add_row(sum_tab)
     # Weirdly, iteration over list of tabs misses last entry
     grid.add_row(list_of_tabs[-1])
+    return grid, json_data
+
+
+@typechecked
+def skim(
+    df_in: Union[pd.DataFrame, pl.DataFrame],
+) -> None:
+    """Skim a pandas or polars dataframe and return visual summary statistics on it.
+
+    skim is an alternative to pandas.DataFrame.describe(), quickly providing
+    an overview of a data frame via a table displayed in the console. It produces a different set of summary
+    functions based on the types of columns in the dataframe. You may get
+    better results from ensuring that you set the datatypes in your dataframe
+    you want before running skim.
+
+    Note that any unknown column types, or mixed column types, will not be
+    processed.
+
+    Args:
+        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
+
+    Examples
+    --------
+    Skim a dataframe
+
+        >>> df = pd.DataFrame(
+                {
+                'col1': ['Philip', 'Turanga', 'bob'],
+                'col2': [50, 100, 70],
+                'col3': [False, True, True]
+                })
+        >>> df["col1"] = df["col1"].astype("string")
+        >>> skim(df)
+    """
+    df_out = _convert_to_pandas(df_in)
+    grid, json_data = _skim_computation(df_out)
     console = Console(record=True)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
-    if record_results_path is not None:
-        console.save_svg(record_results_path)
-    if return_data:
-        return json_data
+
+
+def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]) -> pd.DataFrame:
+    if isinstance(df_in, pl.DataFrame):
+        df_out = df_in.to_pandas()
     else:
-        return None
+        df_out = df_in.copy()
+    return df_out
+
+
+@typechecked
+def skim_get_data(
+    df_in: Union[pd.DataFrame, pl.DataFrame],
+) -> Union[JSON, str]:
+    """Skim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.
+
+    skim is an alternative to pandas.DataFrame.describe(), quickly providing
+    an overview of a data frame via a table of summary statistics. It produces a different set of summary
+    functions based on the types of columns in the dataframe. You may get
+    better results from ensuring that you set the datatypes in your dataframe
+    you want before running skim.
+
+    Note that any unknown column types, or mixed column types, will not be
+    processed.
+
+    Args:
+        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to get summary statistics on.
+
+    Returns:
+        Union[JSON, str]: Dictionary of summary statistics.
+    """
+    df_out = _convert_to_pandas(df_in)
+    _, json_data = _skim_computation(df_out)
+    return json_data
+
+
+@typechecked
+def skim_get_figure(
+    df_in: Union[pd.DataFrame, pl.DataFrame],
+    save_path: Union[os.PathLike, str],
+    format: str = "svg",
+) -> None:
+    """Skim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.
+
+    skim is an alternative to pandas.DataFrame.describe(), quickly providing
+    an overview of a data frame via a table of summary statistics. It produces a different set of summary
+    functions based on the types of columns in the dataframe. You may get
+    better results from ensuring that you set the datatypes in your dataframe
+    you want before running skim.
+
+    Note that any unknown column types, or mixed column types, will not be
+    processed.
+
+    Args:
+        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
+        save_path (Union[os.PathLike, str]): Path to save figure to (include extension).
+        format (str, optional): svg, html, or text. Defaults to "svg".
+    """
+    df_out = _convert_to_pandas(df_in)
+    grid, _ = _skim_computation(df_out)
+    console = Console(record=True)
+    console.print(Panel(grid, title="skimpy summary", subtitle="End"))
+    if not isinstance(save_path, str):
+        save_path_str = str(save_path)
+    # for when support is python >=3.10 only
+    # match format.lower():
+    #     case "svg":
+    #         console.save_svg(save_path_str)
+    #     case "html":
+    #         console.save_html(save_path_str)
+    #     case "text":
+    #         console.save_text(save_path_str)
+    #     case _:
+    #         raise ValueError("Format must be: svg, html, or text")
+    if format.lower() == "svg":
+        console.save_svg(save_path_str)
+    elif format.lower() == "html":
+        console.save_html(save_path_str)
+    elif format.lower() == "text":
+        console.save_text(save_path_str)
+    else:
+        raise ValueError("Format must be: svg, html, or text")
 
 
 @typechecked

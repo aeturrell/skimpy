@@ -22,7 +22,8 @@ from skimpy import _string_variable_summary_table
 from skimpy import clean_columns
 from skimpy import generate_test_data
 from skimpy import skim
-from skimpy import skim_polars
+from skimpy import skim_get_data
+from skimpy import skim_get_figure
 
 
 @pytest.fixture
@@ -44,12 +45,6 @@ def test_000_basic_functionality() -> None:
     """Tests that a skim of the test data works."""
     df = generate_test_data()
     skim(df)
-
-
-def test_002_header_style() -> None:
-    """Tests that the header style optional argument works."""
-    df = generate_test_data()
-    skim(df, header_style="italic green")
 
 
 def test_003_not_enough_datetimes() -> None:
@@ -595,7 +590,7 @@ def test_29_json_return_data():
         "bool_col": [True, False, True],
     }
     df = pd.DataFrame(data)
-    ret_json = skim(df, return_data=True)
+    ret_json = skim_get_data(df)
     # only compare keys because of Windows' integer preferences (int32 over int64)
     ret_json_keys = list(ret_json.keys())
     expected_output = [
@@ -621,12 +616,36 @@ def test_30_running_with_polars():
             "ham": ["a", "b", "c"],
         }
     )
-    pandas_tbl_out = skim(df1.to_pandas(), return_data=True)
-    polars_tbl_out = skim_polars(df1, return_data=True)
+    skim(df1)
+
+
+def test_running_with_polars_return_data():
+    """Tests the polars skim functionality."""
+    df1 = pl.DataFrame(
+        {
+            "foo": [1, 2, 3],
+            "bar": [6, 7, 8],
+            "ham": ["a", "b", "c"],
+        }
+    )
+    polars_tbl_out = skim_get_data(df1)
+    pandas_tbl_out = skim_get_data(df1.to_pandas())
     assert pandas_tbl_out == polars_tbl_out
 
 
-def text_31_exporting_to_svg(tmp_path):
+def test_exporting_to_svg(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
-    skim(df, record_results_path=tmp_path / "blah.svg")
+    skim_get_figure(df, save_path=tmp_path / "blah.svg")
+
+
+def test_exporting_to_html(tmp_path):
+    """Export results to a file."""
+    df = generate_test_data()
+    skim_get_figure(df, save_path=tmp_path / "blah.html")
+
+
+def test_exporting_to_text(tmp_path):
+    """Export results to a file."""
+    df = generate_test_data()
+    skim_get_figure(df, save_path=tmp_path / "blah.txt")
