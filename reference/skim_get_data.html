@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Skimpy – generate_test_data</title>
+<title>Skimpy – skim_get_data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/skim.html">Function reference</a></li><li class="breadcrumb-item"><a href="../reference/generate_test_data.html">generate_test_data</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/skim.html">Function reference</a></li><li class="breadcrumb-item"><a href="../reference/skim_get_data.html">skim_get_data</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -148,7 +148,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/skim_get_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../reference/skim_get_data.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">skim_get_data</span></a>
   </div>
 </li>
@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/generate_test_data.html" class="sidebar-item-text sidebar-link active">
+  <a href="../reference/generate_test_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">generate_test_data</span></a>
   </div>
 </li>
@@ -182,10 +182,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#skimpy.generate_test_data" id="toc-skimpy.generate_test_data" class="nav-link active" data-scroll-target="#skimpy.generate_test_data">generate_test_data</a>
+  <li><a href="#skimpy.skim_get_data" id="toc-skimpy.skim_get_data" class="nav-link active" data-scroll-target="#skimpy.skim_get_data">skim_get_data</a>
   <ul class="collapse">
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
   <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -195,17 +195,45 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="skimpy.generate_test_data" class="level1">
-<h1>generate_test_data</h1>
-<p><code>generate_test_data()</code></p>
-<p>Generate a pandas dataframe with several different datatypes.</p>
-<p>For testing skimpy, it’s convenient to have a dataset with many different data types. This function creates that dataframe.</p>
+<section id="skimpy.skim_get_data" class="level1">
+<h1>skim_get_data</h1>
+<p><code>skim_get_data(df_in)</code></p>
+<p>Skim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.</p>
+<p>skim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.</p>
+<p>Note that any unknown column types, or mixed column types, will not be processed.</p>
+<section id="parameters" class="level2">
+<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<table class="table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 51%">
+<col style="width: 32%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df_in</code></td>
+<td>typing.Union[pandas.pandas.DataFrame, polars.polars.DataFrame]</td>
+<td>Dataframe to get summary statistics on.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 72%">
+<col style="width: 39%">
+<col style="width: 60%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -215,16 +243,11 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>pandas.pandas.DataFrame</td>
-<td>pd.DataFrame: dataframe with columns spanning several data types.</td>
+<td>typing.Union[skimpy.JSON, str]</td>
+<td>Union[JSON, str]: Dictionary of summary statistics.</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<p>Generate test data to demonstrate how skimpy works.</p>
-<pre><code>&gt;&gt;&gt; df = generate_test_data()</code></pre>
 
 
 </section>

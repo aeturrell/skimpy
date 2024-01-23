@@ -148,8 +148,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/skim_polars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">skim_polars</span></a>
+  <a href="../reference/skim_get_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">skim_get_data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference/skim_get_figure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">skim_get_figure</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -197,17 +203,21 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><a href="../reference/skim.html#skimpy.skim">skim</a></td>
-<td>Skim a pandas data frame and return statistics.</td>
+<td>Skim a pandas or polars dataframe and return visual summary statistics on it.</td>
 </tr>
 <tr class="even">
-<td><a href="../reference/skim_polars.html#skimpy.skim_polars">skim_polars</a></td>
-<td>Skim a Polars data frame and return statistics.</td>
+<td><a href="../reference/skim_get_data.html#skimpy.skim_get_data">skim_get_data</a></td>
+<td>Skim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.</td>
 </tr>
 <tr class="odd">
+<td><a href="../reference/skim_get_figure.html#skimpy.skim_get_figure">skim_get_figure</a></td>
+<td>Skim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.</td>
+</tr>
+<tr class="even">
 <td><a href="../reference/clean_columns.html#skimpy.clean_columns">clean_columns</a></td>
 <td>Clean messy column names in a pandas dataframe.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../reference/generate_test_data.html#skimpy.generate_test_data">generate_test_data</a></td>
 <td>Generate a pandas dataframe with several different datatypes.</td>
 </tr>

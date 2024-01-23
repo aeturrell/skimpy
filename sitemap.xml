@@ -2,38 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aeturrell.github.io/skimpy/contributing.html</loc>
-    <lastmod>2024-01-17T21:11:14.784Z</lastmod>
+    <lastmod>2024-01-23T09:08:15.789Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/features.html</loc>
-    <lastmod>2024-01-17T21:11:15.152Z</lastmod>
+    <lastmod>2024-01-23T09:08:16.145Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/code_of_conduct.html</loc>
-    <lastmod>2024-01-17T21:11:15.519Z</lastmod>
+    <lastmod>2024-01-23T09:08:16.513Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/reference/skim_polars.html</loc>
-    <lastmod>2024-01-17T21:11:15.808Z</lastmod>
+    <lastmod>2024-01-23T09:08:16.799Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/reference/clean_columns.html</loc>
-    <lastmod>2024-01-17T21:11:16.126Z</lastmod>
+    <lastmod>2024-01-23T09:08:17.108Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/reference/index.html</loc>
-    <lastmod>2024-01-17T21:11:16.397Z</lastmod>
+    <lastmod>2024-01-23T09:08:17.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/skim_get_data.html</loc>
+    <lastmod>2024-01-23T09:08:17.671Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/reference/generate_test_data.html</loc>
-    <lastmod>2024-01-17T21:11:16.658Z</lastmod>
+    <lastmod>2024-01-23T09:08:17.942Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/reference/skim.html</loc>
-    <lastmod>2024-01-17T21:11:16.952Z</lastmod>
+    <lastmod>2024-01-23T09:08:18.222Z</lastmod>
+  </url>
+  <url>
+    <loc>https://aeturrell.github.io/skimpy/reference/skim_get_figure.html</loc>
+    <lastmod>2024-01-23T09:08:18.504Z</lastmod>
   </url>
   <url>
     <loc>https://aeturrell.github.io/skimpy/index.html</loc>
-    <lastmod>2024-01-17T21:11:17.299Z</lastmod>
+    <lastmod>2024-01-23T09:08:18.844Z</lastmod>
   </url>
 </urlset>
