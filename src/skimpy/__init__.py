@@ -3,8 +3,8 @@ from __future__ import annotations  # This is here to get 'dict' typing for <3.1
 
 import datetime
 import os
-import sys
 import re
+import sys
 from collections import defaultdict
 from itertools import chain
 from typing import Any
@@ -772,11 +772,11 @@ def skim_get_figure(
     #         console.save_text(save_path_str)
     #     case _:
     #         raise ValueError("Format must be: svg, html, or text")
-    if(format.lower() == "svg"):
+    if format.lower() == "svg":
         console.save_svg(save_path_str)
-    elif(format.lower() == "html"):
+    elif format.lower() == "html":
         console.save_html(save_path_str)
-    elif(format.lower() == "text"):
+    elif format.lower() == "text":
         console.save_text(save_path_str)
     else:
         raise ValueError("Format must be: svg, html, or text")
