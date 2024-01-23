@@ -4,7 +4,6 @@ from __future__ import annotations  # This is here to get 'dict' typing for <3.1
 import datetime
 import os
 import re
-import sys
 from collections import defaultdict
 from itertools import chain
 from typing import Any
