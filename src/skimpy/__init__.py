@@ -761,6 +761,8 @@ def skim_get_figure(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
     if not isinstance(save_path, str):
         save_path_str = str(save_path)
+    else:
+        save_path_str = save_path
     # for when support is python >=3.10 only
     # match format.lower():
     #     case "svg":
