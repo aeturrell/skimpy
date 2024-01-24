@@ -44,7 +44,7 @@ xdoctest = {extras = ["colors"], version = "^1.1.1"}
 pre-commit = "^3.3.1"
 flake8 = ">=5.0.4,<8.0.0"
 flake8-bandit = "^4.1.1"
-flake8-bugbear = "^23.3.12"
+flake8-bugbear = ">=23.3.12,<25.0.0"
 flake8-docstrings = "^1.7.0"
 flake8-rst-docstrings = "^0.3.0"
 pep8-naming = "^0.13.3"
