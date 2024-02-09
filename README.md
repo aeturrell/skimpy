@@ -40,7 +40,7 @@ skim(df)
 
 where `df` is a dataframe. Alternatively, use `skim_polars()` on **Polars** dataframes.
 
-If you need to a dataset to try _skimpy_ out on, you can use the built-in test **Pandas** data frame:
+If you need a dataset to try _skimpy_ out on, you can use the built-in test **Pandas** data frame:
 
 ```python
 from skimpy import skim, generate_test_data
