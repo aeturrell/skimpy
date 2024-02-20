@@ -2925,17 +2925,17 @@ dev = ["black (==23.9.0)", "build", "coveralls", "ghp-import", "ipython", "jupyt
 
 [[package]]
 name = "polars"
-version = "0.20.8"
+version = "0.20.10"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.20.8-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:73f1d369aeddda5f11411b6497f697f2471bbe6ae55fd936677a10a40995c83c"},
-    {file = "polars-0.20.8-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:dc3a446fe606095b3ad6df3cf3dddd8ad54be7745f255fedb29f8bdf71a60760"},
-    {file = "polars-0.20.8-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d3d58ebc7a24d26930535d06b8772e125038a87a6abab4c5dfd87ea19bba61f3"},
-    {file = "polars-0.20.8-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:5b733816ac61156c12bd0edd6d7c1a5e63859830ce0e425b6450b335024f0cd5"},
-    {file = "polars-0.20.8-cp38-abi3-win_amd64.whl", hash = "sha256:2300f48ff7120eefe2cac2113990d0b0b5beedad93266b9fedfc8df133e7b13b"},
-    {file = "polars-0.20.8.tar.gz", hash = "sha256:a34f6ce1c5469872b291aaf90467e632e81f92dec6c2e18136bc40cd92877411"},
+    {file = "polars-0.20.10-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:14b126dbe626c8df34a9cc1449dea270dbafd64deff88fc3620046e69e06f84c"},
+    {file = "polars-0.20.10-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:6d5f485dba006aa1ce443980b351a5cb8ff481cbbc51343debfbf66fb9594269"},
+    {file = "polars-0.20.10-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ff934fe816856db7b72565b35abf1656db485772cd3bc5631071cef7ec1d10c7"},
+    {file = "polars-0.20.10-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:f5b7222ca39a4cbd286d9927d4924d2bc2ce6d7fc83a256bfd20b4199482722f"},
+    {file = "polars-0.20.10-cp38-abi3-win_amd64.whl", hash = "sha256:082a22c0c1bfa1fe0c24198e646ffb19478b893f594ecf8e330c7cdc136f6e6b"},
+    {file = "polars-0.20.10.tar.gz", hash = "sha256:ab32a232916df61c9377edcb5893d0b1624d810444d8fa627f9885d33819a8b7"},
 ]
 
 [package.extras]
