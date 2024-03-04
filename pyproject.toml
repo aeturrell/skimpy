@@ -35,7 +35,7 @@ quartodoc = "^0.7.2"
 skimpy = "skimpy.__main__:main"
 
 [tool.poetry.group.dev.dependencies]
-nox = "^2023.4.22"
+nox = ">=2023.4.22,<2025.0.0"
 pytest = ">=7.4,<9.0"
 coverage = {extras = ["toml"], version = "^7.2"}
 safety = ">=2.3.5,<4.0.0"
