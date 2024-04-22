@@ -1,4 +1,5 @@
 """Test cases for the __main__ module."""
+
 import datetime
 import subprocess
 
@@ -71,7 +72,7 @@ def test_005_inference_datatypes() -> None:
     df = pd.DataFrame(data, columns=["date", "float", "string", "integer"])
     df["cat"] = ["a", "b", "b"]
     df["cat"] = df["cat"].astype("category")
-    df["date2"] = pd.date_range(start="2001-01-01", periods=3, freq="M")
+    df["date2"] = pd.date_range(start="2001-01-01", periods=3, freq="ME")
     df["booly"] = [True, True, False]
     # as example that isn't supported
     df["complex"] = np.array([[1 + 1j], [1 + 1j], [1 + 1j]])
@@ -120,7 +121,7 @@ def test_006_test_row_map() -> None:
 def test_007_simplify_datetimes_in_array() -> None:
     """Tests whether datetimes in an array are simplified."""
     df = pd.DataFrame()
-    df["date"] = pd.date_range(start="2001-01-01", periods=3, freq="M")
+    df["date"] = pd.date_range(start="2001-01-01", periods=3, freq="ME")
     df = pd.concat(
         [
             df,
@@ -563,14 +564,6 @@ def test_27_missing_case_entered():
 
 def test_28_special_name_values():
     """There are special null column names that complicate replace name ops."""
-    # yes, pandas lets you do this.
-    df = pd.DataFrame(
-        {
-            np.nan: ["Philip", "Turanga"],
-            None: ["Fry", "Leela"],
-            "": ["555-234-5678", "(604) 111-2335"],
-        }
-    )
     ans_one = _replace_values(np.nan, {"Philip": "new_name"})
     ans_two = _replace_values(None, {"Fry": "new_name"})
     ans_three = _replace_values("", {"555-234-5678": "new_name"})
@@ -649,3 +642,23 @@ def test_exporting_to_text(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
     skim_get_figure(df, save_path=tmp_path / "blah.txt")
+
+
+def test_cleaning_polars_columns():
+    """Tests the polars rename columns functionality."""
+    bad_columns = [
+        "bs lncs;n edbn ",
+        "Nín hǎo. Wǒ shì zhōng guó rén",
+        "___This is a test___",
+        "ÜBER Über German Umlaut",
+    ]
+    df = pl.DataFrame(
+        {
+            bad_columns[0]: [1, 2, 3, 4],
+            bad_columns[1]: [1, 2, 3, 4],
+            bad_columns[2]: [1, 2, 3, 4],
+            bad_columns[3]: [1, 2, 3, 4],
+        }
+    )
+    df = clean_columns(df)
+    assert list(df.columns) != bad_columns

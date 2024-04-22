@@ -1,4 +1,5 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
+
 from __future__ import annotations  # This is here to get 'dict' typing for <3.10
 
 import datetime
@@ -137,16 +138,16 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def _round_series(s: pd.Series) -> pd.Series:
-    """Rounds numerical series to 2 s.f.
+def _round_series(s: pd.Series, places=2) -> pd.Series:
+    """Rounds numerical series to places number of significant figures
 
     Args:
         s (pd.Series): Input series
 
     Returns:
-        pd.Series: Series with numbers rounded to 2 s.f.
+        pd.Series: Series with numbers rounded to places s.f.
     """
-    s = s.apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
+    s = s.apply(lambda x: float(f'{float(f"{x:.{places}g}"):g}'))
     return s
 
 
@@ -342,6 +343,7 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
 @typechecked
 def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have numeric type.
+    WARNING: this usually rounds to 4 significant figures.
 
     Args:
         xf (pd.DataFrame): Dataframe with columns of only numeric types
@@ -354,14 +356,14 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
-        NUM_COL_MEAN: _round_series(xf.mean()),
-        "sd": _round_series(xf.std()),
+        NUM_COL_MEAN: _round_series(xf.mean(), 4),
+        "sd": _round_series(xf.std(), 4),
     }
     display_quantiles_as_pct = 100
     quantiles_dict = dict(
         zip(
             ["p" + str(int(x * display_quantiles_as_pct)) for x in QUANTILES],
-            [_round_series(xf.quantile(x)) for x in QUANTILES],
+            [_round_series(xf.quantile(x), 4) for x in QUANTILES],
         )
     )
     data_dict.update(quantiles_dict)
@@ -693,6 +695,11 @@ def skim(
         >>> df["col1"] = df["col1"].astype("string")
         >>> skim(df)
     """
+    if isinstance(df_in.columns, pd.MultiIndex):
+        raise NotImplementedError(
+            "Skimpy does not currently support multi-column indexes. Try using a simple column structure."
+        )
+
     df_out = _convert_to_pandas(df_in)
     grid, json_data = _skim_computation(df_out)
     console = Console(record=True)
@@ -785,15 +792,15 @@ def skim_get_figure(
 
 @typechecked
 def clean_columns(
-    df: pd.DataFrame,
+    df: Union[pd.DataFrame, pl.DataFrame],
     case: str = "snake",
     replace: Optional[Dict[str, str]] = None,
     remove_accents: bool = True,
-) -> pd.DataFrame:
+) -> Union[pd.DataFrame, pl.DataFrame]:
     """Clean messy column names in a pandas dataframe.
 
     Args:
-        df (pd.DataFrame): Dataframe from which column names are to be cleaned.
+        df (Union[pd.DataFrame, pl.DataFrame]): Dataframe from which column names are to be cleaned.
         case (str, optional): The desired case style of the column name. Defaults to "snake".
 
                 - 'snake' produces 'column_name';
@@ -816,7 +823,7 @@ def clean_columns(
         ValueError: If case is not valid.
 
     Returns:
-        pd.DataFrame: Dataframe with cleaned column names.
+        (Union[pd.DataFrame, pl.DataFrame]): Dataframe with cleaned column names.
 
     Examples
     --------
@@ -840,13 +847,21 @@ def clean_columns(
             f"case {case} is invalid, options are: {', '.join(c for c in CASE_STYLES)}"
         )
 
-    if replace:
+    if replace and isinstance(df, pd.DataFrame):
         df = df.rename(columns=lambda col: _replace_values(col, replace))
+    elif replace:
+        df = df.rename(lambda col: _replace_values(col, replace))
 
-    if remove_accents:
+    if remove_accents and isinstance(df, pd.DataFrame):
         df = df.rename(columns=_remove_accents)
+    elif remove_accents:
+        df = df.rename(_remove_accents)
 
-    df = df.rename(columns=lambda col: _convert_case(col, case))
+    if isinstance(df, pd.DataFrame):
+        df = df.rename(columns=lambda col: _convert_case(col, case))
+    else:
+        df = df.rename(lambda col: _convert_case(col, case))
+
     df.columns = _rename_duplicates(df.columns, case)
     return df
 
@@ -1017,7 +1032,7 @@ def generate_test_data() -> pd.DataFrame:
     df.loc[[3, 5, 8, 9, 14, 22], "text"] = None
     df["text"] = df["text"].astype("string")
     # add a datetime column
-    df["datetime"] = pd.date_range("2018-01-01", periods=len_df, freq="M")
+    df["datetime"] = pd.date_range("2018-01-01", periods=len_df, freq="ME")
     df["datetime_no_freq"] = rng.choice(
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )

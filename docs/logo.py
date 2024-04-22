@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.font_manager import FontProperties
-from matplotlib.patheffects import Normal
 from matplotlib.patheffects import Stroke
 
 

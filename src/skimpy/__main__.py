@@ -1,4 +1,5 @@
 """Command-line interface for skimpy."""
+
 import click
 import pandas as pd
 

@@ -3,6 +3,7 @@ This file takes the automatically generated readme and polishes it a bit by:
 1) adding the logo to the top of the page
 2) adding a link to the documentation website
 """
+
 import re
 
 fname = "README.md"
