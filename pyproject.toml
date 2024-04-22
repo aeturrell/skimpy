@@ -55,14 +55,13 @@ Pygments = "^2.9.0"
 autopep8 = "^2.0.0"
 matplotlib = "^3.7.1"
 nbstripout = ">=0.6.1,<0.8.0"
-black = ">=22.12,<25.0"
-furo = ">=2022.9.29,<2024.0.0"
 ghp-import = "^2.1.0"
 toml = "^0.10.2"
 typing-extensions = "^4.7.1"
 polars = ">=0.19.2,<0.21.0"
 pyarrow = ">=13,<16"
 jupyter = "^1.0.0"
+ruff = "^0.4.1"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

@@ -1,4 +1,5 @@
 """Test cases for the __main__ module."""
+
 import datetime
 import subprocess
 
@@ -563,14 +564,6 @@ def test_27_missing_case_entered():
 
 def test_28_special_name_values():
     """There are special null column names that complicate replace name ops."""
-    # yes, pandas lets you do this.
-    df = pd.DataFrame(
-        {
-            np.nan: ["Philip", "Turanga"],
-            None: ["Fry", "Leela"],
-            "": ["555-234-5678", "(604) 111-2335"],
-        }
-    )
     ans_one = _replace_values(np.nan, {"Philip": "new_name"})
     ans_two = _replace_values(None, {"Fry": "new_name"})
     ans_three = _replace_values("", {"555-234-5678": "new_name"})

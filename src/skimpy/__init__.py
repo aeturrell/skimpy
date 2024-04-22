@@ -1,4 +1,5 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
+
 from __future__ import annotations  # This is here to get 'dict' typing for <3.10
 
 import datetime
