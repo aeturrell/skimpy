@@ -30,9 +30,6 @@ typeguard = "4.2.1"
 polars = { version = ">=0.19,<0.21", optional = true }
 pyarrow = { version = ">=13,<16", optional = true }
 
-[tool.poetry.extras]
-polars = ["polars"]
-
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"
 
