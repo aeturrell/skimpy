@@ -138,16 +138,16 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def _round_series(s: pd.Series) -> pd.Series:
-    """Rounds numerical series to 2 s.f.
+def _round_series(s: pd.Series, places=2) -> pd.Series:
+    """Rounds numerical series to places number of significant figures
 
     Args:
         s (pd.Series): Input series
 
     Returns:
-        pd.Series: Series with numbers rounded to 2 s.f.
+        pd.Series: Series with numbers rounded to places s.f.
     """
-    s = s.apply(lambda x: float(f'{float(f"{x:.2g}"):g}'))
+    s = s.apply(lambda x: float(f'{float(f"{x:.{places}g}"):g}'))
     return s
 
 
@@ -343,6 +343,7 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
 @typechecked
 def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     """Summarise dataframe columns that have numeric type.
+    WARNING: this usually rounds to 4 significant figures.
 
     Args:
         xf (pd.DataFrame): Dataframe with columns of only numeric types
@@ -355,14 +356,14 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
-        NUM_COL_MEAN: _round_series(xf.mean()),
-        "sd": _round_series(xf.std()),
+        NUM_COL_MEAN: _round_series(xf.mean(), 4),
+        "sd": _round_series(xf.std(), 4),
     }
     display_quantiles_as_pct = 100
     quantiles_dict = dict(
         zip(
             ["p" + str(int(x * display_quantiles_as_pct)) for x in QUANTILES],
-            [_round_series(xf.quantile(x)) for x in QUANTILES],
+            [_round_series(xf.quantile(x), 4) for x in QUANTILES],
         )
     )
     data_dict.update(quantiles_dict)

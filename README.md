@@ -22,6 +22,8 @@ A light weight tool for creating summary statistics from dataframes.
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
+
+
 **skimpy** is a light weight tool that provides summary statistics about variables in **pandas** or **Polars** data frames within the console or your interactive Python window.
 
 Think of it as a super-charged version of **pandas**' `df.describe()`.
@@ -29,7 +31,7 @@ Think of it as a super-charged version of **pandas**' `df.describe()`.
 
 ## Quickstart
 
-`skim` a **pandas** dataframe and produce summary statistics within the console
+`skim` a **pandas** or **polars** dataframe and produce summary statistics within the console
 using:
 
 ```python
@@ -38,9 +40,10 @@ from skimpy import skim
 skim(df)
 ```
 
-where `df` is a dataframe. Alternatively, use `skim_polars()` on **Polars** dataframes.
+where `df` is a **pandas** or **polars** dataframe.
 
-If you need a dataset to try _skimpy_ out on, you can use the built-in test **Pandas** data frame:
+If you need to a dataset to try *skimpy* out on, you can use the built-in test **Pandas** data frame:
+
 
 ```python
 from skimpy import skim, generate_test_data
@@ -48,6 +51,7 @@ from skimpy import skim, generate_test_data
 df = generate_test_data()
 skim(df)
 ```
+
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭──────────────────────────────────────────────── skimpy summary ─────────────────────────────────────────────────╮
 │ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>                                │
@@ -64,14 +68,14 @@ skim(df)
 │                                │ timedelta64 │ 1     │                                                          │
 │                                └─────────────┴───────┘                                                          │
 │ <span style="font-style: italic">                                                    number                                                    </span>  │
-│ ┏━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━┳━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┳━━━━━━━┳━━━━━━━━┓  │
-│ ┃<span style="font-weight: bold"> column_name    </span>┃<span style="font-weight: bold"> NA   </span>┃<span style="font-weight: bold"> NA %   </span>┃<span style="font-weight: bold"> mean    </span>┃<span style="font-weight: bold"> sd    </span>┃<span style="font-weight: bold"> p0        </span>┃<span style="font-weight: bold"> p25    </span>┃<span style="font-weight: bold"> p50       </span>┃<span style="font-weight: bold"> p75   </span>┃<span style="font-weight: bold"> p100  </span>┃<span style="font-weight: bold"> hist   </span>┃  │
-│ ┡━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━╇━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━╇━━━━━━━╇━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">length        </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">     0</span> │ <span style="color: #008080; text-decoration-color: #008080">    0.5</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.36</span> │ <span style="color: #008080; text-decoration-color: #008080">  1.6e-06</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.13</span> │ <span style="color: #008080; text-decoration-color: #008080">      0.5</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.86</span> │ <span style="color: #008080; text-decoration-color: #008080">    1</span> │ <span style="color: #008000; text-decoration-color: #008000">▇▃▃▃▅▇</span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">width         </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">     0</span> │ <span style="color: #008080; text-decoration-color: #008080">      2</span> │ <span style="color: #008080; text-decoration-color: #008080">  1.9</span> │ <span style="color: #008080; text-decoration-color: #008080">   0.0021</span> │ <span style="color: #008080; text-decoration-color: #008080">   0.6</span> │ <span style="color: #008080; text-decoration-color: #008080">      1.5</span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">   14</span> │ <span style="color: #008000; text-decoration-color: #008000"> ▇▃▁  </span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">depth         </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">     0</span> │ <span style="color: #008080; text-decoration-color: #008080">     10</span> │ <span style="color: #008080; text-decoration-color: #008080">  3.2</span> │ <span style="color: #008080; text-decoration-color: #008080">        2</span> │ <span style="color: #008080; text-decoration-color: #008080">     8</span> │ <span style="color: #008080; text-decoration-color: #008080">       10</span> │ <span style="color: #008080; text-decoration-color: #008080">   12</span> │ <span style="color: #008080; text-decoration-color: #008080">   20</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▃▇▆▃▁</span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">rnd           </span> │ <span style="color: #008080; text-decoration-color: #008080"> 118</span> │ <span style="color: #008080; text-decoration-color: #008080">  11.8</span> │ <span style="color: #008080; text-decoration-color: #008080">  -0.02</span> │ <span style="color: #008080; text-decoration-color: #008080">    1</span> │ <span style="color: #008080; text-decoration-color: #008080">     -2.8</span> │ <span style="color: #008080; text-decoration-color: #008080"> -0.74</span> │ <span style="color: #008080; text-decoration-color: #008080"> -0.00077</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.66</span> │ <span style="color: #008080; text-decoration-color: #008080">  3.7</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▅▇▅▁ </span> │  │
-│ └────────────────┴──────┴────────┴─────────┴───────┴───────────┴────────┴───────────┴───────┴───────┴────────┘  │
+│ ┏━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━┳━━━━━━┳━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold"> column_name   </span>┃<span style="font-weight: bold"> NA   </span>┃<span style="font-weight: bold"> NA %  </span>┃<span style="font-weight: bold"> mean      </span>┃<span style="font-weight: bold"> sd      </span>┃<span style="font-weight: bold"> p0       </span>┃<span style="font-weight: bold"> p25    </span>┃<span style="font-weight: bold"> p50       </span>┃<span style="font-weight: bold"> p75   </span>┃<span style="font-weight: bold"> p100 </span>┃<span style="font-weight: bold"> hist   </span>┃  │
+│ ┡━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━╇━━━━━━╇━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">length       </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">   0.5016</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.3597</span> │ <span style="color: #008080; text-decoration-color: #008080"> 1.6e-06</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.13</span> │ <span style="color: #008080; text-decoration-color: #008080">      0.5</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.86</span> │ <span style="color: #008080; text-decoration-color: #008080">   1</span> │ <span style="color: #008000; text-decoration-color: #008000">▇▃▃▃▅▇</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">width        </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">    2.037</span> │ <span style="color: #008080; text-decoration-color: #008080">  1.929</span> │ <span style="color: #008080; text-decoration-color: #008080">  0.0021</span> │ <span style="color: #008080; text-decoration-color: #008080">   0.6</span> │ <span style="color: #008080; text-decoration-color: #008080">      1.5</span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">  14</span> │ <span style="color: #008000; text-decoration-color: #008000"> ▇▃▁  </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">depth        </span> │ <span style="color: #008080; text-decoration-color: #008080">   0</span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">    10.02</span> │ <span style="color: #008080; text-decoration-color: #008080">  3.208</span> │ <span style="color: #008080; text-decoration-color: #008080">       2</span> │ <span style="color: #008080; text-decoration-color: #008080">     8</span> │ <span style="color: #008080; text-decoration-color: #008080">       10</span> │ <span style="color: #008080; text-decoration-color: #008080">   12</span> │ <span style="color: #008080; text-decoration-color: #008080">  20</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▃▇▆▃▁</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">rnd          </span> │ <span style="color: #008080; text-decoration-color: #008080"> 118</span> │ <span style="color: #008080; text-decoration-color: #008080"> 11.8</span> │ <span style="color: #008080; text-decoration-color: #008080"> -0.01977</span> │ <span style="color: #008080; text-decoration-color: #008080">  1.002</span> │ <span style="color: #008080; text-decoration-color: #008080">    -2.8</span> │ <span style="color: #008080; text-decoration-color: #008080"> -0.74</span> │ <span style="color: #008080; text-decoration-color: #008080"> -0.00077</span> │ <span style="color: #008080; text-decoration-color: #008080"> 0.66</span> │ <span style="color: #008080; text-decoration-color: #008080"> 3.7</span> │ <span style="color: #008000; text-decoration-color: #008000">▁▅▇▅▁ </span> │  │
+│ └───────────────┴──────┴───────┴───────────┴─────────┴──────────┴────────┴───────────┴───────┴──────┴────────┘  │
 │ <span style="font-style: italic">                                                   category                                                   </span>  │
 │ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column_name                      </span>┃<span style="font-weight: bold"> NA        </span>┃<span style="font-weight: bold"> NA %           </span>┃<span style="font-weight: bold"> ordered               </span>┃<span style="font-weight: bold"> unique             </span>┃  │
@@ -89,14 +93,14 @@ skim(df)
 │ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column_name                  </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first              </span>┃<span style="font-weight: bold"> last              </span>┃<span style="font-weight: bold"> frequency       </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime                    </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">    2018-01-31    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2101-04-30    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M              </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime                    </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">    2018-01-31    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2101-04-30    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">ME             </span> │  │
 │ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime_no_freq            </span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.3</span> │ <span style="color: #800000; text-decoration-color: #800000">    1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None           </span> │  │
 │ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │
 │ <span style="font-style: italic">                                           &lt;class 'datetime.date'&gt;                                            </span>  │
 │ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column_name                      </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first            </span>┃<span style="font-weight: bold"> last             </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                   </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2018-01-31      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2101-04-30      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">M             </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                   </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2018-01-31      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2101-04-30      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">ME            </span> │  │
 │ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date_no_freq           </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">1992-01-05      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2023-03-04      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None          </span> │  │
 │ └──────────────────────────────────┴───────┴──────────┴──────────────────┴──────────────────┴────────────────┘  │
 │ <span style="font-style: italic">                                                 timedelta64                                                  </span>  │
@@ -114,6 +118,8 @@ skim(df)
 ╰────────────────────────────────────────────────────── End ──────────────────────────────────────────────────────╯
 </pre>
 
+
+
 It is recommended that you set your datatypes before using **skimpy** (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the `skim()` function will try and guess what the datatypes of your columns are.
 
 ## Requirements
@@ -126,7 +132,7 @@ You can try this package out right now in your browser using this
 
 ## Installation
 
-You can install the latest release of _skimpy_ via
+You can install the latest release of *skimpy* via
 [pip](https://pip.pypa.io/) from [PyPI](https://pypi.org/):
 
 ```bash
@@ -143,7 +149,7 @@ For development, see [contributing](contributing.qmd).
 
 ## License
 
-Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), _skimpy_ is free and open source software.
+Distributed under the terms of the [MIT license](https://opensource.org/licenses/MIT), *skimpy* is free and open source software.
 
 ## Issues
 
