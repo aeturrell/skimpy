@@ -72,7 +72,7 @@ def test_005_inference_datatypes() -> None:
     df = pd.DataFrame(data, columns=["date", "float", "string", "integer"])
     df["cat"] = ["a", "b", "b"]
     df["cat"] = df["cat"].astype("category")
-    df["date2"] = pd.date_range(start="2001-01-01", periods=3, freq="M")
+    df["date2"] = pd.date_range(start="2001-01-01", periods=3, freq="ME")
     df["booly"] = [True, True, False]
     # as example that isn't supported
     df["complex"] = np.array([[1 + 1j], [1 + 1j], [1 + 1j]])
@@ -121,7 +121,7 @@ def test_006_test_row_map() -> None:
 def test_007_simplify_datetimes_in_array() -> None:
     """Tests whether datetimes in an array are simplified."""
     df = pd.DataFrame()
-    df["date"] = pd.date_range(start="2001-01-01", periods=3, freq="M")
+    df["date"] = pd.date_range(start="2001-01-01", periods=3, freq="ME")
     df = pd.concat(
         [
             df,

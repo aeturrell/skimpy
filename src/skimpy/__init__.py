@@ -694,6 +694,11 @@ def skim(
         >>> df["col1"] = df["col1"].astype("string")
         >>> skim(df)
     """
+    if isinstance(df_in.columns, pd.MultiIndex):
+        raise NotImplementedError(
+            "Skimpy does not currently support multi-column indexes. Try using a simple column structure."
+        )
+
     df_out = _convert_to_pandas(df_in)
     grid, json_data = _skim_computation(df_out)
     console = Console(record=True)
@@ -1018,7 +1023,7 @@ def generate_test_data() -> pd.DataFrame:
     df.loc[[3, 5, 8, 9, 14, 22], "text"] = None
     df["text"] = df["text"].astype("string")
     # add a datetime column
-    df["datetime"] = pd.date_range("2018-01-01", periods=len_df, freq="M")
+    df["datetime"] = pd.date_range("2018-01-01", periods=len_df, freq="ME")
     df["datetime_no_freq"] = rng.choice(
         (pd.to_datetime(pd.Series(["01/01/2022", "03/04/2023", "01/05/1992"]))), len_df
     )
