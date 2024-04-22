@@ -791,15 +791,15 @@ def skim_get_figure(
 
 @typechecked
 def clean_columns(
-    df: pd.DataFrame,
+    df: Union[pd.DataFrame, pl.DataFrame],
     case: str = "snake",
     replace: Optional[Dict[str, str]] = None,
     remove_accents: bool = True,
-) -> pd.DataFrame:
+) -> Union[pd.DataFrame, pl.DataFrame]:
     """Clean messy column names in a pandas dataframe.
 
     Args:
-        df (pd.DataFrame): Dataframe from which column names are to be cleaned.
+        df (Union[pd.DataFrame, pl.DataFrame]): Dataframe from which column names are to be cleaned.
         case (str, optional): The desired case style of the column name. Defaults to "snake".
 
                 - 'snake' produces 'column_name';
@@ -822,7 +822,7 @@ def clean_columns(
         ValueError: If case is not valid.
 
     Returns:
-        pd.DataFrame: Dataframe with cleaned column names.
+        (Union[pd.DataFrame, pl.DataFrame]): Dataframe with cleaned column names.
 
     Examples
     --------
@@ -846,13 +846,21 @@ def clean_columns(
             f"case {case} is invalid, options are: {', '.join(c for c in CASE_STYLES)}"
         )
 
-    if replace:
+    if replace and isinstance(df, pd.DataFrame):
         df = df.rename(columns=lambda col: _replace_values(col, replace))
+    elif replace:
+        df = df.rename(lambda col: _replace_values(col, replace))
 
-    if remove_accents:
+    if remove_accents and isinstance(df, pd.DataFrame):
         df = df.rename(columns=_remove_accents)
+    elif remove_accents:
+        df = df.rename(_remove_accents)
 
-    df = df.rename(columns=lambda col: _convert_case(col, case))
+    if isinstance(df, pd.DataFrame):
+        df = df.rename(columns=lambda col: _convert_case(col, case))
+    else:
+        df = df.rename(lambda col: _convert_case(col, case))
+
     df.columns = _rename_duplicates(df.columns, case)
     return df
 

@@ -642,3 +642,23 @@ def test_exporting_to_text(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
     skim_get_figure(df, save_path=tmp_path / "blah.txt")
+
+
+def test_cleaning_polars_columns():
+    """Tests the polars rename columns functionality."""
+    bad_columns = [
+        "bs lncs;n edbn ",
+        "Nín hǎo. Wǒ shì zhōng guó rén",
+        "___This is a test___",
+        "ÜBER Über German Umlaut",
+    ]
+    df = pl.DataFrame(
+        {
+            bad_columns[0]: [1, 2, 3, 4],
+            bad_columns[1]: [1, 2, 3, 4],
+            bad_columns[2]: [1, 2, 3, 4],
+            bad_columns[3]: [1, 2, 3, 4],
+        }
+    )
+    df = clean_columns(df)
+    assert list(df.columns) != bad_columns
