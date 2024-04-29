@@ -2543,17 +2543,17 @@ dev = ["black (==23.9.0)", "build", "coveralls", "ghp-import", "ipython", "jupyt
 
 [[package]]
 name = "polars"
-version = "0.20.22"
+version = "0.20.23"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.20.22-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:d211aed6ae34845e1a9766e3b487f73ee9d5044927cc748f7498a72a5a0c8805"},
-    {file = "polars-0.20.22-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:15d8807828f9c3ddbab60b4aa17ea1dea7743a3dddebfd1c6186826257a687ca"},
-    {file = "polars-0.20.22-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2f7b08e1725d1a7c522aa316304e8ddb835c69b579577249764c7fa4eeb97305"},
-    {file = "polars-0.20.22-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:08ee57946f34e2de3ebfc7853d21a14eb92e3993e71d788a6aaaa0757e7bd3e2"},
-    {file = "polars-0.20.22-cp38-abi3-win_amd64.whl", hash = "sha256:abc5da1f6f7e2ee15bdab74cd19939948a0910799b27ee3eb0768bb95f0e9aff"},
-    {file = "polars-0.20.22.tar.gz", hash = "sha256:ceeb767bb944605539db63c528fe074708f0e23ece2f78f3dfc5132ac2e84d64"},
+    {file = "polars-0.20.23-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:9b1001a29e785126f0e189786223c45bf9c7696ed3d221a61dd629ff5e8229d3"},
+    {file = "polars-0.20.23-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:7de724f9b7f94c76008023b1ef9319e7dccada97e98d48d548be487be8dc2ea6"},
+    {file = "polars-0.20.23-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f109512a456f9f8bdc20e5b19e5794471d4a1a507f99daf1afe1b41eb3227c41"},
+    {file = "polars-0.20.23-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:bfd10ffabafecba3bb836f9e267405abc8259da5fb8d5e74096d46eea802a295"},
+    {file = "polars-0.20.23-cp38-abi3-win_amd64.whl", hash = "sha256:de69adcfe4a92821f28c0223b801e56a36682a7aac32df8e860e6df7678f4c8a"},
+    {file = "polars-0.20.23.tar.gz", hash = "sha256:4503c446c7771d5b52d5bff4f2dbf2e999a87a1cc3c89931db255cff43218436"},
 ]
 
 [package.extras]
@@ -2562,7 +2562,7 @@ all = ["polars[adbc,async,cloudpickle,connectorx,deltalake,fastexcel,fsspec,geve
 async = ["nest-asyncio"]
 cloudpickle = ["cloudpickle"]
 connectorx = ["connectorx (>=0.3.2)"]
-deltalake = ["deltalake (>=0.14.0)"]
+deltalake = ["deltalake (>=0.15.0)"]
 fastexcel = ["fastexcel (>=0.9)"]
 fsspec = ["fsspec"]
 gevent = ["gevent"]
