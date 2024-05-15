@@ -636,13 +636,13 @@ def test_exporting_to_svg(tmp_path):
 def test_exporting_to_html(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
-    skim_get_figure(df, save_path=tmp_path / "blah.html")
+    skim_get_figure(df, save_path=tmp_path / "blah.html", format="html")
 
 
 def test_exporting_to_text(tmp_path):
     """Export results to a file."""
     df = generate_test_data()
-    skim_get_figure(df, save_path=tmp_path / "blah.txt")
+    skim_get_figure(df, save_path=tmp_path / "blah.txt", format="text")
 
 
 def test_cleaning_polars_columns():
@@ -663,3 +663,25 @@ def test_cleaning_polars_columns():
     )
     df = clean_columns(df)
     assert list(df.columns) != bad_columns
+
+
+def test_having_a_df_with_a_name():
+    """Test where df has a specific name"""
+    name_to_use = "test name passthrough"
+    df = generate_test_data()
+    df.name = name_to_use
+    skim(df)
+
+
+def test_handling_of_pandas_multiindex():
+    """Ensures errors appropriately in place to catch pandas multi-index."""
+    arrays = [
+        ["bar", "bar", "baz", "baz", "foo", "foo", "qux", "qux"],
+        ["one", "two", "one", "two", "one", "two", "one", "two"],
+    ]
+    tuples = list(zip(*arrays))
+    index = pd.MultiIndex.from_tuples(tuples, names=["first", "second"])
+    df = pd.DataFrame(pd.Series(np.random.randn(8), index=index))
+    df = df.unstack()
+    with pytest.raises(NotImplementedError):
+        skim(df)
