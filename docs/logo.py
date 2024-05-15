@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib.font_manager import FontProperties
 from matplotlib.patheffects import Stroke
 
-
 bar_chart_heights = [0.85, 0.9, 0.85, 0.85, 0.8, 0.9]
 letters = ["S", "k", "i", "m", "p", "y"]
 

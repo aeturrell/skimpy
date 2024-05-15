@@ -9,22 +9,23 @@ import polars as pl
 import pytest
 from click.testing import CliRunner
 from pandas.testing import assert_frame_equal
+from skimpy import (
+    __main__,
+    _bool_variable_summary_table,
+    _convert_case,
+    _infer_datatypes,
+    _map_row_positions_to_text_style,
+    _replace_values,
+    _round_series,
+    _simplify_datetimes_in_array,
+    _string_variable_summary_table,
+    clean_columns,
+    generate_test_data,
+    skim,
+    skim_get_data,
+    skim_get_figure,
+)
 from typeguard import typeguard_ignore
-
-from skimpy import __main__
-from skimpy import _bool_variable_summary_table
-from skimpy import _convert_case
-from skimpy import _infer_datatypes
-from skimpy import _map_row_positions_to_text_style
-from skimpy import _replace_values
-from skimpy import _round_series
-from skimpy import _simplify_datetimes_in_array
-from skimpy import _string_variable_summary_table
-from skimpy import clean_columns
-from skimpy import generate_test_data
-from skimpy import skim
-from skimpy import skim_get_data
-from skimpy import skim_get_figure
 
 
 @pytest.fixture
