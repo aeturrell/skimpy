@@ -206,8 +206,8 @@ ul.task-list li input[type="checkbox"] {
 <table class="table">
 <colgroup>
 <col style="width: 3%">
-<col style="width: 9%">
-<col style="width: 84%">
+<col style="width: 13%">
+<col style="width: 81%">
 <col style="width: 2%">
 </colgroup>
 <thead>
@@ -221,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><code>df</code></td>
-<td>pandas.pandas.DataFrame</td>
+<td>typing.Union[pandas.pandas.DataFrame, polars.polars.DataFrame]</td>
 <td>Dataframe from which column names are to be cleaned.</td>
 <td><em>required</em></td>
 </tr>
@@ -267,8 +267,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
 <colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
+<col style="width: 63%">
+<col style="width: 36%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -278,8 +278,8 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>pandas.pandas.DataFrame</td>
-<td>pd.DataFrame: Dataframe with cleaned column names.</td>
+<td>typing.Union[pandas.pandas.DataFrame, polars.polars.DataFrame]</td>
+<td>Dataframe with cleaned column names.</td>
 </tr>
 </tbody>
 </table>
