@@ -7,19 +7,13 @@ import os
 import re
 from collections import defaultdict
 from itertools import chain
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 from unicodedata import normalize
 
 import numpy as np
 import pandas as pd
 import rich
-from numpy.random import Generator
-from numpy.random import PCG64
+from numpy.random import PCG64, Generator
 from rich.columns import Columns
 from rich.console import Console
 from rich.panel import Panel
