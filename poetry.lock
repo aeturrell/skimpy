@@ -2443,17 +2443,17 @@ dev = ["black (==23.9.0)", "build", "coveralls", "ghp-import", "ipython", "jupyt
 
 [[package]]
 name = "polars"
-version = "0.20.28"
+version = "0.20.30"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.20.28-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:18eb471826edaf00b9f4ff0885d19b824e48b4a16521ee173e24ef17691b623e"},
-    {file = "polars-0.20.28-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:2258ab7ee65e1cfc86f9e762ae10c9959e79f8650f121d30404bef2a266922e0"},
-    {file = "polars-0.20.28-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:53b2d164ae9645fffb54920eed91e0a48f72fcc3dc9414c9e67871cdcf94533d"},
-    {file = "polars-0.20.28-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:4524bc108ddacd337c096abeabcd3310f42f10ba0f53c52d3ac5c9a17a9e71af"},
-    {file = "polars-0.20.28-cp38-abi3-win_amd64.whl", hash = "sha256:eae3549c3748e4323ca038314484215823bc7c3f764bb685ea1080e132fd29fd"},
-    {file = "polars-0.20.28.tar.gz", hash = "sha256:ac3a59032b88a7e036eebe03f393f4f7e24f5197a5311f51b9f2b59458031fc6"},
+    {file = "polars-0.20.30-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:7802cb8a6d3fa0fadf446bf19b61ef8450b81229766f1817980bc6e0b2488c03"},
+    {file = "polars-0.20.30-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:0d7278f6e12e6623c8ee6e637d866b96b69f960b358125c955ac76abeb942192"},
+    {file = "polars-0.20.30-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:510f708332a0e0d563a5bac266c11ccd12932606c7331bf28f7173cf669d0c69"},
+    {file = "polars-0.20.30-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:70d58b89cf9902fb5c3506afef76c5c2b247581d0991b082bcdc6d73d983aa2b"},
+    {file = "polars-0.20.30-cp38-abi3-win_amd64.whl", hash = "sha256:039c84f7a294aa71438048e14899d59ce005f213872e27fe6bf6ce3ae8730d7d"},
+    {file = "polars-0.20.30.tar.gz", hash = "sha256:b9fd2c6b5100caa7c26496ce17ec289cae23c2db6c41713bc52c54c76d4451ae"},
 ]
 
 [package.extras]
