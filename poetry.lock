@@ -3104,13 +3104,13 @@ test = ["pytest (>=6,!=7.0.0,!=7.0.1)", "pytest-cov (>=3.0.0)", "pytest-qt"]
 
 [[package]]
 name = "quartodoc"
-version = "0.7.2"
+version = "0.7.5"
 description = "Generate API documentation with Quarto."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "quartodoc-0.7.2-py3-none-any.whl", hash = "sha256:adff974296c013308f4e06cadea8b71b90d334dcb1510d2bd0ef9cea06d8be98"},
-    {file = "quartodoc-0.7.2.tar.gz", hash = "sha256:58f98c88065ce0b4a857f13282d1e38bb2cd4757b481a4c6279bdca89ba5640b"},
+    {file = "quartodoc-0.7.5-py3-none-any.whl", hash = "sha256:293c45c4b1b10936d562921ff32f7a5d3e24bde250c638f0033c0c38ecbc9a92"},
+    {file = "quartodoc-0.7.5.tar.gz", hash = "sha256:328d40374fa4397cab67a820cdac3dca47a90eb0a33328ccf50c8f41507ef125"},
 ]
 
 [package.dependencies]
@@ -3124,13 +3124,14 @@ plum-dispatch = [
 ]
 pydantic = "*"
 pyyaml = "*"
+requests = "*"
 sphobjinv = ">=2.3.1"
 tabulate = ">=0.9.0"
 typing-extensions = ">=4.4.0"
 watchdog = ">=3.0.0"
 
 [package.extras]
-dev = ["jupyterlab", "jupytext", "pre-commit", "pytest", "syrupy"]
+dev = ["jupyterlab", "jupytext", "pre-commit", "pytest (<8.0.0)", "syrupy"]
 
 [[package]]
 name = "referencing"
