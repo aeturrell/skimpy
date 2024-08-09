@@ -28,7 +28,7 @@ ipykernel = "^6.7.0"
 numpy = "^1.22.2"
 typeguard = "4.3.0"
 polars = { version = ">=0.19,<1.5", optional = true }
-pyarrow = { version = ">=13,<17", optional = true }
+pyarrow = { version = ">=13,<18", optional = true }
 
 [tool.poetry.scripts]
 skimpy = "skimpy.__main__:main"
@@ -49,7 +49,7 @@ nbstripout = ">=0.6.1,<0.8.0"
 toml = "^0.10.2"
 typing-extensions = "^4.7.1"
 polars = ">=0.19.2,<1.5.0"
-pyarrow = ">=13,<17"
+pyarrow = ">=13,<18"
 jupyter = "^1.0.0"
 ruff = ">=0.4.1,<0.6.0"
 quartodoc = "^0.7.2"
