@@ -51,7 +51,7 @@ typing-extensions = "^4.7.1"
 polars = ">=0.19.2,<1.6.0"
 pyarrow = ">=13,<18"
 jupyter = "^1.0.0"
-ruff = ">=0.4.1,<0.6.0"
+ruff = ">=0.4.1,<0.7.0"
 quartodoc = "^0.7.2"
 
 [tool.coverage.paths]
