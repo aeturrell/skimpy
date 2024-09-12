@@ -2482,17 +2482,17 @@ dev = ["black (==23.9.0)", "build", "coveralls", "ghp-import", "ipython", "jupyt
 
 [[package]]
 name = "polars"
-version = "1.6.0"
+version = "1.7.0"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-1.6.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:6d1665c23e3574ebd47a26a5d7b619e6e73e53718c3b0bfd7d08b6a0a4ae7daa"},
-    {file = "polars-1.6.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:d7f3abf085adf034720b358119c4c8e144bcc2d96010b7e7d0afa11b80da383c"},
-    {file = "polars-1.6.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a166adb429f8ee099c9d803e7470a80c76368437a8b272c67cef9eef6d5e9da1"},
-    {file = "polars-1.6.0-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:1c811b772c9476f7f0bb4445a8387d2ab6d86f5e79140b1bfba914a32788d261"},
-    {file = "polars-1.6.0-cp38-abi3-win_amd64.whl", hash = "sha256:ffae15ffa80fda5cc3af44a340b565bcf7f2ab6d7854d3f967baf505710c78e2"},
-    {file = "polars-1.6.0.tar.gz", hash = "sha256:d7e8d5e577883a9755bc3be92ecbf6f20bced68267bdb8bdb440120e905cc19c"},
+    {file = "polars-1.7.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:515201ae296a3ef770102dab196f207581b617c7a053cf200aff57fdca03001f"},
+    {file = "polars-1.7.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:5c7b03a60b3490f7ca17e0a69208b29bea1a70f62b394443035f196c751ca126"},
+    {file = "polars-1.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:56042ca1e35c2e6a08e2f37d981a46af685e273cde08944328921a22ed5e1926"},
+    {file = "polars-1.7.0-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:bdb11cc9807d3886a8ea516a9d829fb9d8570d11b80be9310f825d1331011dbd"},
+    {file = "polars-1.7.0-cp38-abi3-win_amd64.whl", hash = "sha256:3d0fe4b8505c918114bbef6c8f8bd7a245ce3b7cd59f3c9fba2c9cd1f24606f9"},
+    {file = "polars-1.7.0.tar.gz", hash = "sha256:cd90892c8ed0ee755fdf0a0ebc08489c6f0094eaa7eed5edb48956c3e431ef8c"},
 ]
 
 [package.extras]
@@ -3973,4 +3973,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4.0.0"
-content-hash = "10c9afd4c42ea0d6ef251d28607a7e0ed11eae93975cc79664b0472f9f062836"
+content-hash = "a486cc255a396d4e6f44eb5cf97648ff7c1eaf9da3742ab1ac318f4f534d23c8"
