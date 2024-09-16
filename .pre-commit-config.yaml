@@ -59,4 +59,3 @@ repos:
     hooks:
       - id: deptry
         name: deptry
-        # args: ["--extend-exclude", "docs"]
