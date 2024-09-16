@@ -54,3 +54,11 @@ repos:
         entry: nbstripout
         language: python
         types: [jupyter]
+  - repo: https://github.com/fpgmaas/deptry.git
+    rev: 0.20.0
+    hooks:
+      - id: deptry
+        name: deptry
+        description: deptry is a command line tool to check for issues with dependencies in a Python project, such as unused or missing dependencies.
+        entry: deptry .
+        language: system

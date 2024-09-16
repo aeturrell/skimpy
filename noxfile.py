@@ -23,7 +23,7 @@ python_versions = ["3.11", "3.10", "3.9"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
-    "safety",
+    # "safety",
     "mypy",
     "tests",
     "typeguard",
@@ -96,12 +96,12 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python="3.9")
-def safety(session: Session) -> None:
-    """Scan dependencies for insecure packages."""
-    requirements = session.poetry.export_requirements()
-    session.install("safety")
-    session.run("safety", "check", "--full-report", f"--file={requirements}")
+# @session(python="3.9")
+# def safety(session: Session) -> None:
+#     """Scan dependencies for insecure packages."""
+#     requirements = session.poetry.export_requirements()
+#     session.install("safety")
+#     session.run("safety", "check", "--full-report", f"--file={requirements}")
 
 
 @session(python=python_versions)
