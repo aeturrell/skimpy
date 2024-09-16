@@ -3,4 +3,3 @@ nox==2024.4.15
 nox-poetry==1.0.3
 virtualenv==20.26.4
 poetry==1.8.3
-deptry==0.20.0
