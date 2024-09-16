@@ -37,7 +37,6 @@ skimpy = "skimpy.__main__:main"
 nox = ">=2023.4.22,<2025.0.0"
 pytest = ">=7.4,<9.0"
 coverage = {extras = ["toml"], version = "^7.2"}
-safety = ">=2.3.5,<4.0.0"
 mypy = "^1.4"
 xdoctest = {extras = ["colors"], version = "^1.1.1"}
 pre-commit = "^3.3.1"
