@@ -36,6 +36,14 @@ except ImportError:
     # no nothing
     pass
 
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("skimpy")
+except PackageNotFoundError:
+    __version__ = "unknown"
+
+
 NULL_VALUES = {np.nan, "", None}
 
 CASE_STYLES = {
