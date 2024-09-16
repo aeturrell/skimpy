@@ -52,8 +52,12 @@ ruff = ">=0.4.1,<0.7.0"
 quartodoc = "^0.7.2"
 deptry = "^0.20.0"
 
+[tool.deptry]
+extend_exclude = ["docs", "noxfile.py"]
+
 [tool.deptry.per_rule_ignores]
 DEP002 = ["ipykernel"]
+DEP003 = ["skimpy"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]

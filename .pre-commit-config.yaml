@@ -54,3 +54,9 @@ repos:
         entry: nbstripout
         language: python
         types: [jupyter]
+  - repo: https://github.com/fpgmaas/deptry.git
+    rev: 0.20.0
+    hooks:
+      - id: deptry
+        name: deptry
+        # args: ["--extend-exclude", "docs"]
