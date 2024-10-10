@@ -702,7 +702,7 @@ def skim(
         )
 
     df_out = _convert_to_pandas(df_in)
-    grid, json_data = _skim_computation(df_out)
+    grid, _ = _skim_computation(df_out)
     console = Console(record=True)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
