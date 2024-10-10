@@ -356,7 +356,7 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         NUM_COL_MEAN: _round_series(xf.mean(), 4),
         "sd": _round_series(xf.std(), 4),
     }
@@ -392,7 +392,7 @@ def _category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         "ordered": pd.Series(
             dict(zip(xf.columns, [xf[col].cat.ordered for col in xf.columns]))
         ),
@@ -441,7 +441,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         "words per row": _round_series(
             pd.Series(
                 dict(
@@ -484,7 +484,7 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     # NB: timedelta doesn't play nicely with rounding
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         NUM_COL_MEAN: xf.mean().dt.floor("s"),
         "median": xf.min().dt.floor("s"),
         "max": xf.max().dt.ceil("s"),
@@ -507,7 +507,7 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: (100 * count_nans_vec / xf.shape[0]).round(2),
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         DATE_COL_FIRST: pd.Series(
             dict(
                 zip(
