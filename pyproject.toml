@@ -51,7 +51,7 @@ polars = ">=0.19.2"
 pyarrow = ">=13,<18"
 jupyter = "^1.0.0"
 ruff = ">=0.4.1,<0.7.0"
-quartodoc = "^0.7.2"
+quartodoc = ">=0.7.2,<0.9.0"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
