@@ -26,7 +26,7 @@ pandas = "^2.0.3"
 Pygments = "^2.10.0"
 ipykernel = "^6.7.0"
 numpy = ">=1.22.2,<3.0.0"
-typeguard = "4.3.0"
+typeguard = "4.4.0"
 polars = { version = ">=0.19.2", optional = true }
 pyarrow = { version = ">=13,<18", optional = true }
 
