@@ -75,14 +75,7 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: coverage-data-${{ matrix.python-version }}-${{ matrix.os }}
-          path: ".coverage.*"
-
-      - name: Upload documentation
-        if: matrix.session == 'docs-build'
-        uses: actions/upload-artifact@v4
-        with:
-          name: docs
-          path: docs/_build
+          path: ".coverage*"
 
   coverage:
     runs-on: ubuntu-latest
@@ -96,20 +89,16 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Upgrade pip
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          # Install a specific version of uv.
+          version: "0.5.2"
+      - name: Install nox and coverage
         run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Install Nox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt nox nox-poetry
+          uv add nox coverage
           nox --version
+          coverage --version
 
       - name: Download coverage data
         uses: actions/download-artifact@v4
@@ -119,11 +108,11 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          poetry run nox --force-color --session=coverage
+          uv run nox --force-color --session=coverage
 
       - name: Create coverage report
         run: |
-          nox --force-color --session=coverage -- xml
+          uv run nox --force-color --session=coverage -- xml
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v5.0.7
+        uses: codecov/codecov-action@v5.1.1
