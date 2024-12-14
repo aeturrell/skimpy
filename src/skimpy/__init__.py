@@ -276,7 +276,7 @@ def _dataframe_to_rich_table(
     # find any datetimes
     if (DATE_COL_FIRST or DATE_COL_LAST) in df.columns:
         rows = _simplify_datetimes_in_array(rows)
-    rows = [
+    rows_list_list = [
         [
             str(s).rstrip("0").rstrip(".") if ("." and isinstance(s, float)) else s
             for s in row
@@ -285,7 +285,7 @@ def _dataframe_to_rich_table(
     ]
     for col in df.columns:
         table.add_column(str(col), overflow="fold", max_width=COL_STR_LEN_LIMIT)
-    for row in rows:
+    for row in rows_list_list:
         row = [
             Text(
                 str(item),
@@ -574,7 +574,7 @@ def _skim_computation(
         [rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
-        name = df_in.name
+        name = str(df_in.name)
     else:
         name = "dataframe"
 
@@ -587,7 +587,7 @@ def _skim_computation(
 
     header_style = "bold cyan"  # fixed
     # main data dict
-    json_data = {}
+    json_data: Any = {}
     # Data summary
     tab_1_data = {"Number of rows": df.shape[0], "Number of columns": df.shape[1]}
     dat_sum_table_title = "Data Summary"
@@ -640,9 +640,9 @@ def _skim_computation(
     for col_type, summary_func in types_funcs_dict.items():
         if col_type == "number":
             # timedelta and datetime are technically integers, so exclude these
-            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta"])
+            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta"])  # type: ignore
         else:
-            xf = df.select_dtypes(col_type)
+            xf = df.select_dtypes(col_type)  # type: ignore
         if not xf.empty:
             sum_df = summary_func(xf)
             # for rich tables, we need to stringify
