@@ -6,33 +6,20 @@ from textwrap import dedent
 
 import nox
 
-try:
-    from nox_poetry import Session, session
-except ImportError:
-    message = f"""\
-    Nox failed to import the 'nox-poetry' package.
-
-    Please install it using the following command:
-
-    {sys.executable} -m pip install nox-poetry"""
-    raise SystemExit(dedent(message))
-
-
 package = "skimpy"
 python_versions = ["3.11", "3.10", "3.9"]
 nox.needs_version = ">= 2021.6.6"
+nox.options.default_venv_backend = "uv"
 nox.options.sessions = (
     "pre-commit",
-    # "safety",
     "mypy",
     "tests",
     "typeguard",
     "xdoctest",
-    # "docs-build",
 )
 
 
-def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
+def activate_virtualenv_in_precommit_hooks(session: nox.Session) -> None:
     """Activate virtualenv in hooks installed by pre-commit.
 
     This function patches git hooks installed by pre-commit to activate the
@@ -83,43 +70,20 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
         hook.write_text("\n".join(lines))
 
 
-@session(name="pre-commit", python="3.9")
-def precommit(session: Session) -> None:
-    """Lint using pre-commit."""
-    args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
-    session.install(
-        "pre-commit",
-        "pre-commit-hooks",
+@nox.session(venv_backend="uv")
+def tests(session: nox.Session) -> None:
+    """
+    Run the unit and regular tests.
+    """
+    session.run_install(
+        "uv",
+        "sync",
+        "--extra=dev",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
-    session.run("pre-commit", *args)
-    if args and args[0] == "install":
-        activate_virtualenv_in_precommit_hooks(session)
+    session.install(package)
+    session.run("pytest", *session.posargs)
 
-
-# @session(python="3.9")
-# def safety(session: Session) -> None:
-#     """Scan dependencies for insecure packages."""
-#     requirements = session.poetry.export_requirements()
-#     session.install("safety")
-#     session.run("safety", "check", "--full-report", f"--file={requirements}")
-
-
-@session(python=python_versions)
-def mypy(session: Session) -> None:
-    """Type-check using mypy."""
-    args = session.posargs or ["src", "tests"]
-    session.install(".")
-    session.install("mypy", "pytest")
-    session.run("mypy", *args)
-    if not session.posargs:
-        session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
-
-
-@session(python=python_versions)
-def tests(session: Session) -> None:
-    """Run the test suite."""
-    session.install(".")
-    session.install("coverage[toml]", "pytest", "pygments")
     try:
         session.run("coverage", "run", "--parallel", "-m", "pytest", *session.posargs)
     finally:
@@ -127,12 +91,44 @@ def tests(session: Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@session
-def coverage(session: Session) -> None:
+@nox.session(name="pre-commit", python="3.9", venv_backend="uv")
+def precommit(session: nox.Session) -> None:
+    """Lint using pre-commit."""
+    args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
+    session.run_install(
+        "uv",
+        "sync",
+        "--extra=dev",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    session.run("pre-commit", *args)
+    if args and args[0] == "install":
+        activate_virtualenv_in_precommit_hooks(session)
+
+
+@nox.session(python=python_versions, venv_backend="uv")
+def mypy(session: nox.Session) -> None:
+    """Type-check using mypy."""
+    args = session.posargs or ["src"]  # TODO reintroduce the tests folder here
+
+    # Install project and dependencies using uv
+    session.run_install(
+        "uv",
+        "sync",
+        "--extra=dev",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    session.install(package)
+
+    session.run("mypy", *args)
+    if not session.posargs:
+        session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
+
+
+@nox.session(venv_backend="uv")
+def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report"]
-
-    session.install("coverage[toml]")
 
     if not session.posargs and any(Path().glob(".coverage.*")):
         session.run("coverage", "combine")
@@ -140,27 +136,31 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions)
-def typeguard(session: Session) -> None:
+@nox.session(venv_backend="uv", python=python_versions)
+def typeguard(session: nox.Session) -> None:
     """Runtime type checking using Typeguard."""
-    session.install(".")
-    session.install("pytest", "typeguard", "pygments")
+    # Install project and dependencies using uv
+    session.run_install(
+        "uv",
+        "sync",
+        "--extra=dev",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    session.install(package)
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
-@session(python=python_versions)
-def xdoctest(session: Session) -> None:
+@nox.session(venv_backend="uv", python=python_versions)
+def xdoctest(session: nox.Session) -> None:
     """Run examples with xdoctest."""
     args = session.posargs or ["all"]
-    session.install(".")
-    session.install("xdoctest[colors]")
+
+    # Install project and dependencies using uv
+    session.run_install(
+        "uv",
+        "sync",
+        "--extra=dev",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    session.install(package)
     session.run("python", "-m", "xdoctest", package, *args)
-
-
-# @session(name="docs-build", python="3.9")
-# def docs_build(session: Session) -> None:
-#     """Build the documentation."""
-#     session.run_always(
-#         "make",
-#         external=True,
-#     )
