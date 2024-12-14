@@ -98,8 +98,8 @@ jobs:
       - name: Install nox and coverage
         run: |
           uv add nox coverage
-          nox --version
-          coverage --version
+          uv run nox --version
+          uv run coverage --version
 
       - name: Download coverage data
         uses: actions/download-artifact@v4
