@@ -70,7 +70,7 @@ def activate_virtualenv_in_precommit_hooks(session: nox.Session) -> None:
         hook.write_text("\n".join(lines))
 
 
-@nox.session(venv_backend="uv")
+@nox.session(venv_backend="uv", python=python_versions)
 def tests(session: nox.Session) -> None:
     """
     Run the unit and regular tests.
