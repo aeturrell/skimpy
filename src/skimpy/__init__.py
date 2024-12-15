@@ -121,7 +121,7 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
         elif col[1] == "timedelta64":
             data_type = "timedelta64[ns]"
         elif col[1] == "datetime64":
-            if pd.api.types.is_datetime64tz_dtype(df[col[0]]):
+            if isinstance(df[col[0]].dtype, pd.DatetimeTZDtype):
                 # Convert timezone-aware to timezone-naive
                 df[col[0]] = df[col[0]].dt.tz_localize(None)
             data_type = "datetime64[ns]"
