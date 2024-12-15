@@ -53,3 +53,8 @@ show_error_codes = true
 show_error_context = true
 ignore_missing_imports = true
 disallow_untyped_calls = false
+
+[tool.coverage.run]
+omit = [
+    "tests/__init__.py",
+    ]
