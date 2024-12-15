@@ -95,15 +95,13 @@ jobs:
         with:
           # Install a specific version of uv.
           version: "0.5.2"
+
       - name: Install nox and coverage
         run: |
           uv add nox coverage
           uv run nox --version
           uv run coverage --version
 
-      - name: Delete any previous cached files
-        run : |
-          rm -r .pytest_cache
       - name: Download coverage data
         uses: actions/download-artifact@v4
         with:
