@@ -159,12 +159,12 @@ def _round_series(s: pd.Series, places=2) -> pd.Series:
 def _map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) -> dict:
     """Maps positions in summary dataframe (eg row) to a Rich text property.
 
-    :param types_to_property: Datatype, datetime, mapping to Rich text property
-    :type types_to_property: dict
-    :param df: Dataframe to map positions in
-    :type df: pd.DataFrame
-    :return: Dictionary mapping row position to Rich text property
-    :rtype: dict
+    Args:
+        types_to_property (dict): _description_
+        df (pd.DataFrame):  Dataframe to map positions in
+
+    Returns:
+        dict: Dictionary mapping row position to Rich text property
     """
     cols_to_cat_map = dict(
         zip(
@@ -196,16 +196,17 @@ def _map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) 
 def _simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
     """Simplifies 2001/01/01 00:00:00 to 2001/01/01.
 
-    :param rows: contain summary info, including datetimes
-    :type rows: np.ndarray
-    :return: rows with any all zero hours/min/sec stripped out
-    :rtype: np.ndarray
+    Args:
+        rows (np.ndarray):  contain summary info, including datetimes
+
+    Returns:
+        np.ndarray: rows with any all zero hours/min/sec stripped out
     """
     timestamp_positions = [
         [
             [idx, i]
             for i, j in enumerate(item)
-            if type(j) == pd._libs.tslibs.timestamps.Timestamp
+            if isinstance(j, pd._libs.tslibs.timestamps.Timestamp)
         ]
         for idx, item in enumerate(rows)
     ]
@@ -932,14 +933,14 @@ def _split_string(string: str) -> List[str]:
 
 @typechecked
 def _replace_values(name: Any, mapping: Dict[str, str]) -> Any:
-    """Replace string values in the column name.
+    """_summary_
 
-    Parameters
-    ----------
-    name
-        Column name.
-    mapping
-        Maps old values in the column name to the new values.
+    Args:
+        name (Any): Column name.
+        mapping (Dict[str, str]): Maps old values in the column name to the new values.
+
+    Returns:
+        Any: Re-mapped column name.
     """
     if name in NULL_VALUES:
         return name
