@@ -1,68 +1,49 @@
-[tool.poetry]
+[project]
 name = "skimpy"
 version = "0.0.15"
 description = "skimpy"
-authors = ["Arthur Turrell"]
-license = "MIT"
+authors = [{name="Arthur Turrell", email="None@none.com"}]
 readme = "README.md"
-homepage = "https://aeturrell.github.io/skimpy/"
-repository = "https://github.com/aeturrell/skimpy"
-documentation = "https://aeturrell.github.io/skimpy/"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
 ]
+requires-python = ">=3.9"
+dependencies = [
+    "click>=8.1.7",
+    "ipykernel>=6.29.5",
+    "numpy>=2.0.2",
+    "pandas-stubs>=2.2.2.240807",
+    "pandas>=2.2.3",
+    "polars>=1.17.1",
+    "pyarrow>=18.1.0",
+    "pygments>=2.18.0",
+    "rich>=13.9.4",
+    "typeguard>=4.4.1",
+]
 
-[tool.poetry.urls]
-Changelog = "https://github.com/aeturrell/skimpy/releases"
+[dependency-groups]
+dev = [
+    "autopep8>=2.3.1",
+    "coverage[toml]>=7.6.9",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.9.4",
+    "mypy>=1.13.0",
+    "nbstripout>=0.8.1",
+    "nox>=2024.10.9",
+    "pre-commit>=4.0.1",
+    "pre-commit-hooks>=5.0.0",
+    "pygments>=2.18.0",
+    "pytest>=8.3.4",
+    "quartodoc>=0.9.1",
+    "ruff>=0.8.3",
+    "toml>=0.10.2",
+    "typing-extensions>=4.12.2",
+    "xdoctest[colors]>=1.2.0",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9,<4.0.0"
-click = "^8.1.6"
-rich = ">=10.9,<14.0"
-pandas = "^2.0.3"
-Pygments = "^2.10.0"
-ipykernel = "^6.7.0"
-numpy = ">=1.22.2,<3.0.0"
-typeguard = "4.4.1"
-polars = { version = ">=0.19.2", optional = true }
-pyarrow = { version = ">=13,<18", optional = true }
-
-[tool.poetry.scripts]
-skimpy = "skimpy.__main__:main"
-
-[tool.poetry.group.dev.dependencies]
-nox = ">=2023.4.22,<2025.0.0"
-pytest = ">=7.4,<9.0"
-coverage = {extras = ["toml"], version = "^7.2"}
-mypy = "^1.4"
-xdoctest = {extras = ["colors"], version = "^1.1.1"}
-pre-commit = "^3.3.1"
-pre-commit-hooks = ">=4.4,<6.0"
-Pygments = "^2.9.0"
-autopep8 = "^2.0.0"
-matplotlib = "^3.7.1"
-nbstripout = ">=0.6.1,<0.8.0"
-toml = "^0.10.2"
-typing-extensions = "^4.7.1"
-polars = ">=0.19.2"
-pyarrow = ">=13,<18"
-jupyter = "^1.0.0"
-ruff = ">=0.4.1,<0.8.0"
-quartodoc = "^0.7.2"
-
-[tool.coverage.paths]
-source = ["src", "*/site-packages"]
-
-[tool.coverage.run]
-branch = true
-source = ["skimpy"]
-
-[tool.coverage.report]
-show_missing = true
-fail_under = 96
 
 [tool.mypy]
 strict = false
@@ -72,7 +53,3 @@ show_error_codes = true
 show_error_context = true
 ignore_missing_imports = true
 disallow_untyped_calls = false
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
