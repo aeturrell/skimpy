@@ -133,7 +133,7 @@ def coverage(session: nox.Session) -> None:
     if not session.posargs and any(Path().glob(".coverage*")):
         session.run("coverage", "combine")
 
-    session.run("coverage", "--ignore-errors", *args)
+    session.run("coverage", *args)
 
 
 @nox.session(venv_backend="uv", python=python_versions)
