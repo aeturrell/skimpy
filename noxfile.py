@@ -130,7 +130,7 @@ def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report"]
 
-    if not session.posargs and any(Path().glob(".coverage*")):
+    if not session.posargs and any(Path().glob(".coverage.*")):
         session.run("coverage", "combine")
 
     session.run("coverage", *args)
