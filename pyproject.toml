@@ -57,4 +57,5 @@ disallow_untyped_calls = false
 [tool.coverage.run]
 omit = [
     "tests/__init__.py",
+    "tests/test_main.py",
     ]
