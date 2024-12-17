@@ -143,8 +143,7 @@ def mypy(session: nox.Session) -> None:
         "--extra=dev",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
-    session.install(package)
-
+    session.run_install("uv", "pip", "install", "-e", ".")
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
@@ -160,7 +159,7 @@ def typeguard(session: nox.Session) -> None:
         "--extra=dev",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
-    session.install(package)
+    session.run_install("uv", "pip", "install", "-e", ".")
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
@@ -176,5 +175,5 @@ def xdoctest(session: nox.Session) -> None:
         "--extra=dev",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
-    session.install(package)
+    session.run_install("uv", "pip", "install", "-e", ".")
     session.run("python", "-m", "xdoctest", package, *args)
