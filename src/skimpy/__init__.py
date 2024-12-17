@@ -59,22 +59,6 @@ CASE_STYLES = {
 
 QUANTILES = [0, 0.25, 0.5, 0.75, 1]
 HIST_BINS = 6
-# NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
-# systems, so, to make skimpy work on all systems, hist blocks are pinned to
-# nearest available consistent width block. This produces some distortion in
-# histogram but these are just visual indicators anyway and shouldn't be used
-# for deep inference.
-UNICODE_HIST = {
-    0: " ",
-    1 / 8: "▁",
-    1 / 4: "▂",
-    3 / 8: "▃",
-    # 1 / 2: "▄",
-    5 / 8: "▅",
-    3 / 4: "▆",
-    7 / 8: "▇",
-    # 1: "█",
-}
 # These are defined globally because they are used in more than one function
 DATE_COL_FIRST = "first"
 DATE_COL_LAST = "last"
@@ -339,10 +323,34 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
         series = series.astype("int")
     hist, _ = np.histogram(series, density=True, bins=HIST_BINS)
     hist = hist / hist.max()
-    # now do value counts
-    key_vector = np.array(list(UNICODE_HIST.keys()), dtype="float")
+    fractions = [
+        0.0,
+        1 / 8,
+        1 / 4,
+        3 / 8,
+        1 / 2,
+        5 / 8,
+        3 / 4,
+        7 / 8,
+        1.0,
+    ]
+    # add in empty string
+    unicode_hist = {fractions[0]: " "}
+    # Unicode block elements for bar characters
+    unicode_hist.update(
+        {key: chr(code) for key, code in zip(fractions[1:], range(0x2581, 0x2589))}
+    )
+    # NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
+    # systems, so, to make skimpy work on all systems, hist blocks are pinned to
+    # nearest available consistent width block for Windows.
+    # Remove specific bar characters if on Windows
+    if os.name != "posix":
+        del unicode_hist[1 / 2]
+        del unicode_hist[1.0]
+
+    key_vector = np.array(list(unicode_hist.keys()), dtype="float")
     ucode_to_print = "".join(
-        [UNICODE_HIST[_find_nearest(key_vector, val)] for val in hist]
+        [unicode_hist[_find_nearest(key_vector, val)] for val in hist]
     )
     return pd.Series(index=[series.name], data=ucode_to_print, dtype="string")
 
