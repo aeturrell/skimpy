@@ -256,7 +256,7 @@ def _dataframe_to_rich_table(
         rich.table.Table: instance of Table from the rich package
     """
     COL_STR_LEN_LIMIT: int = 20  # For longer strings, limit chars shown.
-    df = df.reset_index().rename(columns={"index": "column_name"})
+    df = df.reset_index().rename(columns={"index": "column"})
     table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
     # generate dict of types to colours
     datatype_colours = {
@@ -448,6 +448,43 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     data_dict = {
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        "shortest": pd.Series(
+            dict(
+                zip(
+                    xf.columns,
+                    [xf.loc[xf[col].str.len().argmin(), col] for col in xf.columns],  # type: ignore
+                )
+            )
+        ),
+        "longest": pd.Series(
+            dict(
+                zip(
+                    xf.columns,
+                    [xf.loc[xf[col].str.len().argmax(), col] for col in xf.columns],  # type: ignore
+                )
+            )
+        ),
+        # Below are alphabetical min and max
+        "min": pd.Series(
+            dict(zip(xf.columns, [xf[col].sort_values().iloc[0] for col in xf.columns]))
+        ),
+        "max": pd.Series(
+            dict(
+                zip(
+                    xf.columns,
+                    [
+                        xf[col].sort_values(ascending=False).iloc[0]
+                        for col in xf.columns
+                    ],
+                )
+            )
+        ),
+        "chars per row": _round_series(
+            pd.Series(
+                dict(zip(xf.columns, [xf[col].str.len().mean() for col in xf.columns]))
+            ),
+            3,
+        ),
         "words per row": _round_series(
             pd.Series(
                 dict(
@@ -602,7 +639,7 @@ def _skim_computation(
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = str(df_in.name)
     else:
-        name = "dataframe"
+        name = "Dataframe"
 
     # Make a copy so as not to mess with dataframe
     df = df_in.copy()
