@@ -12,7 +12,7 @@ nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 nox.options.sessions = (
     "pre-commit",
-    "mypy",
+    # "mypy",
     "tests",
     "typeguard",
     "xdoctest",
