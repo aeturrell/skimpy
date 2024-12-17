@@ -89,6 +89,7 @@ def tests(session: nox.Session) -> None:
             "--parallel",
             "-m",
             "pytest",
+            "--cache-clear",
             external=True,
             env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
             *session.posargs,
@@ -111,6 +112,7 @@ def coverage(session: nox.Session) -> None:
         external=True,
     )
     if not session.posargs and any(Path().glob(".coverage.*")):
+        session.run("coverage", "erase", "--data-file=.coverage")
         session.run("coverage", "combine")
 
     session.run("coverage", *args)
