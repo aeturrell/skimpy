@@ -70,25 +70,52 @@ def activate_virtualenv_in_precommit_hooks(session: nox.Session) -> None:
         hook.write_text("\n".join(lines))
 
 
-@nox.session(venv_backend="uv", python=python_versions)
+@nox.session(python=python_versions)
 def tests(session: nox.Session) -> None:
-    """
-    Run the unit and regular tests.
-    """
+    """Run the test suite."""
     session.run_install(
         "uv",
         "sync",
-        "--extra=dev",
+        "--group",
+        "dev",
+        "--group",
+        "lint",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
-    session.install(package)
-    session.run("pytest", *session.posargs)
+    session.env["PYTHONPATH"] = "src"
 
     try:
-        session.run("coverage", "run", "--parallel", "-m", "pytest", *session.posargs)
+        session.run(
+            "coverage",
+            "run",
+            "--parallel",
+            "-m",
+            "pytest",
+            external=True,
+            env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+            *session.posargs,
+        )
     finally:
         if session.interactive:
             session.notify("coverage", posargs=[])
+
+
+@nox.session(python=python_versions[0])
+def coverage(session: nox.Session) -> None:
+    """Produce the coverage report."""
+    args = session.posargs or ["report"]
+    session.run(
+        "uv",
+        "pip",
+        "install",
+        "coverage[toml]",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+        external=True,
+    )
+    if not session.posargs and any(Path().glob(".coverage.*")):
+        session.run("coverage", "combine")
+
+    session.run("coverage", *args)
 
 
 @nox.session(name="pre-commit", python="3.9", venv_backend="uv")
@@ -123,17 +150,6 @@ def mypy(session: nox.Session) -> None:
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
-
-
-@nox.session(venv_backend="uv")
-def coverage(session: nox.Session) -> None:
-    """Produce the coverage report."""
-    args = session.posargs or ["report"]
-
-    if not session.posargs and any(Path().glob(".coverage.*")):
-        session.run("coverage", "combine")
-
-    session.run("coverage", *args)
 
 
 @nox.session(venv_backend="uv", python=python_versions)
