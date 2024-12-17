@@ -131,6 +131,8 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
             data_type = "bool"
         elif col[1] == "complex":
             data_type = "complex128"
+        elif col[1] == "empty":
+            data_type = "object"  # This is for entirely null columns, which will be dealt with later
         elif col[1] == "date":
             # do nothing: "date" isn't supported, so we leave as an object.
             # later on, we will still be able to pick up "date" using
@@ -539,6 +541,26 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
+def _empty_column_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """Summarise dataframe columns that have all empty entries.
+
+    Args:
+        xf (pd.DataFrame): A dataframe with only empty columns
+
+    Returns:
+        pd.DataFrame: A dataframe of summary statistics, with a number of rows
+        determined by number of columns of xf
+    """
+    count_nans_vec = xf.isna().sum()
+    data_dict = {
+        MISSING_COL: count_nans_vec,
+        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+    }
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
+
+
+@typechecked
 def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
     """This will remove the pd.api.types.infer_dtype types that are not
     supported.
@@ -639,12 +661,23 @@ def _skim_computation(
         datetime.date: _datetime_variable_summary_table,  # Re-use of fn intended.
         "timedelta64[ns]": _timedelta_variable_summary_table,
         "string": _string_variable_summary_table,
+        "object": _empty_column_summary_table,
     }
     list_of_tabs = []
+    # We now need a special approach to deal with columns that are just null
+    xf = df.loc[:, df.isnull().all()]
+    if not xf.empty:
+        sum_df = _empty_column_summary_table(xf)
+        col_type_to_rich = str("All null")
+        list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
+        json_data.update({col_type_to_rich: sum_df.to_dict()})
+    # remove all null columns as already dealt with
+    # and other variables have "object" type too.
+    df = df.loc[:, ~df.isnull().all()].copy()
     for col_type, summary_func in types_funcs_dict.items():
         if col_type == "number":
             # timedelta and datetime are technically integers, so exclude these
-            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta"])  # type: ignore
+            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta", "object"])  # type: ignore
         else:
             xf = df.select_dtypes(col_type)  # type: ignore
         if not xf.empty:
@@ -655,6 +688,7 @@ def _skim_computation(
             col_type_to_rich = str(col_type)
             list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
             json_data.update({col_type_to_rich: sum_df.to_dict()})
+
     # Put all of the info together
     grid = Table.grid(expand=True)
     tables_list = [dat_sum_table, types_sum_table]
