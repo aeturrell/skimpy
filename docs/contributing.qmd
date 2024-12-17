@@ -35,32 +35,23 @@ Request features on the [Issue Tracker](https://github.com/aeturrell/skimpy/issu
 
 You need Python and the following tools:
 
-- [Poetry](https://python-poetry.org/)
+- [uv](https://docs.astral.sh/uv/)
 - [Nox](https://nox.thea.codes/)
-- [nox-poetry](https://nox-poetry.readthedocs.io/)
 - [Make](https://www.gnu.org/software/make/)
 - [Quarto](https://quarto.org/)
-
-Before you install poetry, you may wish to run
-
-```bash
-poetry config virtualenvs.in-project true
-```
-
-to make poetry virtual environments get installed in the project folder. This makes it easier for Visual Studio Code and other IDEs to find the project kernel.
 
 Install the package with development requirements:
 
 ```bash
-$ poetry install
+$ uv sync
 ```
 
 You can now run an interactive Python session, or the command-line
 interface:
 
 ```bash
-$ poetry run python
-$ poetry run skimpy
+$ uv run python
+$ uv run skimpy
 ```
 
 To build the documentation, you will also need [Make](https://www.gnu.org/software/make/) and [Quarto](https://quarto.org/) (these are non-Python dependencies).
@@ -74,32 +65,32 @@ To publish new docs to GitHub Pages (where the documentation is displayed as web
 Run the full test suite:
 
 ```bash
-$ poetry run nox
+$ uv run nox
 ```
 
 List the available Nox sessions:
 
 ```bash
-$ poetry run nox --list-sessions
+$ uv run nox --list-sessions
 ```
 
 You can also run a specific Nox session. For example, invoke the unit
 test suite like this:
 
 ```bash
-$ poetry run nox --session=tests
+$ uv run nox --session=tests
 ```
 
 Unit tests are located in the `tests` directory, and are written using
 the [pytest](https://pytest.readthedocs.io/) testing framework.
 
-You may need to use, for example, `poetry run nox` to ensure that the
+You may need to use, for example, `uv run nox` to ensure that the
 tests are run in the right environment.
 
 For the pre-commit checks, use
 
 ```bash
-$ poetry run pre-commit run --all-files
+$ uv run pre-commit run --all-files
 ```
 
 ## How to submit changes
@@ -120,11 +111,11 @@ Your pull request needs to meet the following guidelines for acceptance:
 Feel free to submit early, though---we can always iterate on this.
 
 To run linting and code formatting checks before committing your change,
-you can install pre-commit as a Git hook by running the following
+you need to run the following
 command:
 
 ```bash
-$ poetry run nox --session=pre-commit -- install
+$ uv run nox --session=pre-commit -- install
 ```
 
 It is recommended to open an issue before starting work on anything.
@@ -147,7 +138,7 @@ your approach.
 
 - The automatic release github action will push to PyPI.
 
-If you ever need distributable files, you can use the `poetry build` command locally.
+If you ever need distributable files, you can use the `uv build` command locally.
 
 ## How to build the documentation
 
