@@ -78,8 +78,6 @@ def tests(session: nox.Session) -> None:
         "sync",
         "--group",
         "dev",
-        "--group",
-        "lint",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
     session.env["PYTHONPATH"] = "src"
