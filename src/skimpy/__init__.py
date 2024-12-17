@@ -5,6 +5,7 @@ from __future__ import annotations  # This is here to get 'dict' typing for <3.1
 import datetime
 import os
 import re
+import typing
 from collections import defaultdict
 from itertools import chain
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -303,7 +304,7 @@ def _find_nearest(array, value):
     return array[idx]
 
 
-@typechecked
+@typing.no_type_check
 def _create_unicode_hist(series: pd.Series) -> pd.Series:
     """Return a histogram rendered in block unicode.
 
@@ -335,18 +336,18 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
         1.0,
     ]
     # add in empty string
-    unicode_hist = {fractions[0]: " "}
+    unicode_hist = {fractions[0]: " "}  # type: ignore
     # Unicode block elements for bar characters
     unicode_hist.update(
-        {key: chr(code) for key, code in zip(fractions[1:], range(0x2581, 0x2589))}
+        {key: chr(code) for key, code in zip(fractions[1:], range(0x2581, 0x2589))}  # type: ignore
     )
     # NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
     # systems, so, to make skimpy work on all systems, hist blocks are pinned to
     # nearest available consistent width block for Windows.
     # Remove specific bar characters if on Windows
     if os.name != "posix":
-        del unicode_hist[1 / 2]
-        del unicode_hist[1.0]
+        del unicode_hist[1 / 2]  # type: ignore
+        del unicode_hist[1.0]  # type: ignore
 
     key_vector = np.array(list(unicode_hist.keys()), dtype="float")
     ucode_to_print = "".join(
