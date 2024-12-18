@@ -126,26 +126,26 @@ your approach.
 
 - Open a new branch with the version name
 
-- Change the version in pyproject.toml
+- Change the version in pyproject.toml (you can run `uv run version_bumper.py`, which has script-level dependencies)
 
 - Commit the change with a new version label as the commit message (checking the tests pass)
 
-- Head to github and merge into main
+- Head to GitHub and merge into main (again, if the CI works)
 
 - Draft a new release based on that most recent merge commit, using the new version as the tag
 
-- Confirm the release draft on gitub
+- Confirm the release draft on GitHub
 
 - The automatic release github action will push to PyPI.
 
 If you ever need distributable files, you can use the `uv build` command locally.
 
-## How to build the documentation
+## How to build the documentation manually and locally
 
 - Run `make clean`
 
 - Run `make`
 
-To upload the documentation, it's
+You shouldn't need to publish the documentation because there's a GitHub action that covers it automatically whenever there's a new release. But to upload the documentation manually, it's
 
 - Run `make publish`
