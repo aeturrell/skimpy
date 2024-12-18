@@ -1,6 +1,7 @@
 """Test cases for the __main__ module."""
 
 import datetime
+import os
 import subprocess
 
 import numpy as np
@@ -489,7 +490,17 @@ def test_22_string_summary():
     df = pd.DataFrame(string_list, columns=["text"], dtype="string")
     df.loc[[3], "text"] = None
     result_df = _string_variable_summary_table(df)
-    expected_values = [1, 20.0, 3.6, 18]
+    expected_values = [
+        1,
+        20.0,
+        "blah",
+        "Indeed, it was the most outrageously pompous cat I have ever seen.",
+        "How are you?",
+        "blah",
+        23.8,
+        3.6,
+        18,
+    ]
     for i, col in enumerate(result_df.columns):
         assert result_df.iloc[0, i] == expected_values[i]
 
@@ -505,6 +516,8 @@ def test_23_bool_summary():
     df = pd.DataFrame(bool_list, columns=["bool"], dtype="bool")
     result_df = _bool_variable_summary_table(df)
     expected_values = [2, 0.5, "▇    ▇"]
+    if os.name == "posix":
+        expected_values = [2, 0.5, "█    █"]
     for i, col in enumerate(result_df.columns):
         assert result_df.iloc[0, i] == expected_values[i]
 
