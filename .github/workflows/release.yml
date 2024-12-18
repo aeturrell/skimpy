@@ -43,7 +43,7 @@ jobs:
       - name: Bump version for developmental release
         if: "! steps.check-version.outputs.tag"
         run: |
-          uv run python version_bumper.py &&
+          uv run version_bumper.py &&
           version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version) &&
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
 
@@ -94,6 +94,10 @@ jobs:
         with:
           # Install a specific version of uv.
           version: "0.5.2"
+
+      - name: Install dependencies
+        run: |
+          uv sync --extra dev
 
       - name: Build autodocs
         run: uv run quartodoc build --config docs/_quarto.yml

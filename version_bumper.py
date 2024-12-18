@@ -1,3 +1,8 @@
+# /// script
+# dependencies = [
+#   "toml>=0.10.2"
+# ]
+# ///
 import subprocess
 from typing import Literal
 
@@ -39,3 +44,7 @@ def bump_version(part: Literal["major", "minor", "patch"] = "patch") -> None:
     )
 
     print(f"Version bumped to {major}.{minor}.{patch}")
+
+
+if __name__ == "__main__":
+    bump_version()
