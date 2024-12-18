@@ -1,5 +1,9 @@
 name: Release
 
+permissions:
+  contents: write
+  pages: write
+
 on:
   push:
     branches:
@@ -111,19 +115,5 @@ jobs:
       - name: Build docs
         run: cd docs;uv run quarto render --execute
 
-      - name: Upload static files as artifact
-        id: deployment
-        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
-        with:
-          path: docs/
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build-docs
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish
+        run: cd docs;uv run quarto publish gh-pages --no-render --no-browser
