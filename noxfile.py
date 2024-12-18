@@ -115,7 +115,7 @@ def coverage(session: nox.Session) -> None:
         session.run("coverage", "erase", "--data-file=.coverage")
         session.run("coverage", "combine")
 
-    session.run("coverage", *args)
+    session.run("coverage", "-i", *args)
 
 
 @nox.session(name="pre-commit", python="3.9", venv_backend="uv")
