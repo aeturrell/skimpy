@@ -115,5 +115,10 @@ jobs:
       - name: Build docs
         run: cd docs;uv run quarto render --execute
 
+      - name: git config
+        run: |
+          git config user.name "$(git log -n 1 --pretty=format:%an)" &&
+          git config user.email "$(git log -n 1 --pretty=format:%ae)"
+
       - name: Publish
         run: cd docs;uv run quarto publish gh-pages --no-render --no-browser
