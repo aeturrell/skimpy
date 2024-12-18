@@ -100,6 +100,11 @@ jobs:
           uv sync --extra dev
           uv pip install -e .
 
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.6.39
+
       - name: Build autodocs
         run: uv run quartodoc build --config docs/_quarto.yml
 
