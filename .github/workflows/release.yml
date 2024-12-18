@@ -98,6 +98,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv sync --extra dev
+          uv pip install -e .
 
       - name: Build autodocs
         run: uv run quartodoc build --config docs/_quarto.yml
