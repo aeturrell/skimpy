@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Skimpy - Features</title>
+<title>Features – Skimpy</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -70,17 +70,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-04dd6a5ca28aac96903e51a8fbffbcaa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -89,18 +95,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="Skimpy - Features">
+<meta name="twitter:title" content="Features – Skimpy">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -109,43 +116,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Skimpy</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./features.html" rel="" target="" aria-current="page">
- <span class="menu-text">Features</span></a>
+    <a class="nav-link active" href="./features.html" aria-current="page"> 
+<span class="menu-text">Features</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./reference/index.html" rel="" target="">
- <span class="menu-text">Reference</span></a>
+    <a class="nav-link" href="./reference/index.html"> 
+<span class="menu-text">Reference</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./contributing.html" rel="" target="">
- <span class="menu-text">Contributing</span></a>
+    <a class="nav-link" href="./contributing.html"> 
+<span class="menu-text">Contributing</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./code_of_conduct.html" rel="" target="">
- <span class="menu-text">Contributor Code of Conduct</span></a>
+    <a class="nav-link" href="./code_of_conduct.html"> 
+<span class="menu-text">Contributor Code of Conduct</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -183,7 +190,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p><strong>Skimpy</strong> provides:</p>
 <ul>
@@ -195,13 +204,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>a way to further work with the summary statistics, by returning them as a dictionary</li>
 <li>a way to clean up messy column names in both <strong>pandas</strong> and <strong>Polars</strong> dataframes</li>
 </ul>
-<p>When using <strong>skimpy</strong>, please be aware that <em>numerical columns are rounded to 4 significant figures</em>.</p>
+<p>When using <strong>skimpy</strong>, please be aware that <em>numerical columns are rounded to 4 significant figures</em>. You should also be aware that <em>any timezone-aware datetimes are converted into their naive equivalents</em>.</p>
 <p>You can find a full guide to the API on the <a href="./reference/index.html">reference pages</a>.</p>
 <section id="skim-a-dataframe-and-return-the-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="skim-a-dataframe-and-return-the-statistics">Skim a dataframe and return the statistics</h2>
 <p>To use <code>skim()</code> in its default mode, see the quickstart on <a href="./index.html">the homepage</a>.</p>
 <p>If you want to export your results to a dictionary within Python, rather than printing them to console, use the <code>skim_get_data()</code> function instead. Let’s see an example:</p>
-<div class="cell" data-execution_count="1">
+<div id="cell-3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> generate_test_data, skim_get_data</span>
@@ -211,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> skim_get_data(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And the dictionary has contents as follows:</p>
-<div class="cell" data-execution_count="2">
+<div id="cell-5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
@@ -219,14 +228,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span style="color: #008000; text-decoration-color: #008000">'Data Types'</span>: <span style="font-weight: bold">{</span>
         <span style="color: #008000; text-decoration-color: #008000">'float64'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,
         <span style="color: #008000; text-decoration-color: #008000">'category'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,
-        <span style="color: #008000; text-decoration-color: #008000">'datetime64[ns]'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,
         <span style="color: #008000; text-decoration-color: #008000">'object'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,
-        <span style="color: #008000; text-decoration-color: #008000">'int64'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'datetime64[ns]'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,
         <span style="color: #008000; text-decoration-color: #008000">'bool'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'int64'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
         <span style="color: #008000; text-decoration-color: #008000">'string'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
         <span style="color: #008000; text-decoration-color: #008000">'timedelta64[ns]'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
     <span style="font-weight: bold">}</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'Categories'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'Columns'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'location'</span>, <span style="color: #008000; text-decoration-color: #008000">'class'</span><span style="font-weight: bold">}}</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Categories'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'Columns'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'class'</span>, <span style="color: #008000; text-decoration-color: #008000">'location'</span><span style="font-weight: bold">}}</span>,
     <span style="color: #008000; text-decoration-color: #008000">'number'</span>: <span style="font-weight: bold">{</span>
         <span style="color: #008000; text-decoration-color: #008000">'NA'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">118</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'NA %'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11.8</span><span style="font-weight: bold">}</span>,
@@ -237,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <span style="color: #008000; text-decoration-color: #008000">'p50'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.4976</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.468</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10.0</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-0.0007736</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'p75'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8602</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.953</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12.0</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.6639</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'p100'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.0</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13.91</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20.0</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.717</span><span style="font-weight: bold">}</span>,
-        <span style="color: #008000; text-decoration-color: #008000">'hist'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008000; text-decoration-color: #008000">'▇▃▃▃▅▇'</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008000; text-decoration-color: #008000">'▇▃▁   '</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008000; text-decoration-color: #008000">'▁▃▇▆▃▁'</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008000; text-decoration-color: #008000">'▁▅▇▅▁ '</span><span style="font-weight: bold">}</span>
+        <span style="color: #008000; text-decoration-color: #008000">'hist'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'length'</span>: <span style="color: #008000; text-decoration-color: #008000">'█▃▃▃▄█'</span>, <span style="color: #008000; text-decoration-color: #008000">'width'</span>: <span style="color: #008000; text-decoration-color: #008000">'█▃▁   '</span>, <span style="color: #008000; text-decoration-color: #008000">'depth'</span>: <span style="color: #008000; text-decoration-color: #008000">'▁▄█▆▃▁'</span>, <span style="color: #008000; text-decoration-color: #008000">'rnd'</span>: <span style="color: #008000; text-decoration-color: #008000">'▁▄█▅▁ '</span><span style="font-weight: bold">}</span>
     <span style="font-weight: bold">}</span>,
     <span style="color: #008000; text-decoration-color: #008000">'category'</span>: <span style="font-weight: bold">{</span>
         <span style="color: #008000; text-decoration-color: #008000">'NA'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'class'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'location'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="font-weight: bold">}</span>,
@@ -245,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <span style="color: #008000; text-decoration-color: #008000">'ordered'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'class'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #008000; text-decoration-color: #008000">'location'</span>: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'unique'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'class'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008000; text-decoration-color: #008000">'location'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span><span style="font-weight: bold">}</span>
     <span style="font-weight: bold">}</span>,
-    <span style="color: #008000; text-decoration-color: #008000">'bool'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'true'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">516</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'true rate'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.52</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'hist'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008000; text-decoration-color: #008000">'▇    ▇'</span><span style="font-weight: bold">}}</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'bool'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'true'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">516</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'true rate'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.52</span><span style="font-weight: bold">}</span>, <span style="color: #008000; text-decoration-color: #008000">'hist'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'booly_col'</span>: <span style="color: #008000; text-decoration-color: #008000">'█    █'</span><span style="font-weight: bold">}}</span>,
     <span style="color: #008000; text-decoration-color: #008000">'datetime'</span>: <span style="font-weight: bold">{</span>
         <span style="color: #008000; text-decoration-color: #008000">'NA'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'datetime'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'datetime_no_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'NA %'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'datetime'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'datetime_no_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3</span><span style="font-weight: bold">}</span>,
@@ -279,8 +288,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span style="color: #008000; text-decoration-color: #008000">'string'</span>: <span style="font-weight: bold">{</span>
         <span style="color: #008000; text-decoration-color: #008000">'NA'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'NA %'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.6</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'shortest'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008000; text-decoration-color: #008000">'How are you?'</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'longest'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008000; text-decoration-color: #008000">'Indeed, it was the most outrageously pompous cat I have ever seen.'</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'min'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008000; text-decoration-color: #008000">'How are you?'</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'max'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008000; text-decoration-color: #008000">'What weather!'</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'chars per row'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31.1</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'words per row'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.8</span><span style="font-weight: bold">}</span>,
         <span style="color: #008000; text-decoration-color: #008000">'total words'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'text'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5761</span><span style="font-weight: bold">}</span>
+    <span style="font-weight: bold">}</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'object'</span>: <span style="font-weight: bold">{</span>
+        <span style="color: #008000; text-decoration-color: #008000">'NA'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'datetime.date'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>, <span style="color: #008000; text-decoration-color: #008000">'datetime.date_no_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">}</span>,
+        <span style="color: #008000; text-decoration-color: #008000">'NA %'</span>: <span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'datetime.date'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span>, <span style="color: #008000; text-decoration-color: #008000">'datetime.date_no_freq'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0</span><span style="font-weight: bold">}</span>
     <span style="font-weight: bold">}</span>
 <span style="font-weight: bold">}</span>
 </pre>
@@ -290,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="clean-up-messy-dataframe-column-names" class="level2">
 <h2 class="anchored" data-anchor-id="clean-up-messy-dataframe-column-names">Clean up messy dataframe column names</h2>
 <p><strong>skimpy</strong> also comes with a <code>clean_columns</code> function as a convenience (with thanks to the <a href="https://dataprep.ai/"><strong>dataprep</strong></a> package). This slugifies column names in <strong>pandas</strong> dataframes. For example,</p>
-<div class="cell" data-execution_count="3">
+<div id="cell-7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimpy <span class="im">import</span> clean_columns</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [</span>
@@ -312,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Now let’s clean these—by default what we get back is in <em>snake case</em>:</p>
-<div class="cell" data-execution_count="4">
+<div id="cell-9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -321,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Other naming conventions are available, for example <em>camel case</em>:</p>
-<div class="cell" data-execution_count="5">
+<div id="cell-11" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>clean_df <span class="op">=</span> clean_columns(messy_df, case<span class="op">=</span><span class="st">"camel"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(clean_df.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -379,18 +397,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -422,11 +429,48 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -436,8 +480,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -449,7 +502,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -493,6 +668,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -518,6 +694,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -578,6 +780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
