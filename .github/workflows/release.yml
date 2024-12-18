@@ -43,7 +43,9 @@ jobs:
       - name: Bump version for developmental release
         if: "! steps.check-version.outputs.tag"
         run: |
-          uv run python version_bumper.py
+          uv run python version_bumper.py &&
+          version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version) &&
+          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
 
       - name: Build package
         run: |
