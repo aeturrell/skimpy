@@ -170,7 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#how-to-test-the-project" id="toc-how-to-test-the-project" class="nav-link" data-scroll-target="#how-to-test-the-project">How to test the project</a></li>
   <li><a href="#how-to-submit-changes" id="toc-how-to-submit-changes" class="nav-link" data-scroll-target="#how-to-submit-changes">How to submit changes</a></li>
   <li><a href="#how-to-create-a-package-release" id="toc-how-to-create-a-package-release" class="nav-link" data-scroll-target="#how-to-create-a-package-release">How to create a package release</a></li>
-  <li><a href="#how-to-build-the-documentation" id="toc-how-to-build-the-documentation" class="nav-link" data-scroll-target="#how-to-build-the-documentation">How to build the documentation</a></li>
+  <li><a href="#how-to-build-the-documentation-manually-and-locally" id="toc-how-to-build-the-documentation-manually-and-locally" class="nav-link" data-scroll-target="#how-to-build-the-documentation-manually-and-locally">How to build the documentation manually and locally</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -259,22 +259,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="how-to-create-a-package-release">How to create a package release</h2>
 <ul>
 <li><p>Open a new branch with the version name</p></li>
-<li><p>Change the version in pyproject.toml</p></li>
+<li><p>Change the version in pyproject.toml (you can run <code>uv run version_bumper.py</code>, which has script-level dependencies)</p></li>
 <li><p>Commit the change with a new version label as the commit message (checking the tests pass)</p></li>
-<li><p>Head to github and merge into main</p></li>
+<li><p>Head to GitHub and merge into main (again, if the CI works)</p></li>
 <li><p>Draft a new release based on that most recent merge commit, using the new version as the tag</p></li>
-<li><p>Confirm the release draft on gitub</p></li>
+<li><p>Confirm the release draft on GitHub</p></li>
 <li><p>The automatic release github action will push to PyPI.</p></li>
 </ul>
 <p>If you ever need distributable files, you can use the <code>uv build</code> command locally.</p>
 </section>
-<section id="how-to-build-the-documentation" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-build-the-documentation">How to build the documentation</h2>
+<section id="how-to-build-the-documentation-manually-and-locally" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-build-the-documentation-manually-and-locally">How to build the documentation manually and locally</h2>
 <ul>
 <li><p>Run <code>make clean</code></p></li>
 <li><p>Run <code>make</code></p></li>
 </ul>
-<p>To upload the documentation, it’s</p>
+<p>You shouldn’t need to publish the documentation because there’s a GitHub action that covers it automatically whenever there’s a new release. But to upload the documentation manually, it’s</p>
 <ul>
 <li>Run <code>make publish</code></li>
 </ul>
