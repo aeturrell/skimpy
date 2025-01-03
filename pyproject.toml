@@ -4,12 +4,13 @@ version = "0.0.17"
 description = "skimpy"
 authors = [{name="Arthur Turrell", email="None@none.com"}]
 readme = "README.md"
-license = {text = "MIT License"}
+license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
 ]
 requires-python = ">=3.9"
 dependencies = [
