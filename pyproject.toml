@@ -1,6 +1,6 @@
 [project]
 name = "skimpy"
-version = "0.0.17"
+version = "0.0.18"
 description = "skimpy"
 authors = [{name="Arthur Turrell", email="None@none.com"}]
 readme = "README.md"
