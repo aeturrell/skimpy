@@ -20,10 +20,10 @@ dependencies = [
     "pandas-stubs>=2.2.2.240807",
     "pandas>=2.2.3",
     "polars>=1.17.1",
-    "pyarrow>=18.1.0",
     "pygments>=2.18.0",
     "rich>=13.9.4",
     "typeguard>=4.4.1",
+    "pyarrow>=17.0.0",
 ]
 
 [dependency-groups]
