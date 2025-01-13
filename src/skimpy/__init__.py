@@ -129,11 +129,12 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
 
 
 @typechecked
-def _round_series(s: pd.Series, places=2) -> pd.Series:
+def _round_series(s: pd.Series, places: int = 2) -> pd.Series:
     """Rounds numerical series to places number of significant figures
 
     Args:
         s (pd.Series): Input series
+        places (int, optional): Number of significant figures to round to. Defaults to 2.
 
     Returns:
         pd.Series: Series with numbers rounded to places s.f.
@@ -289,7 +290,7 @@ def _dataframe_to_rich_table(
     return table
 
 
-def _find_nearest(array, value):
+def _find_nearest(array: np.ndarray, value: float) -> float:
     """Find the nearest numerical match to value in an array.
 
     Args:
@@ -297,7 +298,7 @@ def _find_nearest(array, value):
         value (float): Single value to find an entry in array that is close.
 
     Returns:
-        np.array: The entry in array that is closest to value.
+        float: The entry in array that is closest to value.
     """
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
@@ -612,10 +613,13 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
     supported.
 
     Args:
-        df (pd.DataFrame): _description_
+        df (pd.DataFrame): Input dataframe.
 
     Returns:
-        pd.DataFrame: _description_
+        pd.DataFrame: Dataframe with unsupported columns removed.
+
+    Raises:
+        ValueError: If the input dataframe only has unsupported column types.
     """
     df_types = (
         pd.DataFrame(df.apply(pd.api.types.infer_dtype, axis=0))
@@ -643,7 +647,7 @@ def _skim_computation(
         df_in (pd.DataFrame): Input pandas dataframe to create a summary of.
 
     Returns:
-        [rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
+        Tuple[rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = str(df_in.name)
@@ -767,6 +771,9 @@ def skim(
     Args:
         df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
 
+    Raises:
+        NotImplementedError: If the dataframe has a MultiIndex column structure.
+
     Examples
     --------
     Skim a dataframe
@@ -846,6 +853,10 @@ def skim_get_figure(
         df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
         save_path (Union[os.PathLike, str]): Path to save figure to (include extension).
         format (str, optional): svg, html, or text. Defaults to "svg".
+
+    Raises:
+
+        ValueError: If the format is not one of svg, html, or text.
     """
     df_out = _convert_to_pandas(df_in)
     grid, _ = _skim_computation(df_out)
@@ -908,7 +919,7 @@ def clean_columns(
         ValueError: If case is not valid.
 
     Returns:
-        (Union[pd.DataFrame, pl.DataFrame]): Dataframe with cleaned column names.
+        Union[pd.DataFrame, pl.DataFrame]: Dataframe with cleaned column names.
 
     Examples
     --------

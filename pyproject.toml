@@ -24,6 +24,7 @@ dependencies = [
     "rich>=13.9.4",
     "typeguard>=4.4.1",
     "pyarrow>=17.0.0",
+    "pydoclint>=0.6.0",
 ]
 
 [dependency-groups]
@@ -55,3 +56,7 @@ show_error_codes = true
 show_error_context = true
 ignore_missing_imports = true
 disallow_untyped_calls = false
+
+[tool.pydoclint]
+style = 'google'
+exclude = ["noxfile.py", "tests/", "docs/"]

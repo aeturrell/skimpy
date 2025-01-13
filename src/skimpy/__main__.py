@@ -9,11 +9,11 @@ from skimpy import skim
 @click.command()
 @click.version_option()
 @click.argument("input")
-def main(input) -> None:
+def main(input: str) -> None:
     """The skimpy command line interface. Usage refers only to command line.
 
     Args:
-        input ([csv]): A csv file to produce summary statistics on
+        input (str): String of path of csv file to produce summary statistics on
     """
     df = pd.read_csv(input, parse_dates=True)
     df = df.infer_objects()

@@ -649,6 +649,15 @@ wheels = [
 ]
 
 [[package]]
+name = "docstring-parser-fork"
+version = "0.0.12"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c6/72/61f7243ad62e14d527f93304cd4f333e681295aa3ef9bcc4afc36c07001a/docstring_parser_fork-0.0.12.tar.gz", hash = "sha256:b44c5e0be64ae80f395385f01497d381bd094a57221fd9ff020987d06857b2a0", size = 31608 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/50/0d/eed05d4b1065f11f8bef2f57440759d4dacc73c22780764948bfa4aaa304/docstring_parser_fork-0.0.12-py3-none-any.whl", hash = "sha256:55d7cbbc8b367655efd64372b9a0b33a49bae930a8ddd5cdc4c6112312e28a87", size = 42185 },
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2223,6 +2232,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pydoclint"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "docstring-parser-fork" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/57/08/ef4e3c77279d3e849aaa5c340fbd8f3df4faddd0654f3ee057988dad61e3/pydoclint-0.6.0.tar.gz", hash = "sha256:bee5b509f5407c8ae180ff86a6776895084129097a4600b749fd133fd58a1cf4", size = 53067 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9d/79/9daa3087d4cfc9e5dec7911363b8f1f024a66899559d031fc215fe6724ea/pydoclint-0.6.0-py2.py3-none-any.whl", hash = "sha256:f1fb9676efe70c9a0443c7177186a01001a2227c9100272ef72d7da269ae9bbd", size = 47515 },
+]
+
+[[package]]
 name = "pygments"
 version = "2.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2784,7 +2807,7 @@ wheels = [
 
 [[package]]
 name = "skimpy"
-version = "0.0.17"
+version = "0.0.18"
 source = { virtual = "." }
 dependencies = [
     { name = "click" },
@@ -2794,6 +2817,7 @@ dependencies = [
     { name = "pandas-stubs" },
     { name = "polars" },
     { name = "pyarrow" },
+    { name = "pydoclint" },
     { name = "pygments" },
     { name = "rich" },
     { name = "typeguard" },
@@ -2828,6 +2852,7 @@ requires-dist = [
     { name = "pandas-stubs", specifier = ">=2.2.2.240807" },
     { name = "polars", specifier = ">=1.17.1" },
     { name = "pyarrow", specifier = ">=17.0.0" },
+    { name = "pydoclint", specifier = ">=0.6.0" },
     { name = "pygments", specifier = ">=2.18.0" },
     { name = "rich", specifier = ">=13.9.4" },
     { name = "typeguard", specifier = ">=4.4.1" },
