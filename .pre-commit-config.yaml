@@ -54,3 +54,8 @@ repos:
         entry: nbstripout
         language: python
         types: [jupyter]
+  - repo: https://github.com/jsh9/pydoclint
+    rev: 0.6.0
+    hooks:
+      - id: pydoclint
+        args: [--style=google, --config=pyproject.toml, src/]
