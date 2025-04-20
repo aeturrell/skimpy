@@ -10,6 +10,8 @@ import polars as pl
 import pytest
 from click.testing import CliRunner
 from pandas.testing import assert_frame_equal
+from typeguard import typeguard_ignore
+
 from skimpy import (
     __main__,
     _bool_variable_summary_table,
@@ -26,7 +28,6 @@ from skimpy import (
     skim_get_data,
     skim_get_figure,
 )
-from typeguard import typeguard_ignore
 
 
 @pytest.fixture
@@ -396,7 +397,7 @@ def test_015_ensure_no_data_changed() -> None:
         }
     )
     skim(df_check)
-    assert type(df_check["header"].iloc[0]) == pd._libs.tslibs.timedeltas.Timedelta
+    assert isinstance(df_check["header"].iloc[0], pd._libs.tslibs.timedeltas.Timedelta)
 
 
 def test_016_long_col_names() -> None:

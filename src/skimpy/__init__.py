@@ -139,7 +139,7 @@ def _round_series(s: pd.Series, places: int = 2) -> pd.Series:
     Returns:
         pd.Series: Series with numbers rounded to places s.f.
     """
-    s = s.apply(lambda x: float(f'{float(f"{x:.{places}g}"):g}'))
+    s = s.apply(lambda x: float(f"{float(f'{x:.{places}g}'):g}"))
     return s
 
 
