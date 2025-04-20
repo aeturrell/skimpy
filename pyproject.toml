@@ -4,13 +4,12 @@ version = "0.0.18"
 description = "skimpy"
 authors = [{name="Arthur Turrell", email="None@none.com"}]
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "MIT"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
-    "License :: OSI Approved :: MIT License",
 ]
 requires-python = ">=3.9"
 dependencies = [
@@ -25,6 +24,7 @@ dependencies = [
     "typeguard>=4.4.1",
     "pyarrow>=17.0.0",
     "pydoclint>=0.6.0",
+    "duckdb>=1.2.2",
 ]
 
 [dependency-groups]
@@ -47,6 +47,11 @@ dev = [
     "xdoctest[colors]>=1.2.0",
 ]
 
+[project.scripts]
+skimpy = "skimpy.__main__:main"
+
+[tool.uv]
+package = true
 
 [tool.mypy]
 strict = false
