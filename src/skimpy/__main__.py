@@ -1,7 +1,7 @@
 """Command-line interface for skimpy."""
 
 import click
-import pandas as pd
+import duckdb
 
 from skimpy import skim
 
@@ -15,8 +15,8 @@ def main(input: str) -> None:
     Args:
         input (str): String of path of csv file to produce summary statistics on
     """
-    df = pd.read_csv(input, parse_dates=True)
-    df = df.infer_objects()
+    # Uses CSV sniffer from duckdb
+    df = duckdb.read_csv(input).to_df()
     skim(df)
 
 
