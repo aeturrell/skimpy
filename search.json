@@ -1,5 +1,184 @@
 [
   {
+    "objectID": "features.html",
+    "href": "features.html",
+    "title": "Features",
+    "section": "",
+    "text": "Skimpy provides:\nWhen using skimpy, please be aware that numerical columns are rounded to 4 significant figures. You should also be aware that any timezone-aware datetimes are converted into their naive equivalents.\nYou can find a full guide to the API on the reference pages."
+  },
+  {
+    "objectID": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "href": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "title": "Features",
+    "section": "Skim a dataframe and return the statistics",
+    "text": "Skim a dataframe and return the statistics\nTo use skim() in its default mode, see the quickstart on the homepage.\nIf you want to export your results to a dictionary within Python, rather than printing them to console, use the skim_get_data() function instead. Let’s see an example:\n\nimport pandas as pd\nfrom rich import print\n\nfrom skimpy import generate_test_data, skim_get_data\n\ndf = generate_test_data()\n\nsummary = skim_get_data(df)\n\nAnd the dictionary has contents as follows:\n\nprint(summary)\n\n{\n    'Data Summary': {'Number of rows': 1000, 'Number of columns': 13},\n    'Data Types': {\n        'float64': 3,\n        'category': 2,\n        'object': 2,\n        'datetime64[ns]': 2,\n        'bool': 1,\n        'int64': 1,\n        'string': 1,\n        'timedelta64[ns]': 1\n    },\n    'Categories': {'Columns': {'class', 'location'}},\n    'number': {\n        'NA': {'length': 0, 'width': 0, 'depth': 0, 'rnd': 118},\n        'NA %': {'length': 0.0, 'width': 0.0, 'depth': 0.0, 'rnd': 11.8},\n        'mean': {'length': 0.5016, 'width': 2.037, 'depth': 10.02, 'rnd': -0.01977},\n        'sd': {'length': 0.3597, 'width': 1.929, 'depth': 3.208, 'rnd': 1.002},\n        'p0': {'length': 1.573e-06, 'width': 0.002057, 'depth': 2.0, 'rnd': -2.809},\n        'p25': {'length': 0.134, 'width': 0.603, 'depth': 8.0, 'rnd': -0.7355},\n        'p50': {'length': 0.4976, 'width': 1.468, 'depth': 10.0, 'rnd': -0.0007736},\n        'p75': {'length': 0.8602, 'width': 2.953, 'depth': 12.0, 'rnd': 0.6639},\n        'p100': {'length': 1.0, 'width': 13.91, 'depth': 20.0, 'rnd': 3.717},\n        'hist': {'length': '█▃▃▃▄█', 'width': '█▃▁   ', 'depth': '▁▄█▆▃▁', 'rnd': '▁▄█▅▁ '}\n    },\n    'category': {\n        'NA': {'class': 0, 'location': 1},\n        'NA %': {'class': 0.0, 'location': 0.1},\n        'ordered': {'class': False, 'location': False},\n        'unique': {'class': 2, 'location': 5}\n    },\n    'bool': {'true': {'booly_col': 516}, 'true rate': {'booly_col': 0.52}, 'hist': {'booly_col': '█    █'}},\n    'datetime': {\n        'NA': {'datetime': 0, 'datetime_no_freq': 3},\n        'NA %': {'datetime': 0.0, 'datetime_no_freq': 0.3},\n        'first': {\n            'datetime': Timestamp('2018-01-31 00:00:00'),\n            'datetime_no_freq': Timestamp('1992-01-05 00:00:00')\n        },\n        'last': {\n            'datetime': Timestamp('2101-04-30 00:00:00'),\n            'datetime_no_freq': Timestamp('2023-03-04 00:00:00')\n        },\n        'frequency': {'datetime': 'ME', 'datetime_no_freq': None}\n    },\n    \"&lt;class 'datetime.date'&gt;\": {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0},\n        'first': {\n            'datetime.date': datetime.date(2018, 1, 31),\n            'datetime.date_no_freq': datetime.date(1992, 1, 5)\n        },\n        'last': {'datetime.date': datetime.date(2101, 4, 30), 'datetime.date_no_freq': datetime.date(2023, 3, 4)},\n        'frequency': {'datetime.date': 'ME', 'datetime.date_no_freq': None}\n    },\n    'timedelta64[ns]': {\n        'NA': {'time diff': 5},\n        'NA %': {'time diff': 0.5},\n        'mean': {'time diff': Timedelta('8 days 00:05:47')},\n        'median': {'time diff': Timedelta('0 days 00:00:00')},\n        'max': {'time diff': Timedelta('26 days 00:00:00')}\n    },\n    'string': {\n        'NA': {'text': 6},\n        'NA %': {'text': 0.6},\n        'shortest': {'text': 'How are you?'},\n        'longest': {'text': 'Indeed, it was the most outrageously pompous cat I have ever seen.'},\n        'min': {'text': 'How are you?'},\n        'max': {'text': 'What weather!'},\n        'chars per row': {'text': 31.1},\n        'words per row': {'text': 5.8},\n        'total words': {'text': 5761}\n    },\n    'object': {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0}\n    }\n}"
+  },
+  {
+    "objectID": "features.html#clean-up-messy-dataframe-column-names",
+    "href": "features.html#clean-up-messy-dataframe-column-names",
+    "title": "Features",
+    "section": "Clean up messy dataframe column names",
+    "text": "Clean up messy dataframe column names\nskimpy also comes with a clean_columns function as a convenience (with thanks to the dataprep package). This slugifies column names in pandas dataframes. For example,\n\nfrom skimpy import clean_columns\n\ncolumns = [\n    \"bs lncs;n edbn \",\n    \"Nín hǎo. Wǒ shì zhōng guó rén\",\n    \"___This is a test___\",\n    \"ÜBER Über German Umlaut\",\n]\nmessy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])\nprint(\"Column names:\")\nprint(list(messy_df.columns))\n\nColumn names:\n\n\n\n['bs lncs;n edbn ', 'Nín hǎo. Wǒ shì zhōng guó rén', '___This is a test___', 'ÜBER Über German Umlaut']\n\n\n\nNow let’s clean these—by default what we get back is in snake case:\n\nclean_df = clean_columns(messy_df)\nprint(list(clean_df.columns))\n\n['bs_lncs_n_edbn', 'nin_hao_wo_shi_zhong_guo_ren', 'this_is_a_test', 'uber_uber_german_umlaut']\n\n\n\nOther naming conventions are available, for example camel case:\n\nclean_df = clean_columns(messy_df, case=\"camel\")\nprint(list(clean_df.columns))\n\n['bsLncsNEdbn', 'ninHaoWoShiZhongGuoRen', 'thisIsATest', 'uberUberGermanUmlaut']"
+  },
+  {
+    "objectID": "features.html#export-the-visual-summary-table-to-svg",
+    "href": "features.html#export-the-visual-summary-table-to-svg",
+    "title": "Features",
+    "section": "Export the visual summary table to SVG",
+    "text": "Export the visual summary table to SVG\nTo export the figure containing the table of summary statistics, use the skim_get_figure() function. This will save an SVG file to the given (relative) path that you pass with the save_path argument."
+  },
+  {
+    "objectID": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "href": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "title": "Features",
+    "section": "Run skim on a csv file from the command line",
+    "text": "Run skim on a csv file from the command line\nAlthough it’s usually better to set datatypes before running skimpy on data, we provide a command line utility that can work with CSV files as a convenience.\nYou can run this with the below—but note that the command is skimpy, the name of the package, rather than skim, as in the Python function.\n$ skimpy file.csv"
+  },
+  {
+    "objectID": "reference/skim.html",
+    "href": "reference/skim.html",
+    "title": "skim",
+    "section": "",
+    "text": "skim(df_in)\nSkim a pandas or polars dataframe and return visual summary statistics on it.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table displayed in the console. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNotImplementedError\nIf the dataframe has a MultiIndex column structure.\n\n\n\n\n\n\nSkim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim"
+    ]
+  },
+  {
+    "objectID": "reference/skim.html#parameters",
+    "href": "reference/skim.html#parameters",
+    "title": "skim",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim"
+    ]
+  },
+  {
+    "objectID": "reference/skim.html#raises",
+    "href": "reference/skim.html#raises",
+    "title": "skim",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nNotImplementedError\nIf the dataframe has a MultiIndex column structure.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim"
+    ]
+  },
+  {
+    "objectID": "reference/skim.html#examples",
+    "href": "reference/skim.html#examples",
+    "title": "skim",
+    "section": "",
+    "text": "Skim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim"
+    ]
+  },
+  {
+    "objectID": "reference/clean_columns.html",
+    "href": "reference/clean_columns.html",
+    "title": "clean_columns",
+    "section": "",
+    "text": "clean_columns(df, case='snake', replace=None, remove_accents=True)\nClean messy column names in a pandas dataframe.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\nOptional[Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf case is not valid.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[pd.DataFrame, pl.DataFrame]\nUnion[pd.DataFrame, pl.DataFrame]: Dataframe with cleaned column names.\n\n\n\n\n\n\nClean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "clean_columns"
+    ]
+  },
+  {
+    "objectID": "reference/clean_columns.html#parameters",
+    "href": "reference/clean_columns.html#parameters",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\nOptional[Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "clean_columns"
+    ]
+  },
+  {
+    "objectID": "reference/clean_columns.html#raises",
+    "href": "reference/clean_columns.html#raises",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nValueError\nIf case is not valid.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "clean_columns"
+    ]
+  },
+  {
+    "objectID": "reference/clean_columns.html#returns",
+    "href": "reference/clean_columns.html#returns",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[pd.DataFrame, pl.DataFrame]\nUnion[pd.DataFrame, pl.DataFrame]: Dataframe with cleaned column names.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "clean_columns"
+    ]
+  },
+  {
+    "objectID": "reference/clean_columns.html#examples",
+    "href": "reference/clean_columns.html#examples",
+    "title": "clean_columns",
+    "section": "",
+    "text": "Clean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "clean_columns"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html",
+    "href": "reference/skim_get_data.html",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "skim_get_data(df_in)\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html#parameters",
+    "href": "reference/skim_get_data.html#parameters",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html#returns",
+    "href": "reference/skim_get_data.html#returns",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
+    ]
+  },
+  {
     "objectID": "code_of_conduct.html",
     "href": "code_of_conduct.html",
     "title": "Contributor Code of Conduct",
@@ -56,255 +235,6 @@
     "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
   },
   {
-    "objectID": "features.html",
-    "href": "features.html",
-    "title": "Features",
-    "section": "",
-    "text": "Skimpy provides:\nWhen using skimpy, please be aware that numerical columns are rounded to 4 significant figures. You should also be aware that any timezone-aware datetimes are converted into their naive equivalents.\nYou can find a full guide to the API on the reference pages."
-  },
-  {
-    "objectID": "features.html#skim-a-dataframe-and-return-the-statistics",
-    "href": "features.html#skim-a-dataframe-and-return-the-statistics",
-    "title": "Features",
-    "section": "Skim a dataframe and return the statistics",
-    "text": "Skim a dataframe and return the statistics\nTo use skim() in its default mode, see the quickstart on the homepage.\nIf you want to export your results to a dictionary within Python, rather than printing them to console, use the skim_get_data() function instead. Let’s see an example:\n\nimport pandas as pd\nfrom rich import print\nfrom skimpy import generate_test_data, skim_get_data\n\ndf = generate_test_data()\n\nsummary = skim_get_data(df)\n\nAnd the dictionary has contents as follows:\n\nprint(summary)\n\n{\n    'Data Summary': {'Number of rows': 1000, 'Number of columns': 13},\n    'Data Types': {\n        'float64': 3,\n        'category': 2,\n        'object': 2,\n        'datetime64[ns]': 2,\n        'bool': 1,\n        'int64': 1,\n        'string': 1,\n        'timedelta64[ns]': 1\n    },\n    'Categories': {'Columns': {'class', 'location'}},\n    'number': {\n        'NA': {'length': 0, 'width': 0, 'depth': 0, 'rnd': 118},\n        'NA %': {'length': 0.0, 'width': 0.0, 'depth': 0.0, 'rnd': 11.8},\n        'mean': {'length': 0.5016, 'width': 2.037, 'depth': 10.02, 'rnd': -0.01977},\n        'sd': {'length': 0.3597, 'width': 1.929, 'depth': 3.208, 'rnd': 1.002},\n        'p0': {'length': 1.573e-06, 'width': 0.002057, 'depth': 2.0, 'rnd': -2.809},\n        'p25': {'length': 0.134, 'width': 0.603, 'depth': 8.0, 'rnd': -0.7355},\n        'p50': {'length': 0.4976, 'width': 1.468, 'depth': 10.0, 'rnd': -0.0007736},\n        'p75': {'length': 0.8602, 'width': 2.953, 'depth': 12.0, 'rnd': 0.6639},\n        'p100': {'length': 1.0, 'width': 13.91, 'depth': 20.0, 'rnd': 3.717},\n        'hist': {'length': '█▃▃▃▄█', 'width': '█▃▁   ', 'depth': '▁▄█▆▃▁', 'rnd': '▁▄█▅▁ '}\n    },\n    'category': {\n        'NA': {'class': 0, 'location': 1},\n        'NA %': {'class': 0.0, 'location': 0.1},\n        'ordered': {'class': False, 'location': False},\n        'unique': {'class': 2, 'location': 5}\n    },\n    'bool': {'true': {'booly_col': 516}, 'true rate': {'booly_col': 0.52}, 'hist': {'booly_col': '█    █'}},\n    'datetime': {\n        'NA': {'datetime': 0, 'datetime_no_freq': 3},\n        'NA %': {'datetime': 0.0, 'datetime_no_freq': 0.3},\n        'first': {\n            'datetime': Timestamp('2018-01-31 00:00:00'),\n            'datetime_no_freq': Timestamp('1992-01-05 00:00:00')\n        },\n        'last': {\n            'datetime': Timestamp('2101-04-30 00:00:00'),\n            'datetime_no_freq': Timestamp('2023-03-04 00:00:00')\n        },\n        'frequency': {'datetime': 'ME', 'datetime_no_freq': None}\n    },\n    \"&lt;class 'datetime.date'&gt;\": {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0},\n        'first': {\n            'datetime.date': datetime.date(2018, 1, 31),\n            'datetime.date_no_freq': datetime.date(1992, 1, 5)\n        },\n        'last': {'datetime.date': datetime.date(2101, 4, 30), 'datetime.date_no_freq': datetime.date(2023, 3, 4)},\n        'frequency': {'datetime.date': 'ME', 'datetime.date_no_freq': None}\n    },\n    'timedelta64[ns]': {\n        'NA': {'time diff': 5},\n        'NA %': {'time diff': 0.5},\n        'mean': {'time diff': Timedelta('8 days 00:05:47')},\n        'median': {'time diff': Timedelta('0 days 00:00:00')},\n        'max': {'time diff': Timedelta('26 days 00:00:00')}\n    },\n    'string': {\n        'NA': {'text': 6},\n        'NA %': {'text': 0.6},\n        'shortest': {'text': 'How are you?'},\n        'longest': {'text': 'Indeed, it was the most outrageously pompous cat I have ever seen.'},\n        'min': {'text': 'How are you?'},\n        'max': {'text': 'What weather!'},\n        'chars per row': {'text': 31.1},\n        'words per row': {'text': 5.8},\n        'total words': {'text': 5761}\n    },\n    'object': {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0}\n    }\n}"
-  },
-  {
-    "objectID": "features.html#clean-up-messy-dataframe-column-names",
-    "href": "features.html#clean-up-messy-dataframe-column-names",
-    "title": "Features",
-    "section": "Clean up messy dataframe column names",
-    "text": "Clean up messy dataframe column names\nskimpy also comes with a clean_columns function as a convenience (with thanks to the dataprep package). This slugifies column names in pandas dataframes. For example,\n\nfrom skimpy import clean_columns\n\ncolumns = [\n    \"bs lncs;n edbn \",\n    \"Nín hǎo. Wǒ shì zhōng guó rén\",\n    \"___This is a test___\",\n    \"ÜBER Über German Umlaut\",\n]\nmessy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])\nprint(\"Column names:\")\nprint(list(messy_df.columns))\n\nColumn names:\n\n\n\n['bs lncs;n edbn ', 'Nín hǎo. Wǒ shì zhōng guó rén', '___This is a test___', 'ÜBER Über German Umlaut']\n\n\n\nNow let’s clean these—by default what we get back is in snake case:\n\nclean_df = clean_columns(messy_df)\nprint(list(clean_df.columns))\n\n['bs_lncs_n_edbn', 'nin_hao_wo_shi_zhong_guo_ren', 'this_is_a_test', 'uber_uber_german_umlaut']\n\n\n\nOther naming conventions are available, for example camel case:\n\nclean_df = clean_columns(messy_df, case=\"camel\")\nprint(list(clean_df.columns))\n\n['bsLncsNEdbn', 'ninHaoWoShiZhongGuoRen', 'thisIsATest', 'uberUberGermanUmlaut']"
-  },
-  {
-    "objectID": "features.html#export-the-visual-summary-table-to-svg",
-    "href": "features.html#export-the-visual-summary-table-to-svg",
-    "title": "Features",
-    "section": "Export the visual summary table to SVG",
-    "text": "Export the visual summary table to SVG\nTo export the figure containing the table of summary statistics, use the skim_get_figure() function. This will save an SVG file to the given (relative) path that you pass with the save_path argument."
-  },
-  {
-    "objectID": "features.html#run-skim-on-a-csv-file-from-the-command-line",
-    "href": "features.html#run-skim-on-a-csv-file-from-the-command-line",
-    "title": "Features",
-    "section": "Run skim on a csv file from the command line",
-    "text": "Run skim on a csv file from the command line\nAlthough it’s usually better to set datatypes before running skimpy on data, we provide a command line utility that can work with CSV files as a convenience.\nYou can run this with the below—but note that the command is skimpy, the name of the package, rather than skim, as in the Python function.\n$ skimpy file.csv"
-  },
-  {
-    "objectID": "reference/generate_test_data.html",
-    "href": "reference/generate_test_data.html",
-    "title": "generate_test_data",
-    "section": "",
-    "text": "generate_test_data()\nGenerate a pandas dataframe with several different datatypes.\nFor testing skimpy, it’s convenient to have a dataset with many different data types. This function creates that dataframe.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\npd.DataFrame\npd.DataFrame: dataframe with columns spanning several data types.\n\n\n\n\n\n\nGenerate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "generate_test_data"
-    ]
-  },
-  {
-    "objectID": "reference/generate_test_data.html#returns",
-    "href": "reference/generate_test_data.html#returns",
-    "title": "generate_test_data",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\npd.DataFrame\npd.DataFrame: dataframe with columns spanning several data types.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "generate_test_data"
-    ]
-  },
-  {
-    "objectID": "reference/generate_test_data.html#examples",
-    "href": "reference/generate_test_data.html#examples",
-    "title": "generate_test_data",
-    "section": "",
-    "text": "Generate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "generate_test_data"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_data.html",
-    "href": "reference/skim_get_data.html",
-    "title": "skim_get_data",
-    "section": "",
-    "text": "skim_get_data(df_in)\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_data.html#parameters",
-    "href": "reference/skim_get_data.html#parameters",
-    "title": "skim_get_data",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_data.html#returns",
-    "href": "reference/skim_get_data.html#returns",
-    "title": "skim_get_data",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_figure.html",
-    "href": "reference/skim_get_figure.html",
-    "title": "skim_get_figure",
-    "section": "",
-    "text": "skim_get_figure(df_in, save_path, format='svg')\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_figure"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_figure.html#parameters",
-    "href": "reference/skim_get_figure.html#parameters",
-    "title": "skim_get_figure",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_figure"
-    ]
-  },
-  {
-    "objectID": "reference/clean_columns.html",
-    "href": "reference/clean_columns.html",
-    "title": "clean_columns",
-    "section": "",
-    "text": "clean_columns(df, case='snake', replace=None, remove_accents=True)\nClean messy column names in a pandas dataframe.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\nOptional[Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf case is not valid.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe with cleaned column names.\n\n\n\n\n\n\nClean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "clean_columns"
-    ]
-  },
-  {
-    "objectID": "reference/clean_columns.html#parameters",
-    "href": "reference/clean_columns.html#parameters",
-    "title": "clean_columns",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe from which column names are to be cleaned.\nrequired\n\n\ncase\nstr\nThe desired case style of the column name. Defaults to “snake”. - ‘snake’ produces ‘column_name’; - ‘kebab’ produces ‘column-name’; - ‘camel’ produces ‘columnName’; - ‘pascal’ produces ‘ColumnName’; - ‘const’ produces ‘COLUMN_NAME’; - ‘sentence’ produces ‘Column name’; - ‘title’ produces ‘Column Name’; - ‘lower’ produces ‘column name’; - ‘upper’ produces ‘COLUMN NAME’;\n'snake'\n\n\nreplace\nOptional[Dict[str, str]]\nValues to replace in the column names. Defaults to None. - {‘old_value’: ‘new_value’}\nNone\n\n\nremove_accents\nbool\nIf True, strip accents from the column names. Defaults to True.\nTrue",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "clean_columns"
-    ]
-  },
-  {
-    "objectID": "reference/clean_columns.html#raises",
-    "href": "reference/clean_columns.html#raises",
-    "title": "clean_columns",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nValueError\nIf case is not valid.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "clean_columns"
-    ]
-  },
-  {
-    "objectID": "reference/clean_columns.html#returns",
-    "href": "reference/clean_columns.html#returns",
-    "title": "clean_columns",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe with cleaned column names.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "clean_columns"
-    ]
-  },
-  {
-    "objectID": "reference/clean_columns.html#examples",
-    "href": "reference/clean_columns.html#examples",
-    "title": "clean_columns",
-    "section": "",
-    "text": "Clean column names by converting the names to camel case style, removing accents, and correcting a mispelling.\n&gt;&gt;&gt; df = pd.DataFrame(\n                    {\n                    'FirstNom': ['Philip', 'Turanga'],\n                    'lastName': ['Fry', 'Leela'],\n                    'Téléphone': ['555-234-5678', '(604) 111-2335']\n                    })\n\n&gt;&gt;&gt; clean_columns(df, case='camel', replace={'Nom': 'Name'})\nfirstName lastName       telephone\n0    Philip      Fry    555-234-5678\n1   Turanga    Leela  (604) 111-2335",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "clean_columns"
-    ]
-  },
-  {
-    "objectID": "reference/index.html",
-    "href": "reference/index.html",
-    "title": "Function reference",
-    "section": "",
-    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas or polars dataframe and return visual summary statistics on it.\n\n\nskim_get_data\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\n\n\nskim_get_figure\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes.",
-    "crumbs": [
-      "Reference",
-      "Function reference"
-    ]
-  },
-  {
-    "objectID": "reference/index.html#function-reference-1",
-    "href": "reference/index.html#function-reference-1",
-    "title": "Function reference",
-    "section": "",
-    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas or polars dataframe and return visual summary statistics on it.\n\n\nskim_get_data\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\n\n\nskim_get_figure\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes.",
-    "crumbs": [
-      "Reference",
-      "Function reference"
-    ]
-  },
-  {
-    "objectID": "reference/skim.html",
-    "href": "reference/skim.html",
-    "title": "skim",
-    "section": "",
-    "text": "skim(df_in)\nSkim a pandas or polars dataframe and return visual summary statistics on it.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table displayed in the console. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\n\n\n\n\nSkim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim"
-    ]
-  },
-  {
-    "objectID": "reference/skim.html#parameters",
-    "href": "reference/skim.html#parameters",
-    "title": "skim",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim"
-    ]
-  },
-  {
-    "objectID": "reference/skim.html#examples",
-    "href": "reference/skim.html#examples",
-    "title": "skim",
-    "section": "",
-    "text": "Skim a dataframe\n&gt;&gt;&gt; df = pd.DataFrame(\n        {\n        'col1': ['Philip', 'Turanga', 'bob'],\n        'col2': [50, 100, 70],\n        'col3': [False, True, True]\n        })\n&gt;&gt;&gt; df[\"col1\"] = df[\"col1\"].astype(\"string\")\n&gt;&gt;&gt; skim(df)",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim"
-    ]
-  },
-  {
     "objectID": "contributing.html",
     "href": "contributing.html",
     "title": "Contributing",
@@ -359,6 +289,88 @@
     "title": "Contributing",
     "section": "",
     "text": "Run make clean\nRun make\n\nYou shouldn’t need to publish the documentation because there’s a GitHub action that covers it automatically whenever there’s a new release. But to upload the documentation manually, it’s\n\nRun make publish"
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "Function reference",
+    "section": "",
+    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas or polars dataframe and return visual summary statistics on it.\n\n\nskim_get_data\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\n\n\nskim_get_figure\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes.",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#function-reference-1",
+    "href": "reference/index.html#function-reference-1",
+    "title": "Function reference",
+    "section": "",
+    "text": "What skimpy’s functions do\n\n\n\nskim\nSkim a pandas or polars dataframe and return visual summary statistics on it.\n\n\nskim_get_data\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\n\n\nskim_get_figure\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\n\n\nclean_columns\nClean messy column names in a pandas dataframe.\n\n\ngenerate_test_data\nGenerate a pandas dataframe with several different datatypes.",
+    "crumbs": [
+      "Reference",
+      "Function reference"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_figure.html",
+    "href": "reference/skim_get_figure.html",
+    "title": "skim_get_figure",
+    "section": "",
+    "text": "skim_get_figure(df_in, save_path, format='svg')\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_figure"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_figure.html#parameters",
+    "href": "reference/skim_get_figure.html#parameters",
+    "title": "skim_get_figure",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_figure"
+    ]
+  },
+  {
+    "objectID": "reference/generate_test_data.html",
+    "href": "reference/generate_test_data.html",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "generate_test_data()\nGenerate a pandas dataframe with several different datatypes.\nFor testing skimpy, it’s convenient to have a dataset with many different data types. This function creates that dataframe.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\npd.DataFrame\npd.DataFrame: dataframe with columns spanning several data types.\n\n\n\n\n\n\nGenerate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "generate_test_data"
+    ]
+  },
+  {
+    "objectID": "reference/generate_test_data.html#returns",
+    "href": "reference/generate_test_data.html#returns",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\npd.DataFrame\npd.DataFrame: dataframe with columns spanning several data types.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "generate_test_data"
+    ]
+  },
+  {
+    "objectID": "reference/generate_test_data.html#examples",
+    "href": "reference/generate_test_data.html#examples",
+    "title": "generate_test_data",
+    "section": "",
+    "text": "Generate test data to demonstrate how skimpy works.\n&gt;&gt;&gt; df = generate_test_data()",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "generate_test_data"
+    ]
   },
   {
     "objectID": "index.html",

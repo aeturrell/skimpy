@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-04dd6a5ca28aac96903e51a8fbffbcaa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c1ef1f14acc610acb7f84b3726103d52.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -229,6 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#skimpy.skim" id="toc-skimpy.skim" class="nav-link active" data-scroll-target="#skimpy.skim">skim</a>
   <ul class="collapse">
   <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
+  <li><a href="#raises" id="toc-raises" class="nav-link" data-scroll-target="#raises">Raises</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul></li>
   </ul>
@@ -269,6 +270,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Union[pd.DataFrame, pl.DataFrame]</td>
 <td>Dataframe to skim.</td>
 <td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="raises" class="level2 doc-section doc-section-raises">
+<h2 class="doc-section doc-section-raises anchored" data-anchor-id="raises">Raises</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 25%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>NotImplementedError</td>
+<td>If the dataframe has a MultiIndex column structure.</td>
 </tr>
 </tbody>
 </table>
