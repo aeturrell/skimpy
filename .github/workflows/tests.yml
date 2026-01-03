@@ -33,6 +33,9 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v6
 
+      - name: Ensure pyarrow can be compiled locally if needed
+        run: sudo apt install -y libarrow-dev libparquet-dev
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6.1.0
         with:
