@@ -13,7 +13,6 @@ from unicodedata import normalize
 
 import numpy as np
 import pandas as pd
-import rich
 from numpy.random import PCG64, Generator
 from rich.columns import Columns
 from rich.console import Console
@@ -191,11 +190,7 @@ def _simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
         np.ndarray: rows with any all zero hours/min/sec stripped out
     """
     timestamp_positions = [
-        [
-            [idx, i]
-            for i, j in enumerate(item)
-            if isinstance(j, pd._libs.tslibs.timestamps.Timestamp)
-        ]
+        [[idx, i] for i, j in enumerate(item) if isinstance(j, pd.Timestamp)]
         for idx, item in enumerate(rows)
     ]
     timestamp_pos_list = list(chain.from_iterable(timestamp_positions))
@@ -217,7 +212,7 @@ def _dataframe_to_rich_table(
     string: str = "green",
     bool: str = "turquoise2",
     object: str = "medium_purple1",
-) -> rich.table.Table:
+) -> Table:
     """Converts a dataframe into a rich table.
 
     To pretty print a dataframe to the console or interactive console, it needs
@@ -239,7 +234,7 @@ def _dataframe_to_rich_table(
         object (str): colour to render objects in
 
     Returns:
-        rich.table.Table: instance of Table from the rich package
+        Table: instance of Table from the rich package
     """
     COL_STR_LEN_LIMIT: int = 20  # For longer strings, limit chars shown.
     df = df.reset_index().rename(columns={"index": "column"})
@@ -640,14 +635,14 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 @typechecked
 def _skim_computation(
     df_in: pd.DataFrame,
-) -> Tuple[rich.table.Table, JSON]:
+) -> Tuple[Table, JSON]:
     """Performs the under-the-hood summary statistics.
 
     Args:
         df_in (pd.DataFrame): Input pandas dataframe to create a summary of.
 
     Returns:
-        Tuple[rich.table.Table, JSON]: Rich table grid to print to console, JSON of summary stats.
+        Tuple[Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = str(df_in.name)

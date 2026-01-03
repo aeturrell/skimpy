@@ -397,7 +397,7 @@ def test_015_ensure_no_data_changed() -> None:
         }
     )
     skim(df_check)
-    assert isinstance(df_check["header"].iloc[0], pd._libs.tslibs.timedeltas.Timedelta)
+    assert isinstance(df_check["header"].iloc[0], pd.Timedelta)
 
 
 def test_016_long_col_names() -> None:

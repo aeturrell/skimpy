@@ -7,12 +7,12 @@ from textwrap import dedent
 import nox
 
 package = "skimpy"
-python_versions = ["3.12", "3.11", "3.10"]
+python_versions = ["3.13", "3.12", "3.11", "3.10"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 nox.options.sessions = (
     "pre-commit",
-    # "mypy",
+    "ty",
     "tests",
     "typeguard",
     "xdoctest",
@@ -125,7 +125,7 @@ def precommit(session: nox.Session) -> None:
     session.run_install(
         "uv",
         "sync",
-        "--extra=dev",
+        "--group=dev",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
     session.run("pre-commit", *args)
@@ -134,21 +134,21 @@ def precommit(session: nox.Session) -> None:
 
 
 @nox.session(python=python_versions, venv_backend="uv")
-def mypy(session: nox.Session) -> None:
-    """Type-check using mypy."""
+def ty(session: nox.Session) -> None:
+    """Type-check using ty."""
     args = session.posargs or ["src"]  # TODO reintroduce the tests folder here
 
     # Install project and dependencies using uv
     session.run_install(
         "uv",
         "sync",
-        "--extra=dev",
+        "--group=dev",
         env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
     session.run_install("uv", "pip", "install", "-e", ".")
-    session.run("mypy", *args)
+    session.run("ty", "check", ".", *args)
     if not session.posargs:
-        session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
+        session.run("ty", "check", ".", f"--python={sys.executable}", "noxfile.py")
 
 
 @nox.session(venv_backend="uv", python=python_versions)
