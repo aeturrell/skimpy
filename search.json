@@ -1,38 +1,52 @@
 [
   {
-    "objectID": "features.html",
-    "href": "features.html",
-    "title": "Features",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Skimpy",
     "section": "",
-    "text": "Skimpy provides:\nWhen using skimpy, please be aware that numerical columns are rounded to 4 significant figures. You should also be aware that any timezone-aware datetimes are converted into their naive equivalents.\nYou can find a full guide to the API on the reference pages."
+    "text": "A light weight tool for creating summary statistics from dataframes.\nskimpy is a light weight tool that provides summary statistics about variables in pandas or Polars data frames within the console or your interactive Python window.\nThink of it as a super-charged version of pandas’ df.describe()."
   },
   {
-    "objectID": "features.html#skim-a-dataframe-and-return-the-statistics",
-    "href": "features.html#skim-a-dataframe-and-return-the-statistics",
-    "title": "Features",
-    "section": "Skim a dataframe and return the statistics",
-    "text": "Skim a dataframe and return the statistics\nTo use skim() in its default mode, see the quickstart on the homepage.\nIf you want to export your results to a dictionary within Python, rather than printing them to console, use the skim_get_data() function instead. Let’s see an example:\n\nimport pandas as pd\nfrom rich import print\n\nfrom skimpy import generate_test_data, skim_get_data\n\ndf = generate_test_data()\n\nsummary = skim_get_data(df)\n\nAnd the dictionary has contents as follows:\n\nprint(summary)\n\n{\n    'Data Summary': {'Number of rows': 1000, 'Number of columns': 13},\n    'Data Types': {\n        'float64': 3,\n        'category': 2,\n        'object': 2,\n        'datetime64[ns]': 2,\n        'bool': 1,\n        'int64': 1,\n        'string': 1,\n        'timedelta64[ns]': 1\n    },\n    'Categories': {'Columns': {'location', 'class'}},\n    'number': {\n        'NA': {'length': 0, 'width': 0, 'depth': 0, 'rnd': 118},\n        'NA %': {'length': 0.0, 'width': 0.0, 'depth': 0.0, 'rnd': 11.8},\n        'mean': {'length': 0.5016, 'width': 2.037, 'depth': 10.02, 'rnd': -0.01977},\n        'sd': {'length': 0.3597, 'width': 1.929, 'depth': 3.208, 'rnd': 1.002},\n        'p0': {'length': 1.573e-06, 'width': 0.002057, 'depth': 2.0, 'rnd': -2.809},\n        'p25': {'length': 0.134, 'width': 0.603, 'depth': 8.0, 'rnd': -0.7355},\n        'p50': {'length': 0.4976, 'width': 1.468, 'depth': 10.0, 'rnd': -0.0007736},\n        'p75': {'length': 0.8602, 'width': 2.953, 'depth': 12.0, 'rnd': 0.6639},\n        'p100': {'length': 1.0, 'width': 13.91, 'depth': 20.0, 'rnd': 3.717},\n        'hist': {'length': '█▃▃▃▄█', 'width': '█▃▁   ', 'depth': '▁▄█▆▃▁', 'rnd': '▁▄█▅▁ '}\n    },\n    'category': {\n        'NA': {'class': 0, 'location': 1},\n        'NA %': {'class': 0.0, 'location': 0.1},\n        'ordered': {'class': False, 'location': False},\n        'unique': {'class': 2, 'location': 5}\n    },\n    'bool': {'true': {'booly_col': 516}, 'true rate': {'booly_col': 0.52}, 'hist': {'booly_col': '█    █'}},\n    'datetime': {\n        'NA': {'datetime': 0, 'datetime_no_freq': 3},\n        'NA %': {'datetime': 0.0, 'datetime_no_freq': 0.3},\n        'first': {\n            'datetime': Timestamp('2018-01-31 00:00:00'),\n            'datetime_no_freq': Timestamp('1992-01-05 00:00:00')\n        },\n        'last': {\n            'datetime': Timestamp('2101-04-30 00:00:00'),\n            'datetime_no_freq': Timestamp('2023-03-04 00:00:00')\n        },\n        'frequency': {'datetime': 'ME', 'datetime_no_freq': None}\n    },\n    \"&lt;class 'datetime.date'&gt;\": {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0},\n        'first': {\n            'datetime.date': datetime.date(2018, 1, 31),\n            'datetime.date_no_freq': datetime.date(1992, 1, 5)\n        },\n        'last': {'datetime.date': datetime.date(2101, 4, 30), 'datetime.date_no_freq': datetime.date(2023, 3, 4)},\n        'frequency': {'datetime.date': 'ME', 'datetime.date_no_freq': None}\n    },\n    'timedelta64[ns]': {\n        'NA': {'time diff': 5},\n        'NA %': {'time diff': 0.5},\n        'mean': {'time diff': Timedelta('8 days 00:05:47')},\n        'median': {'time diff': Timedelta('0 days 00:00:00')},\n        'max': {'time diff': Timedelta('26 days 00:00:00')}\n    },\n    'string': {\n        'NA': {'text': 6},\n        'NA %': {'text': 0.6},\n        'shortest': {'text': 'How are you?'},\n        'longest': {'text': 'Indeed, it was the most outrageously pompous cat I have ever seen.'},\n        'min': {'text': 'How are you?'},\n        'max': {'text': 'What weather!'},\n        'chars per row': {'text': 31.1},\n        'words per row': {'text': 5.8},\n        'total words': {'text': 5761}\n    },\n    'object': {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0}\n    }\n}"
+    "objectID": "index.html#quickstart",
+    "href": "index.html#quickstart",
+    "title": "Skimpy",
+    "section": "Quickstart",
+    "text": "Quickstart\nskim a pandas or polars dataframe and produce summary statistics within the console using:\nfrom skimpy import skim\n\nskim(df)\nwhere df is a pandas or polars dataframe.\nIf you need to a dataset to try skimpy out on, you can use the built-in test Pandas data frame:\n\nfrom skimpy import generate_test_data, skim\n\ndf = generate_test_data()\nskim(df)\n\n╭──────────────────────────────────────────────── skimpy summary ─────────────────────────────────────────────────╮\n│          Data Summary                Data Types               Categories                                        │\n│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓                                │\n│ ┃ Dataframe         ┃ Values ┃ ┃ Column Type ┃ Count ┃ ┃ Categorical Variables ┃                                │\n│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩                                │\n│ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │                                │\n│ │ Number of columns │ 13     │ │ category    │ 2     │ │ location              │                                │\n│ └───────────────────┴────────┘ │ datetime64  │ 2     │ └───────────────────────┘                                │\n│                                │ object      │ 2     │                                                          │\n│                                │ int64       │ 1     │                                                          │\n│                                │ bool        │ 1     │                                                          │\n│                                │ string      │ 1     │                                                          │\n│                                │ timedelta64 │ 1     │                                                          │\n│                                └─────────────┴───────┘                                                          │\n│                                                     number                                                      │\n│ ┏━━━━━━━━━┳━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━━┓  │\n│ ┃ column  ┃ NA   ┃ NA %  ┃ mean      ┃ sd      ┃ p0         ┃ p25     ┃ p50        ┃ p75    ┃ p100  ┃ hist   ┃  │\n│ ┡━━━━━━━━━╇━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━━┩  │\n│ │ length  │    0 │     0 │    0.5016 │  0.3597 │  1.573e-06 │   0.134 │     0.4976 │ 0.8602 │     1 │ █▃▃▃▄█ │  │\n│ │ width   │    0 │     0 │     2.037 │   1.929 │   0.002057 │   0.603 │      1.468 │  2.953 │ 13.91 │  █▃▁   │  │\n│ │ depth   │    0 │     0 │     10.02 │   3.208 │          2 │       8 │         10 │     12 │    20 │ ▁▄█▆▃▁ │  │\n│ │ rnd     │  118 │  11.8 │  -0.01977 │   1.002 │     -2.809 │ -0.7355 │ -0.0007736 │ 0.6639 │ 3.717 │ ▁▄█▅▁  │  │\n│ └─────────┴──────┴───────┴───────────┴─────────┴────────────┴─────────┴────────────┴────────┴───────┴────────┘  │\n│                                                    category                                                     │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                      ┃ NA         ┃ NA %            ┃ ordered                 ┃ unique              ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ class                       │          0 │               0 │ False                   │                   2 │  │\n│ │ location                    │          1 │             0.1 │ False                   │                   5 │  │\n│ └─────────────────────────────┴────────────┴─────────────────┴─────────────────────────┴─────────────────────┘  │\n│                                                      bool                                                       │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                          ┃ true             ┃ true rate                      ┃ hist                 ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ booly_col                       │              516 │                           0.52 │        █    █        │  │\n│ └─────────────────────────────────┴──────────────────┴────────────────────────────────┴──────────────────────┘  │\n│                                                    datetime                                                     │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                       ┃ NA    ┃ NA %     ┃ first              ┃ last              ┃ frequency       ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩  │\n│ │ datetime                     │     0 │        0 │     2018-01-31     │    2101-04-30     │ ME              │  │\n│ │ datetime_no_freq             │     3 │      0.3 │     1992-01-05     │    2023-03-04     │ None            │  │\n│ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │\n│                                            &lt;class 'datetime.date'&gt;                                              │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                           ┃ NA    ┃ NA %     ┃ first            ┃ last             ┃ frequency      ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │\n│ │ datetime.date                    │     0 │        0 │ 2018-01-31       │ 2101-04-30       │ ME             │  │\n│ │ datetime.date_no_freq            │     0 │        0 │ 1992-01-05       │ 2023-03-04       │ None           │  │\n│ └──────────────────────────────────┴───────┴──────────┴──────────────────┴──────────────────┴────────────────┘  │\n│                                                  timedelta64                                                    │\n│ ┏━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column         ┃ NA   ┃ NA %    ┃ mean                   ┃ median                 ┃ max                    ┃  │\n│ ┡━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ time diff      │    5 │     0.5 │        8 days 00:05:47 │        0 days 00:00:00 │       26 days 00:00:00 │  │\n│ └────────────────┴──────┴─────────┴────────────────────────┴────────────────────────┴────────────────────────┘  │\n│                                                     string                                                      │\n│ ┏━━━━━━━━┳━━━━┳━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┓  │\n│ ┃        ┃    ┃      ┃            ┃           ┃            ┃           ┃ chars per  ┃ words per ┃ total      ┃  │\n│ ┃ column ┃ NA ┃ NA % ┃ shortest   ┃ longest   ┃ min        ┃ max       ┃ row        ┃ row       ┃ words      ┃  │\n│ ┡━━━━━━━━╇━━━━╇━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━┩  │\n│ │ text   │  6 │  0.6 │ How are    │ Indeed,   │ How are    │ What      │       31.1 │       5.8 │       5761 │  │\n│ │        │    │      │ you?       │ it was    │ you?       │ weather!  │            │           │            │  │\n│ │        │    │      │            │ the most  │            │           │            │           │            │  │\n│ │        │    │      │            │ outrageou │            │           │            │           │            │  │\n│ │        │    │      │            │ sly       │            │           │            │           │            │  │\n│ │        │    │      │            │ pompous   │            │           │            │           │            │  │\n│ │        │    │      │            │ cat I     │            │           │            │           │            │  │\n│ │        │    │      │            │ have ever │            │           │            │           │            │  │\n│ │        │    │      │            │ seen.     │            │           │            │           │            │  │\n│ └────────┴────┴──────┴────────────┴───────────┴────────────┴───────────┴────────────┴───────────┴────────────┘  │\n│                                                     object                                                      │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                                                                  ┃ NA           ┃ NA %              ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩  │\n│ │ datetime.date                                                           │            0 │                 0 │  │\n│ │ datetime.date_no_freq                                                   │            0 │                 0 │  │\n│ └─────────────────────────────────────────────────────────────────────────┴──────────────┴───────────────────┘  │\n╰────────────────────────────────────────────────────── End ──────────────────────────────────────────────────────╯\n\n\n\nIt is recommended that you set your datatypes before using skimpy (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the skim() function will try and guess what the datatypes of your columns are."
   },
   {
-    "objectID": "features.html#clean-up-messy-dataframe-column-names",
-    "href": "features.html#clean-up-messy-dataframe-column-names",
-    "title": "Features",
-    "section": "Clean up messy dataframe column names",
-    "text": "Clean up messy dataframe column names\nskimpy also comes with a clean_columns function as a convenience (with thanks to the dataprep package). This slugifies column names in pandas dataframes. For example,\n\nfrom skimpy import clean_columns\n\ncolumns = [\n    \"bs lncs;n edbn \",\n    \"Nín hǎo. Wǒ shì zhōng guó rén\",\n    \"___This is a test___\",\n    \"ÜBER Über German Umlaut\",\n]\nmessy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])\nprint(\"Column names:\")\nprint(list(messy_df.columns))\n\nColumn names:\n\n\n\n['bs lncs;n edbn ', 'Nín hǎo. Wǒ shì zhōng guó rén', '___This is a test___', 'ÜBER Über German Umlaut']\n\n\n\nNow let’s clean these—by default what we get back is in snake case:\n\nclean_df = clean_columns(messy_df)\nprint(list(clean_df.columns))\n\n['bs_lncs_n_edbn', 'nin_hao_wo_shi_zhong_guo_ren', 'this_is_a_test', 'uber_uber_german_umlaut']\n\n\n\nOther naming conventions are available, for example camel case:\n\nclean_df = clean_columns(messy_df, case=\"camel\")\nprint(list(clean_df.columns))\n\n['bsLncsNEdbn', 'ninHaoWoShiZhongGuoRen', 'thisIsATest', 'uberUberGermanUmlaut']"
+    "objectID": "index.html#requirements",
+    "href": "index.html#requirements",
+    "title": "Skimpy",
+    "section": "Requirements",
+    "text": "Requirements\nYou can find a full list of requirements in the pyproject.toml file.\nYou can try this package out right now in your browser using this Google Colab notebook (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release)."
   },
   {
-    "objectID": "features.html#export-the-visual-summary-table-to-svg",
-    "href": "features.html#export-the-visual-summary-table-to-svg",
-    "title": "Features",
-    "section": "Export the visual summary table to SVG",
-    "text": "Export the visual summary table to SVG\nTo export the figure containing the table of summary statistics, use the skim_get_figure() function. This will save an SVG file to the given (relative) path that you pass with the save_path argument."
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "Skimpy",
+    "section": "Installation",
+    "text": "Installation\nYou can install the latest release of skimpy via pip from PyPI:\n$ pip install skimpy\nTo install the development version from git, use:\n$ pip install git+https://github.com/aeturrell/skimpy.git\nFor development, see contributing."
   },
   {
-    "objectID": "features.html#run-skim-on-a-csv-file-from-the-command-line",
-    "href": "features.html#run-skim-on-a-csv-file-from-the-command-line",
-    "title": "Features",
-    "section": "Run skim on a csv file from the command line",
-    "text": "Run skim on a csv file from the command line\nAlthough it’s usually better to set datatypes before running skimpy on data, we provide a command line utility that can work with CSV files as a convenience.\nYou can run this with the below—but note that the command is skimpy, the name of the package, rather than skim, as in the Python function.\n$ skimpy file.csv"
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Skimpy",
+    "section": "License",
+    "text": "License\nDistributed under the terms of the MIT license, skimpy is free and open source software."
+  },
+  {
+    "objectID": "index.html#issues",
+    "href": "index.html#issues",
+    "title": "Skimpy",
+    "section": "Issues",
+    "text": "Issues\nIf you encounter any problems, please file an issue along with a detailed description."
+  },
+  {
+    "objectID": "index.html#credits",
+    "href": "index.html#credits",
+    "title": "Skimpy",
+    "section": "Credits",
+    "text": "Credits\nThis project was generated from @cjolowicz's Hypermodern Python Cookiecutter template.\nskimpy was inspired by the R package skimr and by exploratory Python packages including ydata_profiling and dataprep, from which the clean_columns function comes.\nThis package would not have been possible without the Rich package.\nThe package is built with poetry, while the documentation is built with Quarto and Quartodoc (a Python package). Tests are run with nox.\nUsing skimpy in your paper? Let us know by raising an issue beginning with “citation” and we’ll add it to this page."
   },
   {
     "objectID": "reference/skim.html",
@@ -80,6 +94,42 @@
       "Reference",
       "Function reference",
       "skim"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html",
+    "href": "reference/skim_get_data.html",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "skim_get_data(df_in)\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html#parameters",
+    "href": "reference/skim_get_data.html#parameters",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
+    ]
+  },
+  {
+    "objectID": "reference/skim_get_data.html#returns",
+    "href": "reference/skim_get_data.html#returns",
+    "title": "skim_get_data",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_data"
     ]
   },
   {
@@ -143,96 +193,39 @@
     ]
   },
   {
-    "objectID": "reference/skim_get_data.html",
-    "href": "reference/skim_get_data.html",
-    "title": "skim_get_data",
+    "objectID": "features.html",
+    "href": "features.html",
+    "title": "Features",
     "section": "",
-    "text": "skim_get_data(df_in)\nSkim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
+    "text": "Skimpy provides:\nWhen using skimpy, please be aware that numerical columns are rounded to 4 significant figures. You should also be aware that any timezone-aware datetimes are converted into their naive equivalents.\nYou can find a full guide to the API on the reference pages."
   },
   {
-    "objectID": "reference/skim_get_data.html#parameters",
-    "href": "reference/skim_get_data.html#parameters",
-    "title": "skim_get_data",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to get summary statistics on.\nrequired",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
+    "objectID": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "href": "features.html#skim-a-dataframe-and-return-the-statistics",
+    "title": "Features",
+    "section": "Skim a dataframe and return the statistics",
+    "text": "Skim a dataframe and return the statistics\nTo use skim() in its default mode, see the quickstart on the homepage.\nIf you want to export your results to a dictionary within Python, rather than printing them to console, use the skim_get_data() function instead. Let’s see an example:\n\nimport pandas as pd\nfrom rich import print\n\nfrom skimpy import generate_test_data, skim_get_data\n\ndf = generate_test_data()\n\nsummary = skim_get_data(df)\n\nAnd the dictionary has contents as follows:\n\nprint(summary)\n\n{\n    'Data Summary': {'Number of rows': 1000, 'Number of columns': 13},\n    'Data Types': {\n        'float64': 3,\n        'category': 2,\n        'datetime64[ns]': 2,\n        'object': 2,\n        'int64': 1,\n        'bool': 1,\n        'string': 1,\n        'timedelta64[ns]': 1\n    },\n    'Categories': {'Columns': {'location', 'class'}},\n    'number': {\n        'NA': {'length': 0, 'width': 0, 'depth': 0, 'rnd': 118},\n        'NA %': {'length': 0.0, 'width': 0.0, 'depth': 0.0, 'rnd': 11.8},\n        'mean': {'length': 0.5016, 'width': 2.037, 'depth': 10.02, 'rnd': -0.01977},\n        'sd': {'length': 0.3597, 'width': 1.929, 'depth': 3.208, 'rnd': 1.002},\n        'p0': {'length': 1.573e-06, 'width': 0.002057, 'depth': 2.0, 'rnd': -2.809},\n        'p25': {'length': 0.134, 'width': 0.603, 'depth': 8.0, 'rnd': -0.7355},\n        'p50': {'length': 0.4976, 'width': 1.468, 'depth': 10.0, 'rnd': -0.0007736},\n        'p75': {'length': 0.8602, 'width': 2.953, 'depth': 12.0, 'rnd': 0.6639},\n        'p100': {'length': 1.0, 'width': 13.91, 'depth': 20.0, 'rnd': 3.717},\n        'hist': {'length': '█▃▃▃▄█', 'width': '█▃▁   ', 'depth': '▁▄█▆▃▁', 'rnd': '▁▄█▅▁ '}\n    },\n    'category': {\n        'NA': {'class': 0, 'location': 1},\n        'NA %': {'class': 0.0, 'location': 0.1},\n        'ordered': {'class': False, 'location': False},\n        'unique': {'class': 2, 'location': 5}\n    },\n    'bool': {'true': {'booly_col': 516}, 'true rate': {'booly_col': 0.52}, 'hist': {'booly_col': '█    █'}},\n    'datetime': {\n        'NA': {'datetime': 0, 'datetime_no_freq': 3},\n        'NA %': {'datetime': 0.0, 'datetime_no_freq': 0.3},\n        'first': {\n            'datetime': Timestamp('2018-01-31 00:00:00'),\n            'datetime_no_freq': Timestamp('1992-01-05 00:00:00')\n        },\n        'last': {\n            'datetime': Timestamp('2101-04-30 00:00:00'),\n            'datetime_no_freq': Timestamp('2023-03-04 00:00:00')\n        },\n        'frequency': {'datetime': 'ME', 'datetime_no_freq': None}\n    },\n    \"&lt;class 'datetime.date'&gt;\": {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0},\n        'first': {\n            'datetime.date': datetime.date(2018, 1, 31),\n            'datetime.date_no_freq': datetime.date(1992, 1, 5)\n        },\n        'last': {'datetime.date': datetime.date(2101, 4, 30), 'datetime.date_no_freq': datetime.date(2023, 3, 4)},\n        'frequency': {'datetime.date': 'ME', 'datetime.date_no_freq': None}\n    },\n    'timedelta64[ns]': {\n        'NA': {'time diff': 5},\n        'NA %': {'time diff': 0.5},\n        'mean': {'time diff': Timedelta('8 days 00:05:47')},\n        'median': {'time diff': Timedelta('0 days 00:00:00')},\n        'max': {'time diff': Timedelta('26 days 00:00:00')}\n    },\n    'string': {\n        'NA': {'text': 6},\n        'NA %': {'text': 0.6},\n        'shortest': {'text': 'How are you?'},\n        'longest': {'text': 'Indeed, it was the most outrageously pompous cat I have ever seen.'},\n        'min': {'text': 'How are you?'},\n        'max': {'text': 'What weather!'},\n        'chars per row': {'text': 31.1},\n        'words per row': {'text': 5.8},\n        'total words': {'text': 5761}\n    },\n    'object': {\n        'NA': {'datetime.date': 0, 'datetime.date_no_freq': 0},\n        'NA %': {'datetime.date': 0.0, 'datetime.date_no_freq': 0.0}\n    }\n}"
   },
   {
-    "objectID": "reference/skim_get_data.html#returns",
-    "href": "reference/skim_get_data.html#returns",
-    "title": "skim_get_data",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nUnion[JSON, str]\nUnion[JSON, str]: Dictionary of summary statistics.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_data"
-    ]
+    "objectID": "features.html#clean-up-messy-dataframe-column-names",
+    "href": "features.html#clean-up-messy-dataframe-column-names",
+    "title": "Features",
+    "section": "Clean up messy dataframe column names",
+    "text": "Clean up messy dataframe column names\nskimpy also comes with a clean_columns function as a convenience (with thanks to the dataprep package). This slugifies column names in pandas dataframes. For example,\n\nfrom skimpy import clean_columns\n\ncolumns = [\n    \"bs lncs;n edbn \",\n    \"Nín hǎo. Wǒ shì zhōng guó rén\",\n    \"___This is a test___\",\n    \"ÜBER Über German Umlaut\",\n]\nmessy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])\nprint(\"Column names:\")\nprint(list(messy_df.columns))\n\nColumn names:\n\n\n\n['bs lncs;n edbn ', 'Nín hǎo. Wǒ shì zhōng guó rén', '___This is a test___', 'ÜBER Über German Umlaut']\n\n\n\nNow let’s clean these—by default what we get back is in snake case:\n\nclean_df = clean_columns(messy_df)\nprint(list(clean_df.columns))\n\n['bs_lncs_n_edbn', 'nin_hao_wo_shi_zhong_guo_ren', 'this_is_a_test', 'uber_uber_german_umlaut']\n\n\n\nOther naming conventions are available, for example camel case:\n\nclean_df = clean_columns(messy_df, case=\"camel\")\nprint(list(clean_df.columns))\n\n['bsLncsNEdbn', 'ninHaoWoShiZhongGuoRen', 'thisIsATest', 'uberUberGermanUmlaut']"
   },
   {
-    "objectID": "code_of_conduct.html",
-    "href": "code_of_conduct.html",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n\n\nExamples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting\n\n\n\n\nCommunity leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.\n\n\n\nThis Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.\n\n\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident.\n\n\n\nCommunity leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community.\n\n\n\n\nThis Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+    "objectID": "features.html#export-the-visual-summary-table-to-svg",
+    "href": "features.html#export-the-visual-summary-table-to-svg",
+    "title": "Features",
+    "section": "Export the visual summary table to SVG",
+    "text": "Export the visual summary table to SVG\nTo export the figure containing the table of summary statistics, use the skim_get_figure() function. This will save an SVG file to the given (relative) path that you pass with the save_path argument."
   },
   {
-    "objectID": "code_of_conduct.html#our-pledge",
-    "href": "code_of_conduct.html#our-pledge",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
-  },
-  {
-    "objectID": "code_of_conduct.html#our-standards",
-    "href": "code_of_conduct.html#our-standards",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "Examples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting"
-  },
-  {
-    "objectID": "code_of_conduct.html#enforcement-responsibilities",
-    "href": "code_of_conduct.html#enforcement-responsibilities",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
-  },
-  {
-    "objectID": "code_of_conduct.html#scope",
-    "href": "code_of_conduct.html#scope",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
-  },
-  {
-    "objectID": "code_of_conduct.html#enforcement",
-    "href": "code_of_conduct.html#enforcement",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident."
-  },
-  {
-    "objectID": "code_of_conduct.html#enforcement-guidelines",
-    "href": "code_of_conduct.html#enforcement-guidelines",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community."
-  },
-  {
-    "objectID": "code_of_conduct.html#attribution",
-    "href": "code_of_conduct.html#attribution",
-    "title": "Contributor Code of Conduct",
-    "section": "",
-    "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+    "objectID": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "href": "features.html#run-skim-on-a-csv-file-from-the-command-line",
+    "title": "Features",
+    "section": "Run skim on a csv file from the command line",
+    "text": "Run skim on a csv file from the command line\nAlthough it’s usually better to set datatypes before running skimpy on data, we provide a command line utility that can work with CSV files as a convenience.\nYou can run this with the below—but note that the command is skimpy, the name of the package, rather than skim, as in the Python function.\n$ skimpy file.csv"
   },
   {
     "objectID": "contributing.html",
@@ -291,6 +284,62 @@
     "text": "Run make clean\nRun make\n\nYou shouldn’t need to publish the documentation because there’s a GitHub action that covers it automatically whenever there’s a new release. But to upload the documentation manually, it’s\n\nRun make publish"
   },
   {
+    "objectID": "code_of_conduct.html",
+    "href": "code_of_conduct.html",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.\n\n\n\nExamples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting\n\n\n\n\nCommunity leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.\n\n\n\nThis Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.\n\n\n\nInstances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident.\n\n\n\nCommunity leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community.\n\n\n\n\nThis Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
+    "objectID": "code_of_conduct.html#our-pledge",
+    "href": "code_of_conduct.html#our-pledge",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.\nWe pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community."
+  },
+  {
+    "objectID": "code_of_conduct.html#our-standards",
+    "href": "code_of_conduct.html#our-standards",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Examples of behavior that contributes to a positive environment for our community include:\n\nDemonstrating empathy and kindness toward other people\nBeing respectful of differing opinions, viewpoints, and experiences\nGiving and gracefully accepting constructive feedback\nAccepting responsibility and apologizing to those affected by our mistakes, and learning from the experience\nFocusing on what is best not just for us as individuals, but for the overall community\n\nExamples of unacceptable behavior include:\n\nThe use of sexualized language or imagery, and sexual attention or advances of any kind\nTrolling, insulting or derogatory comments, and personal or political attacks\nPublic or private harassment\nPublishing others' private information, such as a physical or email address, without their explicit permission\nOther conduct which could reasonably be considered inappropriate in a professional setting"
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement-responsibilities",
+    "href": "code_of_conduct.html#enforcement-responsibilities",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.\nCommunity leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate."
+  },
+  {
+    "objectID": "code_of_conduct.html#scope",
+    "href": "code_of_conduct.html#scope",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event."
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement",
+    "href": "code_of_conduct.html#enforcement",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the core developers. All complaints will be reviewed and investigated promptly and fairly.\nDevelopers are obligated to respect the privacy and security of the reporter of any incident."
+  },
+  {
+    "objectID": "code_of_conduct.html#enforcement-guidelines",
+    "href": "code_of_conduct.html#enforcement-guidelines",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:\n\n\nCommunity Impact: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.\nConsequence: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.\n\n\n\nCommunity Impact: A violation through a single incident or series of actions.\nConsequence: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.\n\n\n\nCommunity Impact: A serious violation of community standards, including sustained inappropriate behavior.\nConsequence: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.\n\n\n\nCommunity Impact: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.\nConsequence: A permanent ban from any sort of public interaction within the community."
+  },
+  {
+    "objectID": "code_of_conduct.html#attribution",
+    "href": "code_of_conduct.html#attribution",
+    "title": "Contributor Code of Conduct",
+    "section": "",
+    "text": "This Code of Conduct is adapted from the Contributor Covenant, version 2.0, available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.\nCommunity Impact Guidelines were inspired by Mozilla’s code of conduct enforcement ladder.\nFor answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations."
+  },
+  {
     "objectID": "reference/index.html",
     "href": "reference/index.html",
     "title": "Function reference",
@@ -310,30 +359,6 @@
     "crumbs": [
       "Reference",
       "Function reference"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_figure.html",
-    "href": "reference/skim_get_figure.html",
-    "title": "skim_get_figure",
-    "section": "",
-    "text": "skim_get_figure(df_in, save_path, format='svg')\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_figure"
-    ]
-  },
-  {
-    "objectID": "reference/skim_get_figure.html#parameters",
-    "href": "reference/skim_get_figure.html#parameters",
-    "title": "skim_get_figure",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
-    "crumbs": [
-      "Reference",
-      "Function reference",
-      "skim_get_figure"
     ]
   },
   {
@@ -373,52 +398,27 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Skimpy",
+    "objectID": "reference/skim_get_figure.html",
+    "href": "reference/skim_get_figure.html",
+    "title": "skim_get_figure",
     "section": "",
-    "text": "A light weight tool for creating summary statistics from dataframes.\nskimpy is a light weight tool that provides summary statistics about variables in pandas or Polars data frames within the console or your interactive Python window.\nThink of it as a super-charged version of pandas’ df.describe()."
+    "text": "skim_get_figure(df_in, save_path, format='svg')\nSkim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.\nskim is an alternative to pandas.DataFrame.describe(), quickly providing an overview of a data frame via a table of summary statistics. It produces a different set of summary functions based on the types of columns in the dataframe. You may get better results from ensuring that you set the datatypes in your dataframe you want before running skim.\nNote that any unknown column types, or mixed column types, will not be processed.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_figure"
+    ]
   },
   {
-    "objectID": "index.html#quickstart",
-    "href": "index.html#quickstart",
-    "title": "Skimpy",
-    "section": "Quickstart",
-    "text": "Quickstart\nskim a pandas or polars dataframe and produce summary statistics within the console using:\nfrom skimpy import skim\n\nskim(df)\nwhere df is a pandas or polars dataframe.\nIf you need to a dataset to try skimpy out on, you can use the built-in test Pandas data frame:\n\nfrom skimpy import generate_test_data, skim\n\ndf = generate_test_data()\nskim(df)\n\n╭──────────────────────────────────────────────── skimpy summary ─────────────────────────────────────────────────╮\n│          Data Summary                Data Types               Categories                                        │\n│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓                                │\n│ ┃ Dataframe         ┃ Values ┃ ┃ Column Type ┃ Count ┃ ┃ Categorical Variables ┃                                │\n│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩                                │\n│ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │                                │\n│ │ Number of columns │ 13     │ │ category    │ 2     │ │ location              │                                │\n│ └───────────────────┴────────┘ │ object      │ 2     │ └───────────────────────┘                                │\n│                                │ datetime64  │ 2     │                                                          │\n│                                │ bool        │ 1     │                                                          │\n│                                │ int64       │ 1     │                                                          │\n│                                │ string      │ 1     │                                                          │\n│                                │ timedelta64 │ 1     │                                                          │\n│                                └─────────────┴───────┘                                                          │\n│                                                     number                                                      │\n│ ┏━━━━━━━━━┳━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━━┓  │\n│ ┃ column  ┃ NA   ┃ NA %  ┃ mean      ┃ sd      ┃ p0         ┃ p25     ┃ p50        ┃ p75    ┃ p100  ┃ hist   ┃  │\n│ ┡━━━━━━━━━╇━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━━┩  │\n│ │ length  │    0 │     0 │    0.5016 │  0.3597 │  1.573e-06 │   0.134 │     0.4976 │ 0.8602 │     1 │ █▃▃▃▄█ │  │\n│ │ width   │    0 │     0 │     2.037 │   1.929 │   0.002057 │   0.603 │      1.468 │  2.953 │ 13.91 │  █▃▁   │  │\n│ │ depth   │    0 │     0 │     10.02 │   3.208 │          2 │       8 │         10 │     12 │    20 │ ▁▄█▆▃▁ │  │\n│ │ rnd     │  118 │  11.8 │  -0.01977 │   1.002 │     -2.809 │ -0.7355 │ -0.0007736 │ 0.6639 │ 3.717 │ ▁▄█▅▁  │  │\n│ └─────────┴──────┴───────┴───────────┴─────────┴────────────┴─────────┴────────────┴────────┴───────┴────────┘  │\n│                                                    category                                                     │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                      ┃ NA         ┃ NA %            ┃ ordered                 ┃ unique              ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ class                       │          0 │               0 │ False                   │                   2 │  │\n│ │ location                    │          1 │             0.1 │ False                   │                   5 │  │\n│ └─────────────────────────────┴────────────┴─────────────────┴─────────────────────────┴─────────────────────┘  │\n│                                                      bool                                                       │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                          ┃ true             ┃ true rate                      ┃ hist                 ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ booly_col                       │              516 │                           0.52 │        █    █        │  │\n│ └─────────────────────────────────┴──────────────────┴────────────────────────────────┴──────────────────────┘  │\n│                                                    datetime                                                     │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                       ┃ NA    ┃ NA %     ┃ first              ┃ last              ┃ frequency       ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩  │\n│ │ datetime                     │     0 │        0 │     2018-01-31     │    2101-04-30     │ ME              │  │\n│ │ datetime_no_freq             │     3 │      0.3 │     1992-01-05     │    2023-03-04     │ None            │  │\n│ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │\n│                                            &lt;class 'datetime.date'&gt;                                              │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                           ┃ NA    ┃ NA %     ┃ first            ┃ last             ┃ frequency      ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │\n│ │ datetime.date                    │     0 │        0 │ 2018-01-31       │ 2101-04-30       │ ME             │  │\n│ │ datetime.date_no_freq            │     0 │        0 │ 1992-01-05       │ 2023-03-04       │ None           │  │\n│ └──────────────────────────────────┴───────┴──────────┴──────────────────┴──────────────────┴────────────────┘  │\n│                                                  timedelta64                                                    │\n│ ┏━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column         ┃ NA   ┃ NA %    ┃ mean                   ┃ median                 ┃ max                    ┃  │\n│ ┡━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩  │\n│ │ time diff      │    5 │     0.5 │        8 days 00:05:47 │        0 days 00:00:00 │       26 days 00:00:00 │  │\n│ └────────────────┴──────┴─────────┴────────────────────────┴────────────────────────┴────────────────────────┘  │\n│                                                     string                                                      │\n│ ┏━━━━━━━━┳━━━━┳━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┓  │\n│ ┃        ┃    ┃      ┃            ┃           ┃            ┃           ┃ chars per  ┃ words per ┃ total      ┃  │\n│ ┃ column ┃ NA ┃ NA % ┃ shortest   ┃ longest   ┃ min        ┃ max       ┃ row        ┃ row       ┃ words      ┃  │\n│ ┡━━━━━━━━╇━━━━╇━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━┩  │\n│ │ text   │  6 │  0.6 │ How are    │ Indeed,   │ How are    │ What      │       31.1 │       5.8 │       5761 │  │\n│ │        │    │      │ you?       │ it was    │ you?       │ weather!  │            │           │            │  │\n│ │        │    │      │            │ the most  │            │           │            │           │            │  │\n│ │        │    │      │            │ outrageou │            │           │            │           │            │  │\n│ │        │    │      │            │ sly       │            │           │            │           │            │  │\n│ │        │    │      │            │ pompous   │            │           │            │           │            │  │\n│ │        │    │      │            │ cat I     │            │           │            │           │            │  │\n│ │        │    │      │            │ have ever │            │           │            │           │            │  │\n│ │        │    │      │            │ seen.     │            │           │            │           │            │  │\n│ └────────┴────┴──────┴────────────┴───────────┴────────────┴───────────┴────────────┴───────────┴────────────┘  │\n│                                                     object                                                      │\n│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓  │\n│ ┃ column                                                                  ┃ NA           ┃ NA %              ┃  │\n│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩  │\n│ │ datetime.date                                                           │            0 │                 0 │  │\n│ │ datetime.date_no_freq                                                   │            0 │                 0 │  │\n│ └─────────────────────────────────────────────────────────────────────────┴──────────────┴───────────────────┘  │\n╰────────────────────────────────────────────────────── End ──────────────────────────────────────────────────────╯\n\n\n\nIt is recommended that you set your datatypes before using skimpy (for example converting any text columns to pandas string datatype), as this will produce richer statistical summaries. However, the skim() function will try and guess what the datatypes of your columns are."
-  },
-  {
-    "objectID": "index.html#requirements",
-    "href": "index.html#requirements",
-    "title": "Skimpy",
-    "section": "Requirements",
-    "text": "Requirements\nYou can find a full list of requirements in the pyproject.toml file.\nYou can try this package out right now in your browser using this Google Colab notebook (requires a Google account). Note that the Google Colab notebook uses the latest package released on PyPI (rather than the development release)."
-  },
-  {
-    "objectID": "index.html#installation",
-    "href": "index.html#installation",
-    "title": "Skimpy",
-    "section": "Installation",
-    "text": "Installation\nYou can install the latest release of skimpy via pip from PyPI:\n$ pip install skimpy\nTo install the development version from git, use:\n$ pip install git+https://github.com/aeturrell/skimpy.git\nFor development, see contributing."
-  },
-  {
-    "objectID": "index.html#license",
-    "href": "index.html#license",
-    "title": "Skimpy",
-    "section": "License",
-    "text": "License\nDistributed under the terms of the MIT license, skimpy is free and open source software."
-  },
-  {
-    "objectID": "index.html#issues",
-    "href": "index.html#issues",
-    "title": "Skimpy",
-    "section": "Issues",
-    "text": "Issues\nIf you encounter any problems, please file an issue along with a detailed description."
-  },
-  {
-    "objectID": "index.html#credits",
-    "href": "index.html#credits",
-    "title": "Skimpy",
-    "section": "Credits",
-    "text": "Credits\nThis project was generated from @cjolowicz's Hypermodern Python Cookiecutter template.\nskimpy was inspired by the R package skimr and by exploratory Python packages including ydata_profiling and dataprep, from which the clean_columns function comes.\nThis package would not have been possible without the Rich package.\nThe package is built with poetry, while the documentation is built with Quarto and Quartodoc (a Python package). Tests are run with nox.\nUsing skimpy in your paper? Let us know by raising an issue beginning with “citation” and we’ll add it to this page."
+    "objectID": "reference/skim_get_figure.html#parameters",
+    "href": "reference/skim_get_figure.html#parameters",
+    "title": "skim_get_figure",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndf_in\nUnion[pd.DataFrame, pl.DataFrame]\nDataframe to skim.\nrequired\n\n\nsave_path\nUnion[os.PathLike, str]\nPath to save figure to (include extension).\nrequired\n\n\nformat\nstr\nsvg, html, or text. Defaults to “svg”.\n'svg'\n\n\n\nRaises:\nValueError: If the format is not one of svg, html, or text.",
+    "crumbs": [
+      "Reference",
+      "Function reference",
+      "skim_get_figure"
+    ]
   }
 ]
