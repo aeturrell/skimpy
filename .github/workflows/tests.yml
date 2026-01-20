@@ -74,7 +74,7 @@ jobs:
 
       - name: Upload coverage data
         if: always() && matrix.session == 'tests'
-        uses: "actions/upload-artifact@v5"
+        uses: "actions/upload-artifact@v6"
         with:
           name: coverage-data-${{ matrix.session }}-${{ matrix.python-version }}-${{ matrix.os }}
           path: ".coverage.*"
