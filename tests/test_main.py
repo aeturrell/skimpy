@@ -699,3 +699,84 @@ def test_handling_of_pandas_multiindex():
     df = df.unstack()
     with pytest.raises(NotImplementedError):
         skim(df)
+
+
+# New tests for parquet and sqlite functionality
+
+
+def test_main_parquet_succeeds(runner: CliRunner) -> None:
+    """Test that skimpy successfully reads a parquet file."""
+    with runner.isolated_filesystem():
+        # Create a simple parquet file without NA values to avoid type inference issues
+        df = pd.DataFrame(
+            {
+                "name": ["Alice", "Bob", "Charlie"],
+                "age": [25, 30, 35],
+                "salary": [50000.0, 60000.0, 75000.0],
+            }
+        )
+        df.to_parquet("test_file.parquet")
+
+        result = runner.invoke(__main__.main, ["test_file.parquet"])
+        assert result.exit_code == 0
+
+
+def test_main_sqlite_succeeds(runner: CliRunner) -> None:
+    """Test that skimpy successfully reads a SQLite database with --table flag."""
+    import duckdb
+
+    with runner.isolated_filesystem():
+        # Create a simple SQLite database using duckdb
+        df = pd.DataFrame(  # noqa: F841 (referenced by DuckDB SQL)
+            {
+                "name": ["Alice", "Bob", "Charlie"],
+                "age": [25, 30, 35],
+                "salary": [50000.0, 60000.0, 75000.0],
+            }
+        )
+        conn = duckdb.connect("test_db.sqlite")
+        conn.execute("CREATE TABLE employees AS SELECT * FROM df")
+        conn.close()
+
+        result = runner.invoke(__main__.main, ["test_db.sqlite", "-t", "employees"])
+        assert result.exit_code == 0
+
+
+def test_main_sqlite_without_table_shows_tables(runner: CliRunner) -> None:
+    """Test that running skimpy on SQLite without -t shows available tables."""
+    import duckdb
+
+    with runner.isolated_filesystem():
+        # Create a simple SQLite database using duckdb
+        df = pd.DataFrame({"name": ["Alice", "Bob"], "age": [25, 30]})  # noqa: F841
+        conn = duckdb.connect("test_db.sqlite")
+        conn.execute("CREATE TABLE employees AS SELECT * FROM df")
+        conn.close()
+
+        result = runner.invoke(__main__.main, ["test_db.sqlite"])
+        assert result.exit_code != 0  # Expected to fail without --table
+        assert (
+            "Available tables" in str(result.exception)
+            or "Available tables" in result.output
+        )
+        assert "employees" in str(result.exception) or "employees" in result.output
+
+
+def test_main_sqlite_invalid_table(runner: CliRunner) -> None:
+    """Test that skimpy errors when specifying a non-existent table."""
+    import duckdb
+
+    with runner.isolated_filesystem():
+        # Create a simple SQLite database using duckdb
+        df = pd.DataFrame({"name": ["Alice"], "age": [25]})  # noqa: F841
+        conn = duckdb.connect("test_db.sqlite")
+        conn.execute("CREATE TABLE employees AS SELECT * FROM df")
+        conn.close()
+
+        result = runner.invoke(__main__.main, ["test_db.sqlite", "-t", "nonexistent"])
+        assert result.exit_code != 0
+        assert (
+            "not found" in str(result.exception).lower()
+            or "not found" in result.output.lower()
+        )
+        assert "employees" in str(result.exception) or "employees" in result.output
