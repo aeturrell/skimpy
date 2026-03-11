@@ -2297,7 +2297,7 @@ wheels = [
 
 [[package]]
 name = "quartodoc"
-version = "0.9.1"
+version = "0.11.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "black" },
@@ -2314,9 +2314,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/ad/1bdc6745d0d0527da0a2f30a235850873e98442a2c1afdd67ac7e164e0c4/quartodoc-0.9.1.tar.gz", hash = "sha256:418d9ff0f2d4481a87e926e3a3e5bc31efbe556c7f36912aa0a3f716c0eafa9c", size = 772465, upload-time = "2024-11-08T22:21:36.646Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ff/b9/0bb44cc62a5d63728d04fd6b1e14bcb64945fabad4aa8c03b9d70315fb06/quartodoc-0.11.1.tar.gz", hash = "sha256:c121626e1a36392d168631f33c4d3e7fd48d185de178859f8eafbda14fbfe92f", size = 778611, upload-time = "2025-06-10T14:50:08.185Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0e/47/de4c28e2002653226de3e34c9a3e989619796e5f0fe771284c570a016cec/quartodoc-0.9.1-py3-none-any.whl", hash = "sha256:78345002f75f086be6e1b1ccf3b4e3ada2fa3affb8a8fc0dbdb37890a5da03fa", size = 84275, upload-time = "2024-11-08T22:21:33.794Z" },
+    { url = "https://files.pythonhosted.org/packages/75/d9/0b48d4184f9ca6a996c4fac46897a968698c9d1e0f0e43a6906746201323/quartodoc-0.11.1-py3-none-any.whl", hash = "sha256:0776eb8e53d89385e2c9a8ae0ec08e8c307c1410dd1bd78bb28e8b1823dbb6ad", size = 88053, upload-time = "2025-06-10T14:50:06.443Z" },
 ]
 
 [[package]]
