@@ -2070,16 +2070,16 @@ wheels = [
 
 [[package]]
 name = "pydoclint"
-version = "0.6.0"
+version = "0.8.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "docstring-parser-fork" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/57/08/ef4e3c77279d3e849aaa5c340fbd8f3df4faddd0654f3ee057988dad61e3/pydoclint-0.6.0.tar.gz", hash = "sha256:bee5b509f5407c8ae180ff86a6776895084129097a4600b749fd133fd58a1cf4", size = 53067, upload-time = "2025-01-13T08:39:06.267Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/70/58/bb3c7edd2bd06b07d9bbb494e52e2d2d6d53405b166aac531b1a27cef972/pydoclint-0.8.3.tar.gz", hash = "sha256:0c69c0ed92c6f6b5aec2a14371bbd9e0a77980da8e2fa0f708092aa06b3b20b3", size = 186619, upload-time = "2025-11-26T06:53:43.361Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9d/79/9daa3087d4cfc9e5dec7911363b8f1f024a66899559d031fc215fe6724ea/pydoclint-0.6.0-py2.py3-none-any.whl", hash = "sha256:f1fb9676efe70c9a0443c7177186a01001a2227c9100272ef72d7da269ae9bbd", size = 47515, upload-time = "2025-01-13T08:39:04.228Z" },
+    { url = "https://files.pythonhosted.org/packages/87/6f/cc2b231dc78d8c3aaa674a676db190b8f8071c50134af8f8cf39b9b8e8df/pydoclint-0.8.3-py3-none-any.whl", hash = "sha256:5fc9b82d0d515afce0908cb70e8ff695a68b19042785c248c4f227ad66b4a164", size = 79075, upload-time = "2025-11-26T06:53:42.129Z" },
 ]
 
 [[package]]
