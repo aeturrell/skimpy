@@ -23,7 +23,7 @@ dependencies = [
     "pygments>=2.18.0",
     "rich>=13.9.4",
     "typeguard>=4.4.1",
-    "pyarrow>=17.0.0",
+    "pyarrow>=18.0.0",
     "pydoclint>=0.6.0",
     "duckdb>=1.2.2",
 ]

@@ -21,7 +21,6 @@ from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
 
-
 # TypeAlias is only built-in for 3.10 and above
 try:
     from typing import TypeAlias
