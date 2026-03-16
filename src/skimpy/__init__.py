@@ -21,11 +21,10 @@ from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
 
-# the JSON # type: ignore comments throughout are sops to Python 3.8 issues
 
 # TypeAlias is only built-in for 3.10 and above
 try:
-    from typing import TypeAlias  # type: ignore
+    from typing import TypeAlias
 except ImportError:
     from typing_extensions import TypeAlias
 
@@ -74,9 +73,9 @@ UNSUPPORTED_INFERRED_TYPES = [
 ]
 
 try:
-    JSON: TypeAlias = dict[str, dict[str, Any]]  # type: ignore
+    JSON: TypeAlias = dict[str, dict[str, Any]]
 except TypeError:
-    JSON: TypeAlias = Dict[str, Dict[str, Any]]  # type: ignore
+    JSON: TypeAlias = Dict[str, Dict[str, Any]]
 
 
 @typechecked
@@ -332,18 +331,18 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
         1.0,
     ]
     # add in empty string
-    unicode_hist = {fractions[0]: " "}  # type: ignore
+    unicode_hist = {fractions[0]: " "}
     # Unicode block elements for bar characters
     unicode_hist.update(
-        {key: chr(code) for key, code in zip(fractions[1:], range(0x2581, 0x2589))}  # type: ignore
+        {key: chr(code) for key, code in zip(fractions[1:], range(0x2581, 0x2589))}
     )
     # NB: unicode 1/2 and 8/8 blocks have inconsistent widths depending on font
     # systems, so, to make skimpy work on all systems, hist blocks are pinned to
     # nearest available consistent width block for Windows.
     # Remove specific bar characters if on Windows
     if os.name != "posix":
-        del unicode_hist[1 / 2]  # type: ignore
-        del unicode_hist[1.0]  # type: ignore
+        del unicode_hist[1 / 2]
+        del unicode_hist[1.0]
 
     key_vector = np.array(list(unicode_hist.keys()), dtype="float")
     ucode_to_print = "".join(
@@ -679,7 +678,7 @@ def _skim_computation(
     types_sum_table.add_column("Column Type")
     types_sum_table.add_column("Count")
     for key, val in tab_2_data.items():
-        types_sum_table.add_row(key, str(val))
+        types_sum_table.add_row(str(key), str(val))
     json_data.update({data_types_title: tab_2_data})
     # Categorys
     if "category" in df.dtypes.astype(str).to_list():
