@@ -200,6 +200,32 @@ def _simplify_datetimes_in_array(rows: np.ndarray) -> np.ndarray:
     return rows
 
 
+MIN_COL_WIDTH: int = 6
+MAX_COL_WIDTH: int = 40
+
+
+def _compute_column_widths(df: pd.DataFrame) -> List[int]:
+    """Compute appropriate max_width for each column based on content.
+
+    Examines header length and the longest value in each column, then
+    clamps to [MIN_COL_WIDTH, MAX_COL_WIDTH].
+
+    Args:
+        df (pd.DataFrame): The dataframe whose columns to measure.
+
+    Returns:
+        List[int]: A max_width value for each column.
+    """
+    widths = []
+    for col in df.columns:
+        header_width = len(str(col))
+        content_width = max((len(str(v)) for v in df[col]), default=0)
+        ideal = max(header_width, content_width)
+        clamped = max(MIN_COL_WIDTH, min(MAX_COL_WIDTH, ideal))
+        widths.append(clamped)
+    return widths
+
+
 @typechecked
 def _dataframe_to_rich_table(
     table_name: str,
@@ -234,7 +260,6 @@ def _dataframe_to_rich_table(
     Returns:
         Table: instance of Table from the rich package
     """
-    COL_STR_LEN_LIMIT: int = 20  # For longer strings, limit chars shown.
     df = df.reset_index().rename(columns={"index": "column"})
     table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
     # generate dict of types to colours
@@ -268,8 +293,9 @@ def _dataframe_to_rich_table(
         ]
         for row in rows
     ]
-    for col in df.columns:
-        table.add_column(str(col), overflow="fold", max_width=COL_STR_LEN_LIMIT)
+    col_widths = _compute_column_widths(df)
+    for col, width in zip(df.columns, col_widths):
+        table.add_column(str(col), overflow="fold", max_width=width)
     for row in rows_list_list:
         row = [
             Text(

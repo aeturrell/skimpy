@@ -15,6 +15,7 @@ from typeguard import typeguard_ignore
 from skimpy import (
     __main__,
     _bool_variable_summary_table,
+    _compute_column_widths,
     _convert_case,
     _infer_datatypes,
     _map_row_positions_to_text_style,
@@ -780,3 +781,32 @@ def test_main_sqlite_invalid_table(runner: CliRunner) -> None:
             or "not found" in result.output.lower()
         )
         assert "employees" in str(result.exception) or "employees" in result.output
+
+
+def test_compute_column_widths() -> None:
+    """Tests that _compute_column_widths returns sensible per-column widths."""
+    df = pd.DataFrame(
+        {
+            "short": ["a", "b"],
+            "medium_column_name": ["hello", "world"],
+            "x": ["a very long cell value that exceeds the max", "short"],
+        }
+    )
+    widths = _compute_column_widths(df)
+    assert len(widths) == 3
+    # "short" header is 5 chars, content is 1 char -> clamped to MIN_COL_WIDTH (6)
+    assert widths[0] == 6
+    # "medium_column_name" header is 18 chars, content is 5 -> 18
+    assert widths[1] == 18
+    # "x" header is 1 char, content is 44 chars -> clamped to MAX_COL_WIDTH (40)
+    assert widths[2] == 40
+
+
+def test_compute_column_widths_empty_dataframe() -> None:
+    """Tests _compute_column_widths with an empty dataframe."""
+    df = pd.DataFrame({"col_a": pd.Series(dtype="str"), "b": pd.Series(dtype="str")})
+    widths = _compute_column_widths(df)
+    assert len(widths) == 2
+    # "col_a" is 5 chars -> 6 (min), "b" is 1 char -> 6 (min)
+    assert widths[0] == 6
+    assert widths[1] == 6
