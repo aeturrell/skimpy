@@ -775,6 +775,8 @@ def _skim_computation(
 @typechecked
 def skim(
     df_in: Union[pd.DataFrame, pl.DataFrame],
+    *,
+    console_width: Optional[int] = None,
 ) -> None:
     """Skim a pandas or polars dataframe and return visual summary statistics on it.
 
@@ -789,6 +791,10 @@ def skim(
 
     Args:
         df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
+        console_width (Optional[int], keyword-only): If provided, sets a fixed
+            Rich console width (in characters) used to render the summary.
+            Defaults to ``None``, which preserves the existing auto-detected
+            terminal width behaviour.
 
     Raises:
         NotImplementedError: If the dataframe has a MultiIndex column structure.
@@ -813,7 +819,10 @@ def skim(
 
     df_out = _convert_to_pandas(df_in)
     grid, _ = _skim_computation(df_out)
-    console = Console(record=True)
+    if console_width is None:
+        console = Console(record=True)
+    else:
+        console = Console(record=True, width=console_width)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
@@ -856,6 +865,8 @@ def skim_get_figure(
     df_in: Union[pd.DataFrame, pl.DataFrame],
     save_path: Union[os.PathLike, str],
     format: str = "svg",
+    *,
+    console_width: Optional[int] = None,
 ) -> None:
     """Skim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.
 
@@ -872,6 +883,11 @@ def skim_get_figure(
         df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
         save_path (Union[os.PathLike, str]): Path to save figure to (include extension).
         format (str, optional): svg, html, or text. Defaults to "svg".
+        console_width (Optional[int], keyword-only): If provided, sets a fixed
+            Rich console width (in characters) used when rendering and
+            exporting the summary. This controls the line width of the
+            exported SVG, HTML, or text file. Defaults to ``None``, which
+            preserves the existing auto-detected terminal width behaviour.
 
     Raises:
 
@@ -879,7 +895,10 @@ def skim_get_figure(
     """
     df_out = _convert_to_pandas(df_in)
     grid, _ = _skim_computation(df_out)
-    console = Console(record=True)
+    if console_width is None:
+        console = Console(record=True)
+    else:
+        console = Console(record=True, width=console_width)
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
     if not isinstance(save_path, str):
         save_path_str = str(save_path)
