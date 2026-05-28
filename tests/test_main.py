@@ -660,6 +660,39 @@ def test_exporting_to_text(tmp_path):
     skim_get_figure(df, save_path=tmp_path / "blah.txt", format="text")
 
 
+def test_exporting_to_text_with_console_width(tmp_path, monkeypatch):
+    """Passing console_width should change the exported text line width."""
+    monkeypatch.setenv("TERM", "xterm-256color")
+    df = generate_test_data()
+    narrow_path = tmp_path / "narrow.txt"
+    wide_path = tmp_path / "wide.txt"
+    skim_get_figure(df, save_path=narrow_path, format="text", console_width=80)
+    skim_get_figure(df, save_path=wide_path, format="text", console_width=200)
+
+    narrow_max = max(len(line) for line in narrow_path.read_text().splitlines())
+    wide_max = max(len(line) for line in wide_path.read_text().splitlines())
+
+    assert narrow_max <= 80
+    assert wide_max > narrow_max
+    assert wide_max <= 200
+
+
+def test_exporting_to_svg_with_console_width(tmp_path, monkeypatch):
+    """Passing console_width to skim_get_figure should not error for svg."""
+    monkeypatch.setenv("TERM", "xterm-256color")
+    df = generate_test_data()
+    skim_get_figure(
+        df, save_path=tmp_path / "wide.svg", format="svg", console_width=200
+    )
+
+
+def test_skim_accepts_console_width(monkeypatch):
+    """skim should accept console_width keyword argument without error."""
+    monkeypatch.setenv("TERM", "xterm-256color")
+    df = generate_test_data()
+    skim(df, console_width=120)
+
+
 def test_cleaning_polars_columns():
     """Tests the polars rename columns functionality."""
     bad_columns = [
