@@ -1,0 +1,121 @@
+---
+title: Features
+jupyter: python3
+---
+
+
+**Skimpy** provides:
+
+- a way to create summary statistics of **pandas** or **Polars** dataframes, using the `skim()` function, and print them to your console via the [rich](https://github.com/willmcgugan/rich) package
+- support for summarising boolean, numeric, datetime, timedelta, string, and category datatypes
+- a command line interface to `skim` csv files
+- intelligent rounding of numerical values to 4 significant figures
+- a way to export the visual summary statistics to lossless formats namely SVG or HTML
+- a way to further work with the summary statistics, by returning them as a dictionary
+- a way to clean up messy column names in both **pandas** and **Polars** dataframes
+
+When using **skimpy**, please be aware that *numerical columns are rounded to 4 significant figures*. You should also be aware that *any timezone-aware datetimes are converted into their naive equivalents*.
+
+You can find a full guide to the API on the [reference pages](../../reference/index.qmd).
+
+
+## Skim a dataframe and return the statistics
+
+To use `skim()` in its default mode, see the quickstart on [the homepage](../../index.qmd).
+
+If you want to export your results to a dictionary within Python, rather than printing them to console, use the `skim_get_data()` function instead. Let's see an example:
+
+```{python}
+import pandas as pd
+from rich import print
+
+from skimpy import generate_test_data, skim_get_data
+
+df = generate_test_data()
+
+summary = skim_get_data(df)
+```
+
+And the dictionary has contents as follows:
+
+```{python}
+print(summary)
+```
+
+## Clean up messy dataframe column names
+
+**skimpy** also comes with a `clean_columns` function as a convenience (with thanks to the [**dataprep**](https://dataprep.ai/) package). This slugifies column names in **pandas** dataframes. For example,
+
+```{python}
+from skimpy import clean_columns
+
+columns = [
+    "bs lncs;n edbn ",
+    "Nín hǎo. Wǒ shì zhōng guó rén",
+    "___This is a test___",
+    "ÜBER Über German Umlaut",
+]
+messy_df = pd.DataFrame(columns=columns, index=[0], data=[range(len(columns))])
+print("Column names:")
+print(list(messy_df.columns))
+```
+
+Now let's clean these—by default what we get back is in *snake case*:
+
+```{python}
+clean_df = clean_columns(messy_df)
+print(list(clean_df.columns))
+```
+
+Other naming conventions are available, for example *camel case*:
+
+```{python}
+clean_df = clean_columns(messy_df, case="camel")
+print(list(clean_df.columns))
+```
+
+## Export the visual summary table to SVG
+
+To export the figure containing the table of summary statistics, use the `skim_get_figure()` function. This will save an SVG file to the given (relative) path that you pass with the `save_path` argument. For example,
+
+```{python}
+from skimpy import generate_test_data, skim_get_figure
+
+df = generate_test_data()
+
+skim_get_figure(df, "summary_table.svg")
+```
+
+You can also specify other formats, such as HTML or text:
+
+```{python}
+skim_get_figure(df, "summary_table.html", format="html")
+skim_get_figure(df, "summary_table.txt", format="text")
+```
+
+```{python}
+#| echo: false
+#| output: false
+
+! rm summary_table.{html,svg,txt}
+```
+
+The function accepts both pandas and Polars DataFrames. It supports three output formats: SVG (default), HTML, and text. The function also prints the paths to the console; file paths are relative to the current working directory.
+
+## Run skim on the command line
+
+You don't need to be in a Python script or notebook to run **skimpy** on data! The package comes with a command line utility that can work with CSV, parquet, and SQLite files. When run on CSV files, it uses a powerful [duckdb](https://duckdb.org/2023/10/27/csv-sniffer) sniffer to guess column types.
+
+You can run this with the below—but note that the command is `skimpy`, the name of the package, rather than `skim`, which is the command when used within a Python script or notebook.
+
+```bash
+$ skimpy file.csv
+```
+
+```bash
+$ skimpy file.parquet
+```
+
+```bash
+$ skimpy file.sqlite --table <table name>
+```

@@ -19,3 +19,12 @@ docs/reference/*
 docs/_sidebar.yml
 /.luarc.json
 docs/_site/
+
+# Great Docs build directory (ephemeral, do not commit)
+great-docs/
+
+# Great Docs versioned-build artifacts
+_great_docs_build/
+.great-docs-build/
+.great-docs-cache/
+.great-docs/

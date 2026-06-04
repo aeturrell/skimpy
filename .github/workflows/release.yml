@@ -1,9 +1,5 @@
 name: Release
 
-permissions:
-  contents: write
-  pages: write
-
 on:
   push:
     branches:
@@ -11,9 +7,15 @@ on:
       - master
 
 jobs:
-  release:
-    name: Release
+  publish:
+    name: Publish package
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    outputs:
+      tag: ${{ steps.check-version.outputs.tag }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v6
@@ -21,20 +23,19 @@ jobs:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.10"
+          python-version: "3.11"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          # Install a specific version of uv.
           version: "0.5.2"
 
       - name: Check if there is a parent commit
         id: check-parent-commit
         run: |
-          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
+          echo "sha=$(git rev-parse --verify --quiet HEAD^)" >> "$GITHUB_OUTPUT"
 
       - name: Detect and tag new version
         id: check-version
@@ -52,22 +53,16 @@ jobs:
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
 
       - name: Build package
-        run: |
-          uv build
+        run: uv build
 
       - name: Publish package on PyPI
         if: steps.check-version.outputs.tag
         uses: pypa/gh-action-pypi-publish@v1.14.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish package on TestPyPI
         if: "! steps.check-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.14.0
         with:
-          user: __token__
-          password: ${{ secrets.TEST_PYPI_TOKEN }}
           repository-url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
@@ -78,27 +73,53 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  deploy-docs:
+    name: Build and deploy docs
+    needs: publish
+    if: needs.publish.outputs.tag
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.5.2"
+
       - name: Install dependencies
         run: |
           uv sync --group dev
           uv pip install -e .
+          uv pip install great-docs
 
-      - name: Install Quarto
+      - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: 1.6.39
 
-      - name: Build autodocs
-        run: uv run quartodoc build --config docs/_quarto.yml
+      - name: Build docs (with execution)
+        run: uv run great-docs build
 
-      - name: Build docs
-        run: cd docs;uv run quarto render --execute
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: great-docs/_site
 
-      - name: git config
-        run: |
-          git config user.name "$(git log -n 1 --pretty=format:%an)" &&
-          git config user.email "$(git log -n 1 --pretty=format:%ae)"
-
-      - name: Publish
-        if: steps.check-version.outputs.tag
-        run: cd docs;uv run quarto publish gh-pages --no-render --no-browser
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
