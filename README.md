@@ -95,12 +95,12 @@ skim(df)
 │ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime_no_freq            </span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.3</span> │ <span style="color: #800000; text-decoration-color: #800000">    1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None           </span> │  │
 │ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │
 │ <span style="font-style: italic">                                           &lt;class 'datetime.date'&gt;                                            </span>  │
-│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
-│ ┃<span style="font-weight: bold"> column                           </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first            </span>┃<span style="font-weight: bold"> last             </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
-│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                   </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2018-01-31      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2101-04-30      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">ME            </span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date_no_freq           </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">1992-01-05      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2023-03-04      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None          </span> │  │
-│ └──────────────────────────────────┴───────┴──────────┴──────────────────┴──────────────────┴────────────────┘  │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold"> column                            </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %    </span>┃<span style="font-weight: bold"> first            </span>┃<span style="font-weight: bold"> last             </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                    </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2018-01-31      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2101-04-30      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">ME            </span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date_no_freq            </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">1992-01-05      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2023-03-04      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">None          </span> │  │
+│ └───────────────────────────────────┴───────┴─────────┴──────────────────┴──────────────────┴────────────────┘  │
 │ <span style="font-style: italic">                                                 timedelta64                                                  </span>  │
 │ ┏━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column         </span>┃<span style="font-weight: bold"> NA   </span>┃<span style="font-weight: bold"> NA %    </span>┃<span style="font-weight: bold"> mean                   </span>┃<span style="font-weight: bold"> median                 </span>┃<span style="font-weight: bold"> max                    </span>┃  │
@@ -123,12 +123,12 @@ skim(df)
 │ │        │    │      │            │ <span style="color: #af87ff; text-decoration-color: #af87ff">seen.    </span> │            │           │            │           │            │  │
 │ └────────┴────┴──────┴────────────┴───────────┴────────────┴───────────┴────────────┴───────────┴────────────┘  │
 │ <span style="font-style: italic">                                                    object                                                    </span>  │
-│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓  │
-│ ┃<span style="font-weight: bold"> column                                                                  </span>┃<span style="font-weight: bold"> NA           </span>┃<span style="font-weight: bold"> NA %              </span>┃  │
-│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                                                          </span> │ <span style="color: #008080; text-decoration-color: #008080">           0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
-│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date_no_freq                                                  </span> │ <span style="color: #008080; text-decoration-color: #008080">           0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
-│ └─────────────────────────────────────────────────────────────────────────┴──────────────┴───────────────────┘  │
+│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓  │
+│ ┃<span style="font-weight: bold"> column                                                                   </span>┃<span style="font-weight: bold"> NA          </span>┃<span style="font-weight: bold"> NA %              </span>┃  │
+│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date                                                           </span> │ <span style="color: #008080; text-decoration-color: #008080">          0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
+│ │ <span style="color: #af87ff; text-decoration-color: #af87ff">datetime.date_no_freq                                                   </span> │ <span style="color: #008080; text-decoration-color: #008080">          0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
+│ └──────────────────────────────────────────────────────────────────────────┴─────────────┴───────────────────┘  │
 ╰────────────────────────────────────────────────────── End ──────────────────────────────────────────────────────╯
 </pre>
 
@@ -159,7 +159,7 @@ To install the development version from git, use:
 $ pip install git+https://github.com/aeturrell/skimpy.git
 ```
 
-For development, see [contributing](contributing.qmd).
+For development, see [contributing](docs/contributing/contributing.qmd).
 
 ## License
 
@@ -177,6 +177,6 @@ This project was generated from [\@cjolowicz](https://github.com/cjolowicz)\'s [
 
 This package would not have been possible without the [**Rich**](https://github.com/Textualize/rich) package.
 
-The package is built with [poetry](https://python-poetry.org/), while the documentation is built with [Quarto](https://quarto.org/) and [Quartodoc](https://github.com/machow/quartodoc) (a Python package). Tests are run with [nox](https://nox.thea.codes/en/stable/).
+The package is built with [uv](https://docs.astral.sh/uv/), while the documentation is built with [Quarto](https://quarto.org/) and [great-docs](https://posit-dev.github.io/great-docs) (a Python package). Tests are run with [nox](https://nox.thea.codes/en/stable/).
 
 Using **skimpy** in your paper? Let us know by raising an issue beginning with "citation" and we'll add it to this page.

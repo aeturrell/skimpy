@@ -1,6 +1,6 @@
 """skimpy provides summary statistics about variables in pandas data frames."""
 
-from __future__ import annotations  # This is here to get 'dict' typing for <3.10
+from __future__ import annotations
 
 import datetime
 import os
@@ -8,7 +8,7 @@ import re
 import typing
 from collections import defaultdict
 from itertools import chain
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, TypeAlias
 from unicodedata import normalize
 
 import numpy as np
@@ -20,12 +20,6 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 from typeguard import typechecked
-
-# TypeAlias is only built-in for 3.10 and above
-try:
-    from typing import TypeAlias
-except ImportError:
-    from typing_extensions import TypeAlias
 
 # polars check
 try:
@@ -71,10 +65,7 @@ UNSUPPORTED_INFERRED_TYPES = [
     "unknown-array",
 ]
 
-try:
-    JSON: TypeAlias = dict[str, dict[str, Any]]
-except TypeError:
-    JSON: TypeAlias = Dict[str, Dict[str, Any]]
+JSON: TypeAlias = dict[str, dict[str, Any]]
 
 
 @typechecked
@@ -204,7 +195,7 @@ MIN_COL_WIDTH: int = 6
 MAX_COL_WIDTH: int = 40
 
 
-def _compute_column_widths(df: pd.DataFrame) -> List[int]:
+def _compute_column_widths(df: pd.DataFrame) -> list[int]:
     """Compute appropriate max_width for each column based on content.
 
     Examines header length and the longest value in each column, then
@@ -214,7 +205,7 @@ def _compute_column_widths(df: pd.DataFrame) -> List[int]:
         df (pd.DataFrame): The dataframe whose columns to measure.
 
     Returns:
-        List[int]: A max_width value for each column.
+        list[int]: A max_width value for each column.
     """
     widths = []
     for col in df.columns:
@@ -659,14 +650,14 @@ def _delete_unsupported_columns(df: pd.DataFrame) -> pd.DataFrame:
 @typechecked
 def _skim_computation(
     df_in: pd.DataFrame,
-) -> Tuple[Table, JSON]:
+) -> tuple[Table, JSON]:
     """Performs the under-the-hood summary statistics.
 
     Args:
         df_in (pd.DataFrame): Input pandas dataframe to create a summary of.
 
     Returns:
-        Tuple[Table, JSON]: Rich table grid to print to console, JSON of summary stats.
+        tuple[Table, JSON]: Rich table grid to print to console, JSON of summary stats.
     """
     if hasattr(df_in, "name") and "name" not in df_in.columns:
         name = str(df_in.name)
@@ -774,7 +765,7 @@ def _skim_computation(
 
 @typechecked
 def skim(
-    df_in: Union[pd.DataFrame, pl.DataFrame],
+    df_in: pd.DataFrame | pl.DataFrame,
 ) -> None:
     """Skim a pandas or polars dataframe and return visual summary statistics on it.
 
@@ -788,14 +779,13 @@ def skim(
     processed.
 
     Args:
-        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
+        df_in (pd.DataFrame | pl.DataFrame): Dataframe to skim.
 
     Raises:
         NotImplementedError: If the dataframe has a MultiIndex column structure.
 
-    Examples
-    --------
-    Skim a dataframe
+    Examples:
+        Skim a dataframe
 
         >>> df = pd.DataFrame(
                 {
@@ -817,7 +807,7 @@ def skim(
     console.print(Panel(grid, title="skimpy summary", subtitle="End"))
 
 
-def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]) -> pd.DataFrame:
+def _convert_to_pandas(df_in: pd.DataFrame | pl.DataFrame) -> pd.DataFrame:
     if isinstance(df_in, pl.DataFrame):
         df_out = df_in.to_pandas()
     else:
@@ -827,8 +817,8 @@ def _convert_to_pandas(df_in: Union[pd.DataFrame, pl.DataFrame]) -> pd.DataFrame
 
 @typechecked
 def skim_get_data(
-    df_in: Union[pd.DataFrame, pl.DataFrame],
-) -> Union[JSON, str]:
+    df_in: pd.DataFrame | pl.DataFrame,
+) -> JSON | str:
     """Skim a pandas or polars dataframe and return summary statistics as a dictionary, and without printing to the console.
 
     skim is an alternative to pandas.DataFrame.describe(), quickly providing
@@ -841,10 +831,10 @@ def skim_get_data(
     processed.
 
     Args:
-        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to get summary statistics on.
+        df_in (pd.DataFrame | pl.DataFrame): Dataframe to get summary statistics on.
 
     Returns:
-        Union[JSON, str]: Dictionary of summary statistics.
+        JSON | str: Dictionary of summary statistics.
     """
     df_out = _convert_to_pandas(df_in)
     _, json_data = _skim_computation(df_out)
@@ -853,8 +843,8 @@ def skim_get_data(
 
 @typechecked
 def skim_get_figure(
-    df_in: Union[pd.DataFrame, pl.DataFrame],
-    save_path: Union[os.PathLike, str],
+    df_in: pd.DataFrame | pl.DataFrame,
+    save_path: os.PathLike | str,
     format: str = "svg",
 ) -> None:
     """Skim a pandas or polars dataframe, print the stats to the console, and save a version of the table as an SVG, HTML, or text file.
@@ -869,12 +859,11 @@ def skim_get_figure(
     processed.
 
     Args:
-        df_in (Union[pd.DataFrame, pl.DataFrame]): Dataframe to skim.
-        save_path (Union[os.PathLike, str]): Path to save figure to (include extension).
+        df_in (pd.DataFrame | pl.DataFrame): Dataframe to skim.
+        save_path (os.PathLike | str): Path to save figure to (include extension).
         format (str, optional): svg, html, or text. Defaults to "svg".
 
     Raises:
-
         ValueError: If the format is not one of svg, html, or text.
     """
     df_out = _convert_to_pandas(df_in)
@@ -885,37 +874,28 @@ def skim_get_figure(
         save_path_str = str(save_path)
     else:
         save_path_str = save_path
-    # for when support is python >=3.10 only
-    # match format.lower():
-    #     case "svg":
-    #         console.save_svg(save_path_str)
-    #     case "html":
-    #         console.save_html(save_path_str)
-    #     case "text":
-    #         console.save_text(save_path_str)
-    #     case _:
-    #         raise ValueError("Format must be: svg, html, or text")
-    if format.lower() == "svg":
-        console.save_svg(save_path_str)
-    elif format.lower() == "html":
-        console.save_html(save_path_str)
-    elif format.lower() == "text":
-        console.save_text(save_path_str)
-    else:
-        raise ValueError("Format must be: svg, html, or text")
+    match format.lower():
+        case "svg":
+            console.save_svg(save_path_str)
+        case "html":
+            console.save_html(save_path_str)
+        case "text":
+            console.save_text(save_path_str)
+        case _:
+            raise ValueError("Format must be: svg, html, or text")
 
 
 @typechecked
 def clean_columns(
-    df: Union[pd.DataFrame, pl.DataFrame],
+    df: pd.DataFrame | pl.DataFrame,
     case: str = "snake",
-    replace: Optional[Dict[str, str]] = None,
+    replace: dict[str, str] | None = None,
     remove_accents: bool = True,
-) -> Union[pd.DataFrame, pl.DataFrame]:
+) -> pd.DataFrame | pl.DataFrame:
     """Clean messy column names in a pandas dataframe.
 
     Args:
-        df (Union[pd.DataFrame, pl.DataFrame]): Dataframe from which column names are to be cleaned.
+        df (pd.DataFrame | pl.DataFrame): Dataframe from which column names are to be cleaned.
         case (str, optional): The desired case style of the column name. Defaults to "snake".
 
                 - 'snake' produces 'column_name';
@@ -928,7 +908,7 @@ def clean_columns(
                 - 'lower' produces 'column name';
                 - 'upper' produces 'COLUMN NAME';
 
-        replace (Optional[Dict[str, str]], optional): Values to replace in the column names. Defaults to None.
+        replace (dict[str, str] | None, optional): Values to replace in the column names. Defaults to None.
 
                 - {'old_value': 'new_value'}
 
@@ -938,12 +918,11 @@ def clean_columns(
         ValueError: If case is not valid.
 
     Returns:
-        Union[pd.DataFrame, pl.DataFrame]: Dataframe with cleaned column names.
+        pd.DataFrame | pl.DataFrame: Dataframe with cleaned column names.
 
-    Examples
-    --------
-    Clean column names by converting the names to camel case style, removing accents,
-    and correcting a mispelling.
+    Examples:
+        Clean column names by converting the names to camel case style, removing accents,
+        and correcting a mispelling.
 
         >>> df = pd.DataFrame(
                             {
@@ -1023,7 +1002,7 @@ def _convert_case(name: Any, case: str) -> Any:
 
 
 @typechecked
-def _split_strip_string(string: str) -> List[str]:
+def _split_strip_string(string: str) -> list[str]:
     """Split the string into separate words and strip punctuation."""
     string = re.sub(r"[!()*+\,\-./:;<=>?[\]^_{|}~]", " ", string)
     string = re.sub(r"[\'\"\`]", "", string)
@@ -1034,7 +1013,7 @@ def _split_strip_string(string: str) -> List[str]:
 
 
 @typechecked
-def _split_string(string: str) -> List[str]:
+def _split_string(string: str) -> list[str]:
     """Split the string into separate words."""
     string = re.sub(r"[\-_]", " ", string)
 
@@ -1042,12 +1021,12 @@ def _split_string(string: str) -> List[str]:
 
 
 @typechecked
-def _replace_values(name: Any, mapping: Dict[str, str]) -> Any:
+def _replace_values(name: Any, mapping: dict[str, str]) -> Any:
     """_summary_
 
     Args:
         name (Any): Column name.
-        mapping (Dict[str, str]): Maps old values in the column name to the new values.
+        mapping (dict[str, str]): Maps old values in the column name to the new values.
 
     Returns:
         Any: Re-mapped column name.
@@ -1091,7 +1070,7 @@ def _rename_duplicates(names: pd.Index | list[str], case: str) -> Any:
         sep = " "
 
     names = list(names)
-    counts: Dict[str, int] = {}
+    counts: dict[str, int] = {}
 
     for i, col in enumerate(names):
         cur_count = counts.get(col, 0)
@@ -1112,9 +1091,8 @@ def generate_test_data() -> pd.DataFrame:
     Returns:
         pd.DataFrame: dataframe with columns spanning several data types.
 
-    Examples
-    --------
-    Generate test data to demonstrate how skimpy works.
+    Examples:
+        Generate test data to demonstrate how skimpy works.
 
         >>> df = generate_test_data()
     """

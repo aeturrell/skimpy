@@ -10,7 +10,7 @@ Here is a list of important resources for contributors:
 - [Source Code](https://github.com/aeturrell/skimpy)
 - [Documentation](https://aeturrell.github.io/skimpy/)
 - [Issue Tracker](https://github.com/aeturrell/skimpy/issues)
-- [Code of Conduct](code_of_conduct.qmd)
+- [Code of Conduct](conduct.qmd)
 
 ## How to report a bug
 
