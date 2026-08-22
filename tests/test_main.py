@@ -507,6 +507,16 @@ def test_22_string_summary():
         assert result_df.iloc[0, i] == expected_values[i]
 
 
+def test_22a_string_summary_respects_non_default_index():
+    """shortest/longest must refer to the correct row even when the
+    dataframe's index isn't the default 0..n-1 range, eg after filtering."""
+    df = pd.DataFrame({"text": ["zzzzzzzzzz", "a", "mmm"]}, dtype="string")
+    df.index = [2, 0, 1]
+    result_df = _string_variable_summary_table(df)
+    assert result_df.loc["text", "shortest"] == "a"
+    assert result_df.loc["text", "longest"] == "zzzzzzzzzz"
+
+
 def test_23_bool_summary():
     """test summarising bool columns of dataframes."""
     bool_list = [
