@@ -472,7 +472,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(
                 zip(
                     xf.columns,
-                    [xf.loc[xf[col].str.len().argmin(), col] for col in xf.columns],  # type: ignore
+                    [xf.loc[xf[col].str.len().idxmin(), col] for col in xf.columns],  # type: ignore
                 )
             )
         ),
@@ -480,7 +480,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             dict(
                 zip(
                     xf.columns,
-                    [xf.loc[xf[col].str.len().argmax(), col] for col in xf.columns],  # type: ignore
+                    [xf.loc[xf[col].str.len().idxmax(), col] for col in xf.columns],  # type: ignore
                 )
             )
         ),
