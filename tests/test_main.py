@@ -578,6 +578,13 @@ def test_27_missing_case_entered():
         clean_columns(df, case="FAKECASE", replace={"Nom": "Name"})
 
 
+def test_27a_duplicate_column_names():
+    """skim should raise a clear error rather than crash on duplicate column names."""
+    df = pd.DataFrame([[1, 2], [3, 4]], columns=["x", "x"])
+    with pytest.raises(ValueError, match="duplicate column names"):
+        skim(df)
+
+
 def test_28_special_name_values():
     """There are special null column names that complicate replace name ops."""
     ans_one = _replace_values(np.nan, {"Philip": "new_name"})

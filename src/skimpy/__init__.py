@@ -666,6 +666,13 @@ def _skim_computation(
 
     # Make a copy so as not to mess with dataframe
     df = df_in.copy()
+    if df.columns.duplicated().any():
+        dupes = sorted(set(df.columns[df.columns.duplicated()]))
+        raise ValueError(
+            f"skimpy does not support dataframes with duplicate column names. "
+            f"Found duplicate(s): {dupes}. Rename them before skimming, e.g. with "
+            f"skimpy.clean_columns() or by editing df.columns directly."
+        )
     # remove any columns with types that are not currently supported
     df = _delete_unsupported_columns(df)
     # Perform inference of datatypes
