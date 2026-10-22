@@ -549,7 +549,7 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
         MISSING_COL: count_nans_vec,
         COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
         NUM_COL_MEAN: xf.mean().dt.floor("s"),
-        "median": xf.min().dt.floor("s"),
+        "median": xf.median().dt.floor("s"),
         "max": xf.max().dt.ceil("s"),
     }
     summary_df = pd.DataFrame(data_dict)
