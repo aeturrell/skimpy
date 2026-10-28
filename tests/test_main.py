@@ -616,6 +616,15 @@ def test_29_json_return_data():
     assert ret_json_keys == expected_output
 
 
+def test_timedelta_summary_reports_median() -> None:
+    """The timedelta median must not be reported as its minimum."""
+    frame = pd.DataFrame({"elapsed": pd.to_timedelta([1, 2, 100], unit="h")})
+
+    result = skim_get_data(frame)
+
+    assert result["timedelta64[ns]"]["median"]["elapsed"] == pd.Timedelta(hours=2)
+
+
 def test_30_running_with_polars():
     """Tests the polars skim functionality."""
     df1 = pl.DataFrame(
