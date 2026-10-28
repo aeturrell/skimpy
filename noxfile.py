@@ -7,7 +7,7 @@ from textwrap import dedent
 import nox
 
 package = "skimpy"
-python_versions = ["3.13", "3.12", "3.11"]
+python_versions = ["3.12", "3.13"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 nox.options.sessions = (
@@ -99,7 +99,7 @@ def tests(session: nox.Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@nox.session(python=python_versions[2])
+@nox.session(python=python_versions[0])
 def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report"]
@@ -118,7 +118,7 @@ def coverage(session: nox.Session) -> None:
     session.run("coverage", *args, "-i")
 
 
-@nox.session(name="pre-commit", python="3.11", venv_backend="uv")
+@nox.session(name="pre-commit", python="3.12", venv_backend="uv")
 def precommit(session: nox.Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
