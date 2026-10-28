@@ -819,3 +819,34 @@ def test_compute_column_widths_empty_dataframe() -> None:
     # "col_a" is 5 chars -> 6 (min), "b" is 1 char -> 6 (min)
     assert widths[0] == 6
     assert widths[1] == 6
+
+
+def test_duplicate_column_names_same_type():
+    """Duplicate numeric column names are renamed with a warning, not an error."""
+    df = pd.DataFrame([[1, 2], [3, 4]], columns=["a", "a"])
+    with pytest.warns(UserWarning, match="Duplicate column names"):
+        skim(df)
+    with pytest.warns(UserWarning, match="Duplicate column names"):
+        data = skim_get_data(df)
+    assert set(data["number"]["mean"]) == {"a", "a_1"}
+    # The user's dataframe is left untouched
+    assert list(df.columns) == ["a", "a"]
+
+
+def test_duplicate_column_names_mixed_types():
+    """Duplicate names on columns of different types are each summarised."""
+    df = pd.DataFrame({"x": [1.0, 2.0], "y": ["p", "q"]})
+    df["y"] = df["y"].astype("string")
+    df.columns = ["a", "a"]
+    with pytest.warns(UserWarning, match="Duplicate column names"):
+        data = skim_get_data(df)
+    assert "a" in data["number"]["mean"]
+    assert "a_1" in data["string"]["words per row"]
+
+
+def test_duplicate_column_names_avoid_existing_names():
+    """Renamed columns never clash with names already in the dataframe."""
+    df = pd.DataFrame([[1, 2, 3, 4]], columns=["a", "a", "a_1", "a"])
+    with pytest.warns(UserWarning, match="'a' -> a_2, a_3"):
+        data = skim_get_data(df)
+    assert set(data["number"]["mean"]) == {"a", "a_1", "a_2", "a_3"}

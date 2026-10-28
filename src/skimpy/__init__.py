@@ -6,6 +6,7 @@ import datetime
 import os
 import re
 import typing
+import warnings
 from collections import defaultdict
 from itertools import chain
 from typing import Any, TypeAlias
@@ -812,7 +813,40 @@ def _convert_to_pandas(df_in: pd.DataFrame | pl.DataFrame) -> pd.DataFrame:
         df_out = df_in.to_pandas()
     else:
         df_out = df_in.copy()
+    if df_out.columns.has_duplicates:
+        df_out.columns = _deduplicate_column_names(df_out.columns)
     return df_out
+
+
+def _deduplicate_column_names(names: pd.Index) -> list[Any]:
+    """Rename duplicated column names by appending _1, _2, etc., and warn.
+
+    Suffixes skip any name already in use, so the result is always unique.
+    """
+    taken = {str(name) for name in names}
+    seen: set[Any] = set()
+    new_names: list[Any] = []
+    renamed: dict[Any, list[str]] = defaultdict(list)
+    for name in names:
+        if name not in seen:
+            seen.add(name)
+            new_names.append(name)
+            continue
+        suffix = 1
+        while f"{name}_{suffix}" in taken:
+            suffix += 1
+        new_name = f"{name}_{suffix}"
+        taken.add(new_name)
+        new_names.append(new_name)
+        renamed[name].append(new_name)
+    details = "; ".join(f"{old!r} -> {', '.join(new)}" for old, new in renamed.items())
+    warnings.warn(
+        f"Duplicate column names were renamed for this summary: {details}. "
+        "Your dataframe has not been changed.",
+        UserWarning,
+        stacklevel=4,
+    )
+    return new_names
 
 
 @typechecked
