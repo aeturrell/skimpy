@@ -77,7 +77,7 @@ def _handle_sqlite_file(sqlite_path: str, table: str | None) -> None:
     """
     con = duckdb.connect(sqlite_path)
     available_tables = con.execute(
-        "SELECT name FROM sqlite_master WHERE type='table'"
+        "SELECT table_name FROM duckdb_tables() WHERE NOT internal"
     ).fetchall()
 
     if not available_tables:
