@@ -276,13 +276,10 @@ def _dataframe_to_rich_table(
     pos_to_justification = _map_row_positions_to_text_style(datatype_justify, df)
     rows = df.values
     # find any datetimes
-    if (DATE_COL_FIRST or DATE_COL_LAST) in df.columns:
+    if DATE_COL_FIRST in df.columns or DATE_COL_LAST in df.columns:
         rows = _simplify_datetimes_in_array(rows)
     rows_list_list = [
-        [
-            str(s).rstrip("0").rstrip(".") if ("." and isinstance(s, float)) else s
-            for s in row
-        ]
+        [str(s).rstrip("0").rstrip(".") if isinstance(s, float) else s for s in row]
         for row in rows
     ]
     col_widths = _compute_column_widths(df)
@@ -738,7 +735,7 @@ def _skim_computation(
     for col_type, summary_func in types_funcs_dict.items():
         if col_type == "number":
             # timedelta and datetime are technically integers, so exclude these
-            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta", "object"])  # type: ignore
+            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta", "object"])
         else:
             xf = df.select_dtypes(col_type)  # type: ignore
         if not xf.empty:
