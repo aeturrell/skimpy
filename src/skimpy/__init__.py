@@ -276,7 +276,7 @@ def _dataframe_to_rich_table(
     pos_to_justification = _map_row_positions_to_text_style(datatype_justify, df)
     rows = df.values
     # find any datetimes
-    if (DATE_COL_FIRST or DATE_COL_LAST) in df.columns:
+    if DATE_COL_FIRST in df.columns or DATE_COL_LAST in df.columns:
         rows = _simplify_datetimes_in_array(rows)
     rows_list_list = [
         [str(s).rstrip("0").rstrip(".") if isinstance(s, float) else s for s in row]
