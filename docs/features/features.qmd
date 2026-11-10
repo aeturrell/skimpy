@@ -7,10 +7,10 @@ jupyter: python3
 **Skimpy** provides:
 
 - a way to create summary statistics of **pandas** or **Polars** dataframes, using the `skim()` function, and print them to your console via the [rich](https://github.com/willmcgugan/rich) package
-- support for summarising boolean, numeric, datetime, timedelta, string, and category datatypes
-- a command line interface to `skim` csv files
+- support for summarising boolean, numeric, datetime, date, timedelta, string, and category datatypes
+- a command line interface to `skim` CSV, parquet, and SQLite files
 - intelligent rounding of numerical values to 4 significant figures
-- a way to export the visual summary statistics to lossless formats namely SVG or HTML
+- a way to export the visual summary statistics to lossless formats namely SVG or HTML, or to plain text
 - a way to further work with the summary statistics, by returning them as a dictionary
 - a way to clean up messy column names in both **pandas** and **Polars** dataframes
 
@@ -42,9 +42,67 @@ And the dictionary has contents as follows:
 print(summary)
 ```
 
+The dictionary has one entry per section of the printed summary: `"Data Summary"`, `"Data Types"`, `"Categories"` (if there are any category columns), and then one entry for each kind of column that is present, such as `"number"` or `"date"`.
+
+## What `skim` summarises
+
+`skim()` groups columns by type and prints a separate table for each group. The statistics in each table are:
+
+| Section | Column types | Statistics |
+|---|---|---|
+| number | integers and floats | NA, NA %, mean, sd, p0, p25, p50, p75, p100, hist |
+| category | pandas `category` | NA, NA %, ordered, unique |
+| bool | booleans | true, true rate, hist |
+| datetime | `datetime64` (timezone-aware values are made naive) | NA, NA %, first, last, frequency\* |
+| date | Python `datetime.date` objects | NA, NA %, first, last, frequency\* |
+| timedelta64[ns] | durations | NA, NA %, mean, median, max |
+| string | strings (including object columns that contain only strings) | NA, NA %, shortest, longest, min, max, chars per row, words per row, total words |
+| All null | columns where every value is missing | NA, NA % |
+
+\* `frequency` is the regular spacing of the dates that pandas infers (for example `ME` for month end), and only appears when there are more than three rows.
+
+`NA` is the number of missing values and `NA %` is the percentage of the column that is missing. The `hist` column is a small unicode histogram of the values. For strings, `min` and `max` are the first and last values in alphabetical order, while `shortest` and `longest` are by number of characters.
+
+Before summarising, **skimpy** infers a type for every column. You will usually get the best results if you set the datatypes you want yourself first (for example, `df["col"].astype("category")`).
+
+### Columns that are left out
+
+Columns whose values are a mix of types (for example, numbers and strings in the same column) can't be summarised, so `skim()` leaves them out of the summary. If *every* column is of a mixed type, you'll get a `ValueError` instead.
+
+Dataframes with a multi-level column index (a `pandas.MultiIndex`) are not supported and raise a `NotImplementedError`. Flatten the columns first, for example with `df.columns = ["_".join(map(str, c)) for c in df.columns]`.
+
+### Duplicate column names
+
+If a dataframe has more than one column with the same name, **skimpy** gives the repeats a numbered suffix for the summary only, and tells you with a warning. Your dataframe is not changed.
+
+```{python}
+import warnings
+
+dup_df = pd.DataFrame([[1, 2, 3], [4, 5, 6]], columns=["a", "a", "b"])
+
+with warnings.catch_warnings(record=True) as caught:
+    warnings.simplefilter("always")
+    dup_summary = skim_get_data(dup_df)
+
+print(caught[0].message)
+print(list(dup_summary["number"]["mean"].keys()))
+```
+
+### Naming the summary
+
+If your dataframe has a `name` attribute, it is used as the heading of the "Data Summary" table in place of "Dataframe":
+
+```{python}
+from skimpy import skim
+
+named_df = generate_test_data()
+named_df.name = "Test data"
+skim(named_df)
+```
+
 ## Clean up messy dataframe column names
 
-**skimpy** also comes with a `clean_columns` function as a convenience (with thanks to the [**dataprep**](https://dataprep.ai/) package). This slugifies column names in **pandas** dataframes. For example,
+**skimpy** also comes with a `clean_columns` function as a convenience (with thanks to the [**dataprep**](https://dataprep.ai/) package). This slugifies column names in **pandas** and **Polars** dataframes. For example,
 
 ```{python}
 from skimpy import clean_columns
@@ -67,11 +125,56 @@ clean_df = clean_columns(messy_df)
 print(list(clean_df.columns))
 ```
 
-Other naming conventions are available, for example *camel case*:
+### Case styles
+
+Choose a naming convention with the `case` argument. These are all of the options:
+
+| `case` | Result |
+|---|---|
+| `"snake"` (default) | `column_name` |
+| `"kebab"` | `column-name` |
+| `"camel"` | `columnName` |
+| `"pascal"` | `ColumnName` |
+| `"const"` | `COLUMN_NAME` |
+| `"sentence"` | `Column name` |
+| `"title"` | `Column Name` |
+| `"lower"` | `column name` |
+| `"upper"` | `COLUMN NAME` |
+
+For example, *camel case*:
 
 ```{python}
 clean_df = clean_columns(messy_df, case="camel")
 print(list(clean_df.columns))
+```
+
+The full set is also available in Python as `skimpy.CASE_STYLES`.
+
+### Replacing text and keeping accents
+
+Use `replace` to swap out parts of column names before they are cleaned. It takes a dictionary of `{old: new}` pairs. Matching ignores case, and each `old` value is treated as a [regular expression](https://docs.python.org/3/library/re.html), so escape characters such as `.` or `(` if you mean them literally.
+
+```{python}
+contacts = pd.DataFrame(columns=["FirstNom", "lastName", "Téléphone"])
+print(list(clean_columns(contacts, case="camel", replace={"Nom": "Name"}).columns))
+```
+
+Accents are removed by default. To keep them, pass `remove_accents=False`:
+
+```{python}
+print(list(clean_columns(contacts, remove_accents=False).columns))
+```
+
+### Polars and duplicate names
+
+`clean_columns` works the same way on **Polars** dataframes, and returns a **Polars** dataframe. If cleaning makes two names identical, the later ones get a number on the end, joined in the style of the chosen case:
+
+```{python}
+import polars as pl
+
+pl_df = pl.DataFrame({"Total Sales": [1], "total-sales": [2], "TOTAL SALES": [3]})
+print(clean_columns(pl_df).columns)
+print(clean_columns(pl_df, case="camel").columns)
 ```
 
 ## Export the visual summary table to SVG
@@ -100,7 +203,7 @@ skim_get_figure(df, "summary_table.txt", format="text")
 ! rm summary_table.{html,svg,txt}
 ```
 
-The function accepts both pandas and Polars DataFrames. It supports three output formats: SVG (default), HTML, and text. The function also prints the paths to the console; file paths are relative to the current working directory.
+The function accepts both pandas and Polars DataFrames. It supports three output formats: SVG (default), HTML, and text. The function also prints the summary to the console; file paths are relative to the current working directory.
 
 ## Run skim on the command line
 
@@ -116,6 +219,51 @@ $ skimpy file.csv
 $ skimpy file.parquet
 ```
 
+For SQLite databases, choose a table with `--table` (or its short form, `-t`):
+
 ```bash
 $ skimpy file.sqlite --table <table name>
+```
+
+If you leave out `--table`, **skimpy** lists the tables in the database and then stops with an error asking you to choose one:
+
+```bash
+$ skimpy file.sqlite
+Available tables in file.sqlite:
+  - customers
+  - orders
+...
+ValueError: Please specify a table using --table NAME or -t NAME (e.g., skimpy your_db.sqlite -t my_table)
+```
+
+To check which version you have installed, or to see the options, use:
+
+```bash
+$ skimpy --version
+$ skimpy --help
+```
+
+## Settings
+
+**skimpy** has a few module-level constants that control what goes into the summary. They are listed on the [reference pages](../../reference/index.qmd):
+
+| Constant | Default | What it controls |
+|---|---|---|
+| `QUANTILES` | `[0, 0.25, 0.5, 0.75, 1]` | The quantiles shown for number columns (as p0, p25, …) |
+| `HIST_BINS` | `6` | The number of bins in each unicode histogram |
+| `MIN_COL_WIDTH`, `MAX_COL_WIDTH` | `6`, `40` | The narrowest and widest a table column can be, in characters |
+| `MISSING_COL`, `COMPLETE_COL` | `"NA"`, `"NA %"` | Headings for the missing-value count and percentage |
+| `NUM_COL_MEAN` | `"mean"` | Heading for the mean |
+| `DATE_COL_FIRST`, `DATE_COL_LAST` | `"first"`, `"last"` | Headings for the earliest and latest dates |
+| `NULL_VALUES` | `{nan, "", None}` | Column names that `clean_columns` leaves untouched |
+| `CASE_STYLES` | see above | The allowed values of `clean_columns(case=...)` |
+
+These are read each time you call a function, so you can change them for a session. For example, to use ten histogram bins:
+
+```{python}
+import skimpy
+
+skimpy.HIST_BINS = 10
+print(skim_get_data(generate_test_data())["number"]["hist"])
+skimpy.HIST_BINS = 6  # put it back
 ```

@@ -43,7 +43,6 @@ dev = [
     "pytest>=8.3.4",
     "quartodoc>=0.9.1",
     "ruff>=0.8.3",
-    "toml>=0.10.2",
     "ty>=0.0.8",
     "xdoctest[colors]>=1.2.0",
 ]

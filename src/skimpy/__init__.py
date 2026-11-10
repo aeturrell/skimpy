@@ -57,6 +57,8 @@ DATE_COL_FIRST = "first"
 DATE_COL_LAST = "last"
 NUM_COL_MEAN = "mean"
 COMPLETE_COL = "NA %"
+# Display names for summary sections whose column type has no readable string form
+_SECTION_NAMES: dict[Any, str] = {datetime.date: "date"}
 MISSING_COL = "NA"
 
 UNSUPPORTED_INFERRED_TYPES = [
@@ -743,7 +745,7 @@ def _skim_computation(
             # for rich tables, we need to stringify
             # specialised and unsupported col types, such as datetime.date,
             # that are actually registered as object type
-            col_type_to_rich = str(col_type)
+            col_type_to_rich = _SECTION_NAMES.get(col_type, str(col_type))
             list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
             json_data.update({col_type_to_rich: sum_df.to_dict()})
 
@@ -810,6 +812,11 @@ def _convert_to_pandas(df_in: pd.DataFrame | pl.DataFrame) -> pd.DataFrame:
         df_out = df_in.to_pandas()
     else:
         df_out = df_in.copy()
+        # .copy() drops a user-set `name` attribute, which skim uses as the
+        # heading of the Data Summary table, so carry it across.
+        if "name" not in df_in.columns and hasattr(df_in, "name"):
+            # stubs read .name as a column; here it is a plain attribute
+            df_out.name = df_in.name  # ty: ignore[invalid-assignment]
     if df_out.columns.has_duplicates:
         df_out.columns = _deduplicate_column_names(df_out.columns)
     return df_out
@@ -972,22 +979,21 @@ def clean_columns(
             f"case {case} is invalid, options are: {', '.join(c for c in CASE_STYLES)}"
         )
 
-    if replace and isinstance(df, pd.DataFrame):
-        df = df.rename(columns=lambda col: _replace_values(col, replace))
-    elif replace:
-        df = df.rename(lambda col: _replace_values(col, replace))
-
-    if remove_accents and isinstance(df, pd.DataFrame):
-        df = df.rename(columns=_remove_accents)
-    elif remove_accents:
-        df = df.rename(_remove_accents)
+    # Work on the list of names, then apply them in one go. Renaming column by
+    # column would fail on Polars, which rejects the duplicate names that
+    # cleaning can create before _rename_duplicates has numbered them.
+    names = list(df.columns)
+    if replace:
+        names = [_replace_values(col, replace) for col in names]
+    if remove_accents:
+        names = [_remove_accents(col) for col in names]
+    names = [_convert_case(col, case) for col in names]
+    names = _rename_duplicates(names, case)
 
     if isinstance(df, pd.DataFrame):
-        df = df.rename(columns=lambda col: _convert_case(col, case))
-    else:
-        df = df.rename(lambda col: _convert_case(col, case))
-
-    df.columns = _rename_duplicates(df.columns, case)
+        return df.set_axis(names, axis=1)
+    df = df.clone()
+    df.columns = names
     return df
 
 

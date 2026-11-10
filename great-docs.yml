@@ -15,9 +15,60 @@ parser: google
 repo: https://github.com/aeturrell/skimpy # Optional override
 github_style: widget
 
-# Top banner / navbar background — green from the object-detection demo box.
-# Text colour is auto-chosen for contrast (APCA).
-navbar_color: "#2d3e51"
+# Top banner / navbar background: the darkest stop of the magma colormap used
+# by the logo. Text colour is auto-chosen for contrast (APCA).
+navbar_color: "#1b0c41"
+
+# Landing-page hero. The logo is an animated SVG made by docs/hero.py; the
+# tagline and badges are pulled from the centred block at the top of README.md.
+hero:
+  logo:
+    light: docs/hero.svg
+    dark: docs/hero.svg
+    alt: skimpy
+  logo_height: 300px
+  name: false
+  badges: auto
+
+# Fonts: Fjalla One for titles, Fira Sans for body text, Fira Code for code.
+# Applied in docs/styles.css.
+include_in_header:
+  - text: '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Fira+Sans:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;600&display=swap">'
+  # Shrink skim() output (rich panels, which start with "╭") just enough to
+  # fit the text column, so the whole table shows without a horizontal scroll
+  # bar. Stops at 10px; narrower screens (phones) scroll instead.
+  - text: |
+      <script>
+      (function () {
+        var MIN_PX = 10;
+        function fitOne(pre) {
+          pre.style.fontSize = "";
+          var size = parseFloat(getComputedStyle(pre).fontSize);
+          var need = pre.scrollWidth, avail = pre.clientWidth;
+          if (!avail || need <= avail) return;
+          size = Math.max(MIN_PX, size * avail / need);
+          pre.style.fontSize = size + "px";
+          while (pre.scrollWidth > pre.clientWidth && size > MIN_PX) {
+            size = Math.max(MIN_PX, size - 0.25);
+            pre.style.fontSize = size + "px";
+          }
+        }
+        function fitAll() {
+          document.querySelectorAll("pre").forEach(function (pre) {
+            if (!/^\s*╭/.test(pre.textContent)) return;
+            pre.classList.add("skim-output");
+            fitOne(pre);
+          });
+        }
+        var timer;
+        window.addEventListener("resize", function () {
+          clearTimeout(timer);
+          timer = setTimeout(fitAll, 100);
+        });
+        document.addEventListener("DOMContentLoaded", fitAll);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+      })();
+      </script>
 
 
 # Dynamic Introspection

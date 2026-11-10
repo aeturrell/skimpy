@@ -3,7 +3,6 @@
 /.coverage
 /.coverage.*
 /.nox/
-/.python-version
 /.pytype/
 /dist/
 /docs/_build/
@@ -28,3 +27,6 @@ _great_docs_build/
 .great-docs-build/
 .great-docs-cache/
 .great-docs/
+
+# Quarto freeze cache written by great-docs builds
+_freeze/
