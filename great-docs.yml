@@ -95,7 +95,7 @@ sections:
 # ---------------
 # Point to a single logo file (replaces the text title in the navbar):
 # logo: docs/logo.png
-favicon: docs/favicon.ico
+favicon: docs/favicon.svg
 #
 # For light/dark variants:
 # logo:

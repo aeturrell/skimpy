@@ -733,7 +733,7 @@ def test_having_a_df_with_a_name(tmp_path):
     skim(df)
     out = tmp_path / "named.txt"
     skim_get_figure(df, out, format="text")
-    assert name_to_use in out.read_text()
+    assert name_to_use in out.read_text(encoding="utf-8")
 
 
 def test_handling_of_pandas_multiindex():
