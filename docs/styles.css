@@ -1,1 +1,167 @@
-/* css styles */
+/* skimpy docs theme: "Magma Glow"
+   Colours come from the magma colormap used by docs/logo.py.
+   Fonts (loaded via include_in_header in great-docs.yml):
+     titles  Fjalla One
+     body    Fira Sans
+     code    Fira Code */
+
+:root {
+  --skimpy-ink: #1b0c41;
+  --skimpy-violet: #451077;
+  --skimpy-purple: #6b5496;
+  --skimpy-plum: #8c2981;
+  --skimpy-rose: #d2456f;
+  --skimpy-coral: #f8765c;
+  --skimpy-peach: #fdb37c;
+  --skimpy-title-font: "Fjalla One", "Oswald", Impact, "Arial Narrow", sans-serif;
+  --skimpy-body-font: "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --skimpy-code-font: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --skimpy-heading: var(--skimpy-ink);
+  --skimpy-link: var(--skimpy-purple);
+  --skimpy-link-hover: var(--skimpy-rose);
+}
+
+html[data-bs-theme="dark"],
+body.quarto-dark {
+  --skimpy-heading: #fde9d4;
+  --skimpy-link: var(--skimpy-peach);
+  --skimpy-link-hover: var(--skimpy-coral);
+}
+
+/* ---- dark mode: "Midnight Magma" ----
+   The page takes the darkest magma stop (the navbar colour), so header and
+   body read as one surface. These override great-docs' own dark variables. */
+body.quarto-dark {
+  --gd-bg-primary: #120b1f;
+  --gd-bg-secondary: #120b1f;
+  --gd-bg-tertiary: #1d1430;
+  --gd-code-bg: #1d1430;
+  --gd-blockquote-bg: #1d1430;
+  --gd-sidebar-bg: #120b1f;
+  --gd-navbar-bg: #1b0c41;
+  --gd-border-color: #30244a;
+  --gd-border-light: #30244a;
+  --gd-text-primary: #ebe5f5;
+  --gd-text-muted: #a99fbd;
+}
+
+/* great-docs hard-codes a few dark greys/slates outside its variables:
+   API reference parameter rows and signatures, and the floating sidebar. */
+html[data-bs-theme="dark"] body :is(.doc-parameters, .doc-other-parameters, .doc-returns, .doc-yields, .doc-receives, .doc-raises, .doc-warns, .doc-attributes, .doc-parameter-attributes, .doc-init-parameters, .doc-see-also, .doc-examples) dt code,
+html[data-bs-theme="dark"] body .doc-signature div.sourceCode,
+html[data-bs-theme="dark"] body .doc-signature.doc-attribute code {
+  background-color: #251a3d !important;
+}
+
+@media (min-width: 992px) {
+  html body.quarto-dark #quarto-sidebar.gd-sidebar-float {
+    background: rgba(29, 20, 48, 0.6);
+    border-color: rgba(253, 179, 124, 0.12);
+  }
+
+  html body.quarto-dark .gd-sidebar-scroll-top {
+    background: linear-gradient(to bottom, rgba(18, 11, 31, 0.92) 0%, transparent 100%);
+  }
+
+  html body.quarto-dark .gd-sidebar-scroll-bottom {
+    background: linear-gradient(to top, rgba(18, 11, 31, 0.92) 0%, transparent 100%);
+  }
+}
+
+/* ---- type ---- */
+body,
+body p,
+body li,
+body .table,
+body .nav-link,
+body .sidebar-item-text {
+  font-family: var(--skimpy-body-font);
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body .title,
+body .navbar-title,
+body .navbar-brand,
+body #toc-title,
+body #toc-function-reference,
+body .gd-hero-name {
+  font-family: var(--skimpy-title-font);
+  font-weight: 400; /* Fjalla One has a single weight; avoid faux bold */
+  letter-spacing: 0.01em;
+}
+
+body h1,
+body h2,
+body h3,
+body h4 {
+  color: var(--skimpy-heading);
+}
+
+body code,
+body pre,
+body kbd,
+body samp,
+body .sourceCode {
+  font-family: var(--skimpy-code-font);
+  font-variant-ligatures: none;
+}
+
+/* ---- links ---- */
+body main a:not(.btn):not(.nav-link) {
+  color: var(--skimpy-link);
+}
+
+body main a:not(.btn):not(.nav-link):hover {
+  color: var(--skimpy-link-hover);
+}
+
+/* ---- landing-page hero (docs/hero.svg, made by docs/hero.py) ---- */
+.gd-hero-logo {
+  border-radius: 14px;
+  box-shadow: 0 12px 40px -12px rgba(27, 12, 65, 0.55);
+}
+
+.gd-hero-tagline {
+  font-family: var(--skimpy-body-font);
+}
+
+/* ---- "On this page" highlight ----
+   Quarto hard-codes this as teal with !important, so override it the same way. */
+body .sidebar nav[role="doc-toc"] ul > li > a.active,
+body .sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
+  color: var(--skimpy-link) !important;
+  border-left-color: var(--skimpy-link) !important;
+}
+
+/* ---- skim() output in dark mode ----
+   rich writes its tables into a <pre> with inline colours chosen for a light
+   background, and Bootstrap sets `pre { color: #000 }`, so in dark mode the
+   borders and plain text came out black on dark grey. Give the output light
+   text, and swap rich's dark ANSI colours for their brighter terminal
+   equivalents. Covers the homepage (README output) and executed cells. */
+html[data-bs-theme="dark"] {
+  --skimpy-rich-text: #e6e1ef;
+  --skimpy-rich-bg: #0c0715;
+  --skimpy-rich-border: #30244a;
+}
+
+html[data-bs-theme="dark"] pre.skim-output,
+html[data-bs-theme="dark"] pre[style*="white-space:pre"],
+html[data-bs-theme="dark"] pre[style*="white-space: pre"],
+html[data-bs-theme="dark"] .cell-output pre {
+  color: var(--skimpy-rich-text);
+  background-color: var(--skimpy-rich-bg);
+  border: 1px solid var(--skimpy-rich-border);
+  border-radius: 8px;
+}
+
+html[data-bs-theme="dark"] pre span[style*="color: #008080"] { color: #5fd7d7 !important; } /* teal: headers, numbers */
+html[data-bs-theme="dark"] pre span[style*="color: #008000"] { color: #87d787 !important; } /* green: column names */
+html[data-bs-theme="dark"] pre span[style*="color: #800000"] { color: #ff8787 !important; } /* maroon: dates */
+html[data-bs-theme="dark"] pre span[style*="color: #800080"] { color: #e19ae1 !important; } /* purple: strings */
+html[data-bs-theme="dark"] pre span[style*="color: #ff0000"] { color: #ff6b6b !important; } /* red */

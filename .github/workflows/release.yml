@@ -25,12 +25,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version-file: ".python-version"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          version: "0.5.2"
+          version: "0.9.17"
 
       - name: Check if there is a parent commit
         id: check-parent-commit
@@ -43,14 +43,12 @@ jobs:
         uses: salsify/action-detect-and-tag-new-version@v2.0.3
         with:
           version-command: |
-            uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version
+            uv version --short
 
       - name: Bump version for developmental release
         if: "! steps.check-version.outputs.tag"
         run: |
-          uv run version_bumper.py &&
-          version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version) &&
-          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
+          uv version --bump patch --bump dev=$(date +%s) --frozen
 
       - name: Build package
         run: uv build
@@ -94,18 +92,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: "3.12"
+          python-version-file: ".python-version"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          version: "0.5.2"
+          version: "0.9.17"
 
       - name: Install dependencies
         run: |
           uv sync --group dev
           uv pip install -e .
-          uv pip install great-docs
+          uv pip install 'great-docs[svg]'
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

@@ -626,6 +626,15 @@ def test_29_json_return_data():
     assert ret_json_keys == expected_output
 
 
+def test_date_section_has_readable_name() -> None:
+    """Python date columns get a "date" section, not "<class 'datetime.date'>"."""
+    df = pd.DataFrame({"day": [datetime.date(2023, 1, 1), datetime.date(2023, 1, 2)]})
+    ret_json = skim_get_data(df)
+    assert "date" in ret_json
+    assert not any("datetime.date" in key for key in ret_json)
+    assert ret_json["date"]["first"]["day"] == datetime.date(2023, 1, 1)
+
+
 def test_timedelta_summary_reports_median() -> None:
     """The timedelta median must not be reported as its minimum."""
     frame = pd.DataFrame({"elapsed": pd.to_timedelta([1, 2, 100], unit="h")})
@@ -699,12 +708,32 @@ def test_cleaning_polars_columns():
     assert list(df.columns) != bad_columns
 
 
-def test_having_a_df_with_a_name():
-    """Test where df has a specific name"""
+def test_cleaning_polars_columns_that_become_duplicates():
+    """Names that clean to the same value are numbered, not an error."""
+    df = pl.DataFrame({"Total Sales": [1], "total-sales": [2], "TOTAL SALES": [3]})
+    assert clean_columns(df).columns == [
+        "total_sales",
+        "total_sales_1",
+        "total_sales_2",
+    ]
+    assert clean_columns(df, case="camel").columns == [
+        "totalSales",
+        "totalSales1",
+        "totalSales2",
+    ]
+    # the input is left unchanged
+    assert df.columns == ["Total Sales", "total-sales", "TOTAL SALES"]
+
+
+def test_having_a_df_with_a_name(tmp_path):
+    """A df's name attribute is used as the Data Summary heading."""
     name_to_use = "test name passthrough"
     df = generate_test_data()
     df.name = name_to_use
     skim(df)
+    out = tmp_path / "named.txt"
+    skim_get_figure(df, out, format="text")
+    assert name_to_use in out.read_text(encoding="utf-8")
 
 
 def test_handling_of_pandas_multiindex():

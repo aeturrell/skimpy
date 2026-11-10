@@ -45,6 +45,12 @@ repos:
         language: system
         types: [text]
         stages: [pre-commit, pre-push, manual]
+      - id: check-python-versions
+        name: Check supported Python versions agree
+        entry: python scripts/check_python_versions.py
+        language: system
+        pass_filenames: false
+        files: ^(pyproject\.toml|noxfile\.py|\.python-version)$
   - repo: https://github.com/kynan/nbstripout
     rev: 0.4.0
     hooks:
