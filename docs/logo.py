@@ -13,7 +13,7 @@ txt_extra_height = 0.2
 
 
 def get_logo():
-    fig, ax = plt.subplots(figsize=(4, 2))
+    _fig, ax = plt.subplots(figsize=(4, 2))
     ax.set_facecolor("w")
     ax.bar(
         range(len(bar_chart_heights)),

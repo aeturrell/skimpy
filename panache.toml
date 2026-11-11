@@ -1,0 +1,13 @@
+#:schema https://panache.bz/panache.schema.json
+# Panache formats Quarto (.qmd) files. Prose is left as written: the only
+# substantive change is running Ruff over Python code cells. Ruff's own
+# settings come from [tool.ruff] in pyproject.toml.
+flavor = "quarto"
+
+[format]
+wrap = "preserve"               # keep authored line breaks; never reflow prose
+math = "verbatim"               # don't restructure LaTeX inside $...$ / $$...$$
+math-delimiter-style = "preserve"
+
+[formatters]
+python = "ruff"                 # runs `ruff format -` on {python} / python blocks
