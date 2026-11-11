@@ -1956,6 +1956,22 @@ wheels = [
 ]
 
 [[package]]
+name = "panache-cli"
+version = "3.17.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/a0/e660249618251ec9f4f77bc2b615b4c48fe34f74d36dfdb1c72ed187e9a7/panache_cli-3.17.2.tar.gz", hash = "sha256:ed0adb173b118a37aa1783c4a8b684f0867ebf5150e000568d148c00535ba747", size = 1592112, upload-time = "2026-10-30T10:41:19.991Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/86/71/804bc0f6fad95def044533d831a9992bac5107c069b220129fa782966ed0/panache_cli-3.17.2-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:969c4f4d06b6d5345af202f0215818d41c9261e515f0eec6143399e1d57ea4ce", size = 8209395, upload-time = "2026-10-30T10:41:00.972Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/a7/e9a36c1e627075197c7dab0268df948f8d5aab5d3a1a64c583f243a45f43/panache_cli-3.17.2-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9d00d01f634eb869589eddf79ef1cdb8b048e0f4c25c62f0cc6629468f480e97", size = 7781130, upload-time = "2026-10-30T10:41:03.247Z" },
+    { url = "https://files.pythonhosted.org/packages/01/62/b51f8d37982fcb5f2f9708672a7d2f2229047fe1f5e1eb51cb2ed3fb10a1/panache_cli-3.17.2-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:4d10ac77d24b553d716ce1d3d8fce9f4020b8ece814de8290ad54636d5d0566d", size = 7986992, upload-time = "2026-10-30T10:41:05.732Z" },
+    { url = "https://files.pythonhosted.org/packages/86/39/cff9e7db27d188e30d50f1b625977c4c259b3200a0b37bf948456f281cf0/panache_cli-3.17.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:9e7421b7dc321ac12c27e65813bcd83f741c359df7300948905cb6af3135956c", size = 8475388, upload-time = "2026-10-30T10:41:07.949Z" },
+    { url = "https://files.pythonhosted.org/packages/7d/e7/0fe83ff2e9e8b6e246454cff54150906ff264b41af51dde0b20f52275282/panache_cli-3.17.2-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:4847ba1fb05c52d94dc73c8d7a1ea8932bea8af93833e57242c4161976f7e904", size = 7911426, upload-time = "2026-10-30T10:41:10.801Z" },
+    { url = "https://files.pythonhosted.org/packages/89/68/6f911dcd26bd44d29c56d87b12da307d84adf53a71e79e497b62d346a378/panache_cli-3.17.2-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:59e487aed9b49171b6ce43d8a31cb3fc75d3bfecaec443060ffdb407bba66b33", size = 8691211, upload-time = "2026-10-30T10:41:12.993Z" },
+    { url = "https://files.pythonhosted.org/packages/13/70/78ec5e4cae1eaf8db6319307ba3f38fd929d692695b579a56c5e1bce95d2/panache_cli-3.17.2-py3-none-win_amd64.whl", hash = "sha256:556318b08d7f3e714741b0dd4cac78ee7bcd54fe043234b4bc9e815b963873b0", size = 8692074, upload-time = "2026-10-30T10:41:15.499Z" },
+    { url = "https://files.pythonhosted.org/packages/0d/5d/4b835291d91421ecc8083f5f6b5da52f0b0becf1e8ccb7584f8c470c362d/panache_cli-3.17.2-py3-none-win_arm64.whl", hash = "sha256:2372c144607907cbc38476d7a4e576af8df22daac2101096641811bc4ded6561", size = 8007505, upload-time = "2026-10-30T10:41:17.947Z" },
+]
+
+[[package]]
 name = "pandas"
 version = "3.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -2953,7 +2969,6 @@ dependencies = [
     { name = "pandas-stubs" },
     { name = "polars" },
     { name = "pyarrow" },
-    { name = "pydoclint" },
     { name = "pygments" },
     { name = "rich" },
     { name = "typeguard" },
@@ -2970,8 +2985,10 @@ dev = [
     { name = "mypy" },
     { name = "nbstripout" },
     { name = "nox" },
+    { name = "panache-cli" },
     { name = "pre-commit" },
     { name = "pre-commit-hooks" },
+    { name = "pydoclint" },
     { name = "pygments" },
     { name = "pytest" },
     { name = "quartodoc" },
@@ -2990,7 +3007,6 @@ requires-dist = [
     { name = "pandas-stubs", specifier = ">=2.2.2.240807" },
     { name = "polars", specifier = ">=1.17.1" },
     { name = "pyarrow", specifier = ">=18.0.0" },
-    { name = "pydoclint", specifier = ">=0.6.0" },
     { name = "pygments", specifier = ">=2.18.0" },
     { name = "rich", specifier = ">=13.9.4" },
     { name = "typeguard", specifier = ">=4.4.1" },
@@ -3007,8 +3023,10 @@ dev = [
     { name = "mypy", specifier = ">=1.13.0" },
     { name = "nbstripout", specifier = ">=0.8.1" },
     { name = "nox", specifier = ">=2024.10.9" },
-    { name = "pre-commit", specifier = ">=4.0.1" },
+    { name = "panache-cli", specifier = ">=3.17.2" },
+    { name = "pre-commit", specifier = ">=4.4.0" },
     { name = "pre-commit-hooks", specifier = ">=5.0.0" },
+    { name = "pydoclint", specifier = ">=0.12.0" },
     { name = "pygments", specifier = ">=2.18.0" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "quartodoc", specifier = ">=0.9.1" },

@@ -22,7 +22,6 @@ dependencies = [
     "rich>=13.9.4",
     "typeguard>=4.4.1",
     "pyarrow>=18.0.0",
-    "pydoclint>=0.6.0",
     "duckdb>=1.2.2",
 ]
 
@@ -37,8 +36,10 @@ dev = [
     "mypy>=1.13.0",
     "nbstripout>=0.8.1",
     "nox>=2024.10.9",
-    "pre-commit>=4.0.1",
+    "panache-cli>=3.17.2",
+    "pre-commit>=4.4.0",
     "pre-commit-hooks>=5.0.0",
+    "pydoclint>=0.12.0",
     "pygments>=2.18.0",
     "pytest>=8.3.4",
     "quartodoc>=0.9.1",
@@ -70,3 +71,7 @@ exclude = ["tests/", "docs/logo.py"]
 [tool.pydoclint]
 style = 'google'
 exclude = ["noxfile.py", "tests/", "docs/"]
+
+[tool.ruff.lint]
+# Ruff defaults (E4, E7, E9, F) plus import sorting.
+extend-select = ["I"]

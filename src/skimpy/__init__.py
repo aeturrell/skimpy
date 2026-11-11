@@ -9,7 +9,7 @@ import typing
 import warnings
 from collections import defaultdict
 from itertools import chain
-from typing import Any, TypeAlias
+from typing import Any
 from unicodedata import normalize
 
 import numpy as np
@@ -68,7 +68,7 @@ UNSUPPORTED_INFERRED_TYPES = [
     "unknown-array",
 ]
 
-JSON: TypeAlias = dict[str, dict[str, Any]]
+type JSON = dict[str, dict[str, Any]]
 
 
 @typechecked
@@ -148,10 +148,7 @@ def _map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) 
     cols_to_cat_map = dict(
         zip(
             types_to_property.keys(),
-            [
-                list(df.select_dtypes(entry).columns)
-                for entry in types_to_property.keys()
-            ],
+            [list(df.select_dtypes(entry).columns) for entry in types_to_property],
         )
     )
     type_by_col_default = defaultdict(list)
@@ -728,7 +725,7 @@ def _skim_computation(
     xf = df.loc[:, df.isnull().all()]
     if not xf.empty:
         sum_df = _empty_column_summary_table(xf)
-        col_type_to_rich = str("All null")
+        col_type_to_rich = "All null"
         list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
         json_data.update({col_type_to_rich: sum_df.to_dict()})
     # remove all null columns as already dealt with

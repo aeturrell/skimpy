@@ -15,4 +15,5 @@ with open(fname, encoding="utf-8") as f:
         md_text,
     )
 
-open(fname, "w").write(new_text)
+with open(fname, "w", encoding="utf-8") as f:
+    f.write(new_text)

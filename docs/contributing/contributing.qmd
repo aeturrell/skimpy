@@ -58,7 +58,7 @@ To build the documentation, you will also need [Make](https://www.gnu.org/softwa
 
 You can build the docs locally to look at them with `make`, which runs a command to build the README and then another to build the website which can then be found in `docs/_site/.` It's `make clean` to remove the existing README.
 
-To publish new docs to GitHub Pages (where the documentation is displayed as web pages), it's `make publish`—but only devs with admin rights will be able to execute this.
+To publish new docs to GitHub Pages (where the documentation is displayed as web pages), it's `make publish`---but only devs with admin rights will be able to execute this.
 
 ## How to test the project
 

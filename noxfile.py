@@ -90,9 +90,9 @@ def tests(session: nox.Session) -> None:
             "-m",
             "pytest",
             "--cache-clear",
+            *session.posargs,
             external=True,
             env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
-            *session.posargs,
         )
     finally:
         if session.interactive:
