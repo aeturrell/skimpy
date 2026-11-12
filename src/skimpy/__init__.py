@@ -1138,7 +1138,7 @@ def generate_test_data() -> pd.DataFrame:
     df["width"] = rng.gamma(1, 2, size=len_df)
     df["depth"] = rng.poisson(10, size=len_df)
     df["rnd"] = rng.normal(size=len_df, scale=1, loc=0)
-    nan_places = rng.choice(range(len_df), size=125)
+    nan_places = rng.choice(range(len_df), size=125).tolist()
     df.loc[nan_places, "rnd"] = np.nan
     df["class"] = rng.choice(["setosa", "virtginica"], size=len_df)
     df["class"] = df["class"].astype("category")
@@ -1167,6 +1167,6 @@ def generate_test_data() -> pd.DataFrame:
     df["datetime.date_no_freq"] = df["datetime_no_freq"].dt.date
     df.loc[[3, 12, 0], "datetime_no_freq"] = pd.NaT
     timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
-    df["time diff"] = pd.Series([pd.Timedelta(x, "d") for x in timedelta_array])
+    df["time diff"] = pd.Series([pd.Timedelta(int(x), "d") for x in timedelta_array])
     df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
     return df
