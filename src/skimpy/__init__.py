@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import datetime
+import datetime as dt
 import os
 import re
 import typing
@@ -14,9 +14,11 @@ from unicodedata import normalize
 
 import numpy as np
 import pandas as pd
+import pyarrow as pa
 from numpy.random import PCG64, Generator
 from rich.columns import Columns
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
@@ -57,9 +59,9 @@ DATE_COL_FIRST = "first"
 DATE_COL_LAST = "last"
 NUM_COL_MEAN = "mean"
 COMPLETE_COL = "NA %"
-# Display names for summary sections whose column type has no readable string form
-_SECTION_NAMES: dict[Any, str] = {datetime.date: "date"}
 MISSING_COL = "NA"
+# Shown in place of a frequency when none can be inferred
+NO_FREQUENCY = "NA"
 
 UNSUPPORTED_INFERRED_TYPES = [
     "mixed-integer",
@@ -70,10 +72,99 @@ UNSUPPORTED_INFERRED_TYPES = [
 
 type JSON = dict[str, dict[str, Any]]
 
+# pd.api.types.infer_dtype result -> dtype that column is cast to
+_INFERRED_TO_DTYPE: dict[str, Any] = {
+    "string": "string",
+    "integer": "int",
+    "floating": "float64",
+    "decimal": "float64",
+    "categorical": "category",
+    "boolean": "bool",
+    "complex": "complex128",
+    # Entirely null columns, which will be dealt with later
+    "empty": "object",
+    # pandas has no numpy date dtype: Python dates sit in "object" columns.
+    # Give them a real date dtype so they can be routed precisely, rather
+    # than being lumped in with other objects.
+    "date": "date32[pyarrow]",
+}
+# Inferred types that are datetimes / timedeltas. These keep their existing
+# resolution (unit), as forcing nanoseconds overflows outside c. 1677-2262 for
+# datetimes, and beyond c. 292 years for timedeltas.
+_INFERRED_DATETIMES = {"datetime64", "datetime"}
+_INFERRED_TIMEDELTAS = {"timedelta64", "timedelta"}
+
+
+def _strip_tzinfo(value: Any) -> Any:
+    """Drop the timezone of a datetime, keeping its wall time.
+
+    Args:
+        value (Any): A single entry of a column, eg a datetime.datetime.
+
+    Returns:
+        Any: The value, made timezone-naive if it was a timezone-aware datetime.
+    """
+    if isinstance(value, dt.datetime) and value.tzinfo is not None:
+        return value.replace(tzinfo=None)
+    return value
+
+
+def _to_naive_datetime64(series: pd.Series) -> pd.Series:
+    """Convert a datetime-like column to timezone-naive datetime64.
+
+    A column that is already datetime64 keeps its unit. A column of datetime
+    objects is converted at a resolution pandas can hold its range in.
+
+    Args:
+        series (pd.Series): Column of datetime64 type or of datetime objects.
+
+    Returns:
+        pd.Series: Column of timezone-naive datetime64 type.
+    """
+    if isinstance(series.dtype, pd.DatetimeTZDtype):
+        return series.dt.tz_localize(None)
+    if pd.api.types.is_datetime64_dtype(series.dtype):
+        return series
+    # Datetime objects: drop timezones element-wise, which (unlike pandas'
+    # conversions) also works when the objects have a mix of timezones.
+    series = series.map(_strip_tzinfo, na_action="ignore")
+    try:
+        return pd.to_datetime(series)
+    except pd.errors.OutOfBoundsDatetime:
+        # pandas < 3 converts objects to nanoseconds only. Python datetimes
+        # have microsecond resolution, so this is lossless.
+        return series.astype("datetime64[us]")
+
+
+def _to_timedelta64(series: pd.Series) -> pd.Series:
+    """Convert a timedelta-like column to timedelta64.
+
+    A column that is already timedelta64 keeps its unit.
+
+    Args:
+        series (pd.Series): Column of timedelta64 type or of timedelta objects.
+
+    Returns:
+        pd.Series: Column of timedelta64 type.
+    """
+    if pd.api.types.is_timedelta64_dtype(series.dtype):
+        return series
+    try:
+        return pd.to_timedelta(series)
+    except pd.errors.OutOfBoundsTimedelta:
+        # pandas < 3 converts objects to nanoseconds only. Python timedeltas
+        # have microsecond resolution, so this is lossless.
+        values = np.array(series.to_numpy(), dtype="timedelta64[us]")
+        return pd.Series(values, index=series.index, name=series.name)
+
 
 @typechecked
 def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
     """Infers the, and applies new, datatypes of dataframe columns.
+
+    Columns whose inferred type has no better dtype to cast to (eg bytes,
+    datetime.time, period, interval) are left as they are. Datetime and
+    timedelta columns keep their existing resolution.
 
     Args:
         df (pd.DataFrame): User data that we'd like to infer types on.
@@ -81,42 +172,28 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Same dataframe, but typed wherever possible.
     """
-    df_types = (
-        pd.DataFrame(df.apply(pd.api.types.infer_dtype, axis=0))
-        .reset_index()
-        .rename(columns={"index": "column", 0: "type"})
-    )
-    loop_types = df_types.values.tolist()
-    for col in loop_types:
-        if col[1] == "string":
-            data_type = "string"
-        elif col[1] == "integer":
-            data_type = "int"
-        elif col[1] == "floating":
-            data_type = "float64"
-        elif col[1] == "timedelta64":
-            data_type = "timedelta64[ns]"
-        elif col[1] == "datetime64":
-            if isinstance(df[col[0]].dtype, pd.DatetimeTZDtype):
-                # Convert timezone-aware to timezone-naive
-                df[col[0]] = df[col[0]].dt.tz_localize(None)
-            data_type = "datetime64[ns]"
-        elif col[1] == "categorical":
-            data_type = "category"
-        elif col[1] == "boolean":
-            data_type = "bool"
-        elif col[1] == "complex":
-            data_type = "complex128"
-        elif col[1] == "empty":
-            data_type = "object"  # This is for entirely null columns, which will be dealt with later
-        elif col[1] == "date":
-            # do nothing: "date" isn't supported, so we leave as an object.
-            # later on, we will still be able to pick up "date" using
-            # .select_dtypes, which is the important bit.
-            continue
-        # There is no else statement here because logic should never get to this point.
-        df[col[0]] = df[col[0]].astype(data_type)
+    inferred_types = df.apply(pd.api.types.infer_dtype, axis=0)
+    for column, inferred in inferred_types.items():
+        if inferred in _INFERRED_DATETIMES:
+            df[column] = _to_naive_datetime64(df[column])
+        elif inferred in _INFERRED_TIMEDELTAS:
+            df[column] = _to_timedelta64(df[column])
+        elif inferred in _INFERRED_TO_DTYPE:
+            df[column] = df[column].astype(_INFERRED_TO_DTYPE[inferred])
     return df
+
+
+def _na_percent(count_nans: pd.Series, n_rows: int) -> pd.Series:
+    """Percentage of entries that are missing, rounded to 2 decimal places.
+
+    Args:
+        count_nans (pd.Series): Number of missing entries in each column.
+        n_rows (int): Number of rows in the dataframe.
+
+    Returns:
+        pd.Series: Percentage missing in each column.
+    """
+    return (100 * count_nans / n_rows).round(2)
 
 
 @typechecked
@@ -145,26 +222,15 @@ def _map_row_positions_to_text_style(types_to_property: dict, df: pd.DataFrame) 
     Returns:
         dict: Dictionary mapping row position to Rich text property
     """
-    cols_to_cat_map = dict(
-        zip(
-            types_to_property.keys(),
-            [list(df.select_dtypes(entry).columns) for entry in types_to_property],
+    # Sections without their own style share that of the closest broad type
+    section_to_style_group = {"timedelta64[ns]": "number", "date": "datetime"}
+    row_pos_to_property = {}
+    for pos, dtype in enumerate(df.dtypes):
+        section = _section_for_dtype(dtype)
+        group = section_to_style_group.get(section, section)
+        row_pos_to_property[pos] = types_to_property.get(
+            group, types_to_property["object"]
         )
-    )
-    type_by_col_default = defaultdict(list)
-    for k, seq in cols_to_cat_map.items():
-        for letter in seq:
-            type_by_col_default[letter].append(k)
-    type_by_col = dict(
-        zip(type_by_col_default.keys(), [x[0] for x in type_by_col_default.values()])
-    )
-    type_to_prop = dict(
-        zip(type_by_col.keys(), [types_to_property[x] for x in type_by_col.values()])
-    )
-    columns = list(df.columns)
-    row_pos_to_property = dict(
-        zip(range(len(columns)), [type_to_prop[x] for x in columns])
-    )
     return row_pos_to_property
 
 
@@ -252,7 +318,9 @@ def _dataframe_to_rich_table(
         Table: instance of Table from the rich package
     """
     df = df.reset_index().rename(columns={"index": "column"})
-    table = Table(show_footer=False, expand=True, title=table_name, show_header=True)
+    table = Table(
+        show_footer=False, expand=True, title=escape(table_name), show_header=True
+    )
     # generate dict of types to colours
     datatype_colours = {
         "number": number,
@@ -283,7 +351,7 @@ def _dataframe_to_rich_table(
     ]
     col_widths = _compute_column_widths(df)
     for col, width in zip(df.columns, col_widths):
-        table.add_column(str(col), overflow="fold", max_width=width)
+        table.add_column(escape(str(col)), overflow="fold", max_width=width)
     for row in rows_list_list:
         row = [
             Text(
@@ -379,7 +447,7 @@ def _numeric_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
         NUM_COL_MEAN: _round_series(xf.mean(), 4),
         "sd": _round_series(xf.std(), 4),
     }
@@ -415,7 +483,7 @@ def _category_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
         "ordered": pd.Series(
             dict(zip(xf.columns, [xf[col].cat.ordered for col in xf.columns]))
         ),
@@ -464,7 +532,7 @@ def _string_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
         "shortest": pd.Series(
             dict(
                 zip(
@@ -544,13 +612,86 @@ def _timedelta_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     # NB: timedelta doesn't play nicely with rounding
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
         NUM_COL_MEAN: xf.mean().dt.floor("s"),
         "median": xf.median().dt.floor("s"),
         "max": xf.max().dt.ceil("s"),
     }
     summary_df = pd.DataFrame(data_dict)
     return summary_df
+
+
+# pandas 3.1 deprecated infer_freq returning a string; this option opts in to
+# the future behaviour (returning an offset). It doesn't exist in older pandas.
+try:
+    pd.get_option("future.infer_freq_returns_offset")
+    _INFER_FREQ_OFFSET_OPTION: bool = True
+except pd.errors.OptionError:
+    _INFER_FREQ_OFFSET_OPTION = False
+
+
+def _infer_freq_str(series: pd.Series) -> str | None:
+    """Infer the frequency of a datetime series as a string, eg "D" or "ME".
+
+    Args:
+        series (pd.Series): A series of datetime64 type.
+
+    Returns:
+        str | None: The frequency string, or None if no frequency could be inferred.
+    """
+    if _INFER_FREQ_OFFSET_OPTION:
+        with pd.option_context("future.infer_freq_returns_offset", True):
+            freq = pd.infer_freq(series)
+    else:
+        freq = pd.infer_freq(series)
+    if freq is None or isinstance(freq, str):
+        return freq
+    return freq.freqstr
+
+
+def _is_date_dtype(dtype: Any) -> bool:
+    """Whether a dtype holds calendar dates (without times), eg date32[pyarrow].
+
+    Args:
+        dtype (Any): A pandas or numpy dtype.
+
+    Returns:
+        bool: True if the dtype is a pyarrow date type.
+    """
+    return isinstance(dtype, pd.ArrowDtype) and pa.types.is_date(dtype.pyarrow_dtype)
+
+
+def _section_for_dtype(dtype: Any) -> str:
+    """Assign a column's dtype to exactly one summary section.
+
+    Order matters: more specific types are checked before the broader types
+    that also match them (eg bool and dates before numbers). Any dtype without
+    a dedicated summary (eg bytes, period, interval) falls back to the "object"
+    section, which reports missing values only, so no column is ever dropped.
+
+    Args:
+        dtype (Any): A (post-inference) column dtype.
+
+    Returns:
+        str: Name of the summary section.
+    """
+    if _is_date_dtype(dtype):
+        return "date"
+    if pd.api.types.is_bool_dtype(dtype):
+        return "bool"
+    if isinstance(dtype, pd.CategoricalDtype):
+        return "category"
+    if pd.api.types.is_datetime64_any_dtype(dtype):
+        return "datetime"
+    if pd.api.types.is_timedelta64_dtype(dtype):
+        return "timedelta64[ns]"
+    if pd.api.types.is_object_dtype(dtype):
+        return "object"
+    if pd.api.types.is_string_dtype(dtype):
+        return "string"
+    if pd.api.types.is_numeric_dtype(dtype):
+        return "number"
+    return "object"
 
 
 @typechecked
@@ -567,7 +708,7 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
         DATE_COL_FIRST: pd.Series(
             dict(
                 zip(
@@ -585,8 +726,50 @@ def _datetime_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
             {
                 "frequency": pd.Series(
                     dict(
-                        zip(xf.columns, [pd.infer_freq(xf[col]) for col in xf.columns])
+                        zip(
+                            xf.columns,
+                            [
+                                _infer_freq_str(xf[col]) or NO_FREQUENCY
+                                for col in xf.columns
+                            ],
+                        )
                     )
+                )
+            }
+        )
+    summary_df = pd.DataFrame(data_dict)
+    return summary_df
+
+
+@typechecked
+def _date_variable_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
+    """Summarise dataframe columns that have date (no time) type.
+
+    First and last are reported as datetime.date; frequency inference is done
+    on a datetime64 view of the column, as pandas cannot infer it on dates.
+
+    Args:
+        xf (pd.DataFrame): A dataframe with only date columns
+
+    Returns:
+        pd.DataFrame: A dataframe of summary statistics, with a number of rows
+        determined by number of columns of xf
+    """
+    count_nans_vec = xf.isna().sum()
+    data_dict = {
+        MISSING_COL: count_nans_vec,
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
+        DATE_COL_FIRST: pd.Series({col: xf[col].min() for col in xf.columns}),
+        DATE_COL_LAST: pd.Series({col: xf[col].max() for col in xf.columns}),
+    }
+    if len(xf) > 3:
+        data_dict.update(
+            {
+                "frequency": pd.Series(
+                    {
+                        col: _infer_freq_str(pd.to_datetime(xf[col])) or NO_FREQUENCY
+                        for col in xf.columns
+                    }
                 )
             }
         )
@@ -608,7 +791,7 @@ def _empty_column_summary_table(xf: pd.DataFrame) -> pd.DataFrame:
     count_nans_vec = xf.isna().sum()
     data_dict = {
         MISSING_COL: count_nans_vec,
-        COMPLETE_COL: 100 * count_nans_vec / xf.shape[0],
+        COMPLETE_COL: _na_percent(count_nans_vec, xf.shape[0]),
     }
     summary_df = pd.DataFrame(data_dict)
     return summary_df
@@ -677,7 +860,7 @@ def _skim_computation(
     dat_sum_table = Table(
         title=dat_sum_table_title, show_header=True, header_style=header_style
     )
-    dat_sum_table.add_column(name)
+    dat_sum_table.add_column(escape(name))
     dat_sum_table.add_column("Values")
     for key, val in tab_1_data.items():
         dat_sum_table.add_row(key, str(val))
@@ -691,7 +874,7 @@ def _skim_computation(
     types_sum_table.add_column("Column Type")
     types_sum_table.add_column("Count")
     for key, val in tab_2_data.items():
-        types_sum_table.add_row(str(key), str(val))
+        types_sum_table.add_row(escape(str(key)), str(val))
     json_data.update({data_types_title: tab_2_data})
     # Categorys
     if "category" in df.dtypes.astype(str).to_list():
@@ -704,18 +887,18 @@ def _skim_computation(
         cat_sum_table.add_column(header_string)
         cat_names = list(xf[xf[0] == "category"].index)
         for cat in cat_names:
-            cat_sum_table.add_row(cat)
+            cat_sum_table.add_row(escape(str(cat)))
         json_data.update(
             {cat_section_title: {"Columns": {cat_name for cat_name in cat_names}}}
         )
     # Summaries of cols of specific types
+    # Section name -> summary function; sections are printed in this order
     types_funcs_dict = {
         "number": _numeric_variable_summary_table,
         "category": _category_variable_summary_table,
         "bool": _bool_variable_summary_table,
         "datetime": _datetime_variable_summary_table,
-        # Please note that datetime.date is not directly supported by pandas and registers as being of type "object"
-        datetime.date: _datetime_variable_summary_table,  # Re-use of fn intended.
+        "date": _date_variable_summary_table,
         "timedelta64[ns]": _timedelta_variable_summary_table,
         "string": _string_variable_summary_table,
         "object": _empty_column_summary_table,
@@ -731,20 +914,14 @@ def _skim_computation(
     # remove all null columns as already dealt with
     # and other variables have "object" type too.
     df = df.loc[:, ~df.isnull().all()].copy()
-    for col_type, summary_func in types_funcs_dict.items():
-        if col_type == "number":
-            # timedelta and datetime are technically integers, so exclude these
-            xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta", "object"])
-        else:
-            xf = df.select_dtypes(col_type)  # type: ignore
+    # Route each column to exactly one section based on its dtype
+    sections = [_section_for_dtype(dtype) for dtype in df.dtypes]
+    for section, summary_func in types_funcs_dict.items():
+        xf = df.loc[:, [s == section for s in sections]]
         if not xf.empty:
             sum_df = summary_func(xf)
-            # for rich tables, we need to stringify
-            # specialised and unsupported col types, such as datetime.date,
-            # that are actually registered as object type
-            col_type_to_rich = _SECTION_NAMES.get(col_type, str(col_type))
-            list_of_tabs.append(_dataframe_to_rich_table(col_type_to_rich, sum_df))
-            json_data.update({col_type_to_rich: sum_df.to_dict()})
+            list_of_tabs.append(_dataframe_to_rich_table(section, sum_df))
+            json_data.update({section: sum_df.to_dict()})
 
     # Put all of the info together
     grid = Table.grid(expand=True)
@@ -1167,6 +1344,6 @@ def generate_test_data() -> pd.DataFrame:
     df["datetime.date_no_freq"] = df["datetime_no_freq"].dt.date
     df.loc[[3, 12, 0], "datetime_no_freq"] = pd.NaT
     timedelta_array = rng.multinomial(40, [1 / 7] * 5, len_df).ravel()
-    df["time diff"] = pd.Series([pd.Timedelta(int(x), "d") for x in timedelta_array])
+    df["time diff"] = pd.Series([pd.Timedelta(int(x), "D") for x in timedelta_array])
     df.loc[[22, 1, 13, 65, 120], "time diff"] = pd.NaT
     return df

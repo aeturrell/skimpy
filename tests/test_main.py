@@ -1,7 +1,10 @@
 """Test cases for the __main__ module."""
 
 import datetime
+import decimal
+import io
 import os
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -9,6 +12,7 @@ import polars as pl
 import pytest
 from click.testing import CliRunner
 from pandas.testing import assert_frame_equal
+from rich.console import Console
 from typeguard import typeguard_ignore
 
 from skimpy import (
@@ -21,6 +25,7 @@ from skimpy import (
     _replace_values,
     _round_series,
     _simplify_datetimes_in_array,
+    _skim_computation,
     _string_variable_summary_table,
     clean_columns,
     generate_test_data,
@@ -91,7 +96,7 @@ def test_005_inference_datatypes() -> None:
         "datetime",
         "bool",
         "complex",
-        "object",
+        "date",
     ]
 
 
@@ -392,7 +397,7 @@ def test_015_ensure_no_data_changed() -> None:
     """
     df_check = pd.DataFrame(
         {
-            "header": [pd.Timedelta(365, "d"), pd.Timedelta(-19, "d")],
+            "header": [pd.Timedelta(365, "D"), pd.Timedelta(-19, "D")],
             "header_1": ["length_one", "length_two"],
         }
     )
@@ -881,3 +886,257 @@ def test_duplicate_column_names_avoid_existing_names():
     with pytest.warns(UserWarning, match="'a' -> a_2, a_3"):
         data = skim_get_data(df)
     assert set(data["number"]["mean"]) == {"a", "a_1", "a_2", "a_3"}
+
+
+def _sections_containing(ret_json: dict, col: str) -> list[str]:
+    """Names of the summary sections in which a column appears."""
+    skip = {"Data Summary", "Data Types", "Categories"}
+    return [
+        section
+        for section, stats in ret_json.items()
+        if section not in skip and any(col in vals for vals in stats.values())
+    ]
+
+
+def test_object_dates_get_date_dtype() -> None:
+    """Columns of Python dates are given a real (pyarrow) date dtype."""
+    df = pd.DataFrame({"day": [datetime.date(2023, 1, 1), None]})
+    out = _infer_datatypes(df)
+    assert str(out["day"].dtype) == "date32[day][pyarrow]"
+
+
+def test_pyarrow_date_column_is_summarised() -> None:
+    """A date32[pyarrow] column (with enough rows to infer a frequency) works."""
+    days = pd.date_range("2023-01-01", periods=6, freq="D").date
+    df = pd.DataFrame({"day": pd.Series(days).astype("date32[pyarrow]")})
+    ret_json = skim_get_data(df)
+    assert ret_json["date"]["first"]["day"] == datetime.date(2023, 1, 1)
+    assert ret_json["date"]["last"]["day"] == datetime.date(2023, 1, 6)
+    assert ret_json["date"]["frequency"]["day"] == "D"
+
+
+def test_date_and_datetime_columns_route_to_one_section_each() -> None:
+    """Every column appears in exactly one summary section."""
+    stamps = pd.date_range("2023-01-31", periods=5, freq="ME")
+    df = pd.DataFrame(
+        {
+            "stamp": stamps,
+            "obj_date": stamps.date,
+            "arrow_date": pd.Series(stamps.date).astype("date32[pyarrow]"),
+            "text": pd.Series(list("abcde"), dtype="string"),
+            "num": [1.0, 2.0, 3.0, 4.0, 5.0],
+            "flag": [True, False, True, False, True],
+            "gap": pd.to_timedelta([1, 2, 3, 4, 5], unit="D"),
+        }
+    )
+    ret_json = skim_get_data(df)
+    expected = {
+        "stamp": "datetime",
+        "obj_date": "date",
+        "arrow_date": "date",
+        "text": "string",
+        "num": "number",
+        "flag": "bool",
+        "gap": "timedelta64[ns]",
+    }
+    for col, section in expected.items():
+        assert _sections_containing(ret_json, col) == [section], col
+    assert ret_json["datetime"]["frequency"]["stamp"] == "ME"
+    assert ret_json["date"]["frequency"]["obj_date"] == "ME"
+
+
+def test_frequency_inference_does_not_warn() -> None:
+    """Frequency inference avoids pandas' deprecated string-returning path."""
+    stamps = pd.date_range("2023-01-31", periods=5, freq="ME")
+    df = pd.DataFrame({"stamp": stamps, "day": stamps.date})
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", DeprecationWarning)
+        warnings.simplefilter("error", FutureWarning)
+        skim_get_data(df)
+
+
+_N_ROWS = 5
+_OTHER_INFERRED_TYPE_CASES = {
+    # name: (column, expected section)
+    "bytes": (pd.Series([b"a", b"b", b"c", None, b"e"], dtype=object), "object"),
+    "time": (
+        pd.Series([datetime.time(i) for i in range(_N_ROWS)], dtype=object),
+        "object",
+    ),
+    "decimal": (
+        pd.Series([decimal.Decimal(i) / 3 for i in range(_N_ROWS)], dtype=object),
+        "number",
+    ),
+    "py_datetime": (
+        pd.Series(
+            [datetime.datetime(2020, 1, i + 1) for i in range(_N_ROWS)], dtype=object
+        ),
+        "datetime",
+    ),
+    "py_timedelta": (
+        pd.Series([datetime.timedelta(days=i) for i in range(_N_ROWS)], dtype=object),
+        "timedelta64[ns]",
+    ),
+    "period": (
+        pd.Series(pd.period_range("2020-01", periods=_N_ROWS, freq="M")),
+        "object",
+    ),
+    "interval": (pd.Series(pd.interval_range(0, _N_ROWS)), "object"),
+}
+
+
+@pytest.mark.parametrize("preceded_by_float", [False, True])
+@pytest.mark.parametrize("case", list(_OTHER_INFERRED_TYPE_CASES))
+def test_less_common_inferred_types_are_routed(
+    case: str, preceded_by_float: bool
+) -> None:
+    """Each inferred type gets its own treatment, never another column's cast.
+
+    Previously, types without a branch in _infer_datatypes either raised
+    UnboundLocalError or were cast to the previous column's dtype.
+    """
+    column, expected_section = _OTHER_INFERRED_TYPE_CASES[case]
+    df = pd.DataFrame({"x": column})
+    if preceded_by_float:
+        df.insert(0, "f", [1.5] * _N_ROWS)
+    ret_json = skim_get_data(df)
+    assert _sections_containing(ret_json, "x") == [expected_section]
+
+
+def test_unsupported_types_are_left_unchanged() -> None:
+    """Types with no better dtype to cast to keep their original dtype."""
+    df = pd.DataFrame(
+        {
+            name: _OTHER_INFERRED_TYPE_CASES[name][0]
+            for name in ["bytes", "time", "period", "interval"]
+        }
+    )
+    out = _infer_datatypes(df.copy())
+    assert out.dtypes.equals(df.dtypes)
+
+
+def test_tz_aware_python_datetimes_become_naive() -> None:
+    """Python datetimes with timezones (even mixed ones) keep their wall time."""
+    tz_plus2 = datetime.timezone(datetime.timedelta(hours=2))
+    tz_minus5 = datetime.timezone(datetime.timedelta(hours=-5))
+    values = [
+        datetime.datetime(2020, 1, 1, 9, tzinfo=tz_plus2),
+        datetime.datetime(2020, 1, 2, 9, tzinfo=tz_minus5),
+        None,
+    ]
+    out = _infer_datatypes(pd.DataFrame({"x": pd.Series(values, dtype=object)}))
+    assert pd.api.types.is_datetime64_dtype(out["x"].dtype)  # tz-naive
+    assert list(out["x"].iloc[:2]) == [
+        pd.Timestamp("2020-01-01 09:00"),
+        pd.Timestamp("2020-01-02 09:00"),
+    ]
+    assert out["x"].isna().iloc[2]
+
+
+@pytest.mark.parametrize("unit", ["s", "ms", "us"])
+def test_datetime64_units_are_preserved(unit: str) -> None:
+    """Non-nanosecond datetimes keep their unit, including when timezone-aware."""
+    values = np.array(["2020-01-01", "2021-01-01"], dtype=f"datetime64[{unit}]")
+    df = pd.DataFrame({"naive": values})
+    df["aware"] = df["naive"].dt.tz_localize("UTC")
+    out = _infer_datatypes(df)
+    assert str(out["naive"].dtype) == f"datetime64[{unit}]"
+    assert str(out["aware"].dtype) == f"datetime64[{unit}]"
+
+
+def test_out_of_nanosecond_range_datetimes_are_summarised() -> None:
+    """Datetimes outside c. 1677-2262 (where nanoseconds overflow) work."""
+    far = ["1500-01-01", "3000-06-01", "NaT", "2020-01-01"]
+    df = pd.DataFrame(
+        {
+            "datetime64": np.array(far, dtype="datetime64[s]"),
+            "py_datetime": pd.Series(
+                [
+                    datetime.datetime(1500, 1, 1),
+                    datetime.datetime(3000, 6, 1),
+                    None,
+                    datetime.datetime(2020, 1, 1),
+                ],
+                dtype=object,
+            ),
+        }
+    )
+    ret_json = skim_get_data(df)
+    for col in df.columns:
+        assert ret_json["datetime"]["first"][col] == pd.Timestamp("1500-01-01")
+        assert ret_json["datetime"]["last"][col] == pd.Timestamp("3000-06-01")
+        assert ret_json["datetime"]["NA"][col] == 1
+
+
+def test_out_of_nanosecond_range_timedeltas_are_summarised() -> None:
+    """Timedeltas beyond c. 292 years (where nanoseconds overflow) work."""
+    days = [200 * 365, 400 * 365, 1, 2]
+    df = pd.DataFrame(
+        {
+            "timedelta64": np.array(days, dtype="timedelta64[D]").astype(
+                "timedelta64[s]"
+            ),
+            "py_timedelta": pd.Series(
+                [datetime.timedelta(days=d) for d in days], dtype=object
+            ),
+        }
+    )
+    out = _infer_datatypes(df.copy())
+    assert str(out["timedelta64"].dtype) == "timedelta64[s]"
+    ret_json = skim_get_data(df)
+    for col in df.columns:
+        assert ret_json["timedelta64[ns]"]["max"][col] == np.timedelta64(400 * 365, "D")
+
+
+def _rendered_text(df: pd.DataFrame) -> str:
+    """The skim summary as plain text, as a user would see it in the console."""
+    grid, _ = _skim_computation(df)
+    console = Console(record=True, width=250, file=io.StringIO())
+    console.print(grid)
+    return console.export_text()
+
+
+def test_square_brackets_are_not_treated_as_markup() -> None:
+    """dtype units like [s] and column names in brackets are shown verbatim."""
+    days = pd.date_range("2024-01-01", periods=4, freq="D")
+    df = pd.DataFrame(
+        {
+            "[b]bold?": days.astype("datetime64[s]"),
+            "gap": pd.to_timedelta([1, 2, 3, 4], unit="D"),
+            "[s]": pd.Categorical(list("abab")),
+        }
+    )
+    df.name = "[red]frame"
+    text = _rendered_text(df)
+    for expected in [
+        "datetime64[s]",  # Data Types table
+        "timedelta64[ns]",  # section title
+        "[b]bold?",  # column name in a section
+        "[s]",  # column name in the Categories table
+        "[red]frame",  # dataframe name
+    ]:
+        assert expected in text, expected
+
+
+def test_na_percent_is_rounded() -> None:
+    """NA % is rounded to 2 decimal places in every section."""
+    df = pd.DataFrame(
+        {
+            "num": [1.0, None, 3.0, 4.0, 5.0, 6.0],
+            "when": pd.to_datetime(["2024-01-01"] * 5 + [None]),
+            "day": [datetime.date(2024, 1, 1)] * 5 + [None],
+        }
+    )
+    ret_json = skim_get_data(df)
+    assert ret_json["number"]["NA %"]["num"] == 16.67
+    assert ret_json["datetime"]["NA %"]["when"] == 16.67
+    assert ret_json["date"]["NA %"]["day"] == 16.67
+
+
+def test_no_inferred_frequency_is_na() -> None:
+    """When no frequency can be inferred, it is reported as "NA"."""
+    irregular = pd.to_datetime(["2024-01-01", "2024-01-02", "2024-03-09", "2025-07-01"])
+    df = pd.DataFrame({"when": irregular, "day": irregular.date})
+    ret_json = skim_get_data(df)
+    assert ret_json["datetime"]["frequency"]["when"] == "NA"
+    assert ret_json["date"]["frequency"]["day"] == "NA"
