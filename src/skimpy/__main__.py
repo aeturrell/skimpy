@@ -58,8 +58,11 @@ def _load_data_from_file(input: str, table: str | None = None) -> pd.DataFrame:
     if suffix == ".sqlite":
         _handle_sqlite_file(str(input_path), table)
         # Use ATTACH to load from SQLite database
-        df = duckdb.sql(f"ATTACH '{input}' AS mydb; SELECT * FROM mydb.{table}").to_df()
-        return df
+        rel = duckdb.sql(f"ATTACH '{input}' AS mydb; SELECT * FROM mydb.{table}")
+        if rel is None:
+            msg = f"No result returned when reading table {table} from {input}"
+            raise ValueError(msg)
+        return rel.to_df()
 
     msg = f"Unsupported file type: {suffix}. Supported types: .csv, .parquet, .sqlite"
     raise ValueError(msg)
