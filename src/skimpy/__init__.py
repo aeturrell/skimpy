@@ -735,6 +735,10 @@ def _skim_computation(
         if col_type == "number":
             # timedelta and datetime are technically integers, so exclude these
             xf = df.select_dtypes(col_type, exclude=["datetime", "timedelta", "object"])
+        elif col_type is datetime.date:
+            # pandas >= 3.1 rejects classes in select_dtypes; before that,
+            # datetime.date resolved to (and selected) object-dtype columns
+            xf = df.select_dtypes("object")
         else:
             xf = df.select_dtypes(col_type)  # type: ignore
         if not xf.empty:
