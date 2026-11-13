@@ -88,6 +88,9 @@ _INFERRED_TO_DTYPE: dict[str, Any] = {
     # than being lumped in with other objects.
     "date": "date32[pyarrow]",
 }
+# numpy's int and bool cannot hold a missing value, so a column of those types
+# that has one is cast to the pandas nullable dtype instead.
+_NULLABLE_DTYPE: dict[str, Any] = {"int": "Int64", "bool": "boolean"}
 # Inferred types that are datetimes / timedeltas. These keep their existing
 # resolution (unit), as forcing nanoseconds overflows outside c. 1677-2262 for
 # datetimes, and beyond c. 292 years for timedeltas.
@@ -179,7 +182,10 @@ def _infer_datatypes(df: pd.DataFrame) -> pd.DataFrame:
         elif inferred in _INFERRED_TIMEDELTAS:
             df[column] = _to_timedelta64(df[column])
         elif inferred in _INFERRED_TO_DTYPE:
-            df[column] = df[column].astype(_INFERRED_TO_DTYPE[inferred])
+            dtype = _INFERRED_TO_DTYPE[inferred]
+            if dtype in _NULLABLE_DTYPE and df[column].isna().any():
+                dtype = _NULLABLE_DTYPE[dtype]
+            df[column] = df[column].astype(dtype)
     return df
 
 
@@ -396,7 +402,7 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
         pd.Series: Index of series name and entry with unicode histogram as
         a string, eg '▃▅█'
     """
-    if series.dtype == "bool":
+    if pd.api.types.is_bool_dtype(series.dtype):
         series = series.astype("int")
     hist, _ = np.histogram(series, density=True, bins=HIST_BINS)
     hist = hist / hist.max()
