@@ -1140,3 +1140,65 @@ def test_no_inferred_frequency_is_na() -> None:
     ret_json = skim_get_data(df)
     assert ret_json["datetime"]["frequency"]["when"] == "NA"
     assert ret_json["date"]["frequency"]["day"] == "NA"
+
+
+@pytest.mark.parametrize("dtype", ["Int64", "int64[pyarrow]", "object"])
+def test_integer_column_with_missing_values_is_summarised(dtype: str) -> None:
+    """Integer columns that hold missing values are summarised as numbers."""
+    df = pd.DataFrame({"count": pd.array([1, None, 3, 4], dtype=dtype)})
+    numbers = skim_get_data(df)["number"]
+    assert numbers["NA"]["count"] == 1
+    assert numbers["NA %"]["count"] == 25.0
+    assert numbers["mean"]["count"] == 2.667
+    assert numbers["p0"]["count"] == 1
+    assert numbers["p100"]["count"] == 4
+
+
+@pytest.mark.parametrize("dtype", ["boolean", "bool[pyarrow]", "object"])
+def test_bool_column_with_missing_values_is_summarised(dtype: str) -> None:
+    """Missing values in a bool column are left out, not counted as False."""
+    values = pd.array([True, None, True, False], dtype=dtype)
+    with_missing = skim_get_data(pd.DataFrame({"flag": values}))["bool"]
+    assert with_missing["true"]["flag"] == 2
+    assert with_missing["true rate"]["flag"] == 0.5
+    # The histogram describes the three values that are present.
+    without_missing = skim_get_data(pd.DataFrame({"flag": [True, True, False]}))
+    assert with_missing["hist"]["flag"] == without_missing["bool"]["hist"]["flag"]
+
+
+def test_frame_from_convert_dtypes_is_summarised() -> None:
+    """A frame with pandas' nullable dtypes, as convert_dtypes gives, is skimmed."""
+    df = pd.DataFrame(
+        {"count": [1, None, 3], "flag": [True, None, False], "empty": [None] * 3}
+    ).convert_dtypes()
+    assert df.dtypes.astype(str).to_list() == ["Int64", "boolean", "object"]
+    ret_json = skim_get_data(df)
+    assert ret_json["number"]["NA"]["count"] == 1
+    assert ret_json["bool"]["true"]["flag"] == 1
+    assert ret_json["All null"]["NA"]["empty"] == 3
+    skim(df)
+
+
+def test_entirely_missing_nullable_columns_are_all_null() -> None:
+    """Nullable integer and bool columns with no values go to "All null"."""
+    df = pd.DataFrame(
+        {
+            "count": pd.array([None, None], dtype="Int64"),
+            "flag": pd.array([None, None], dtype="boolean"),
+            "x": [1.0, 2.0],
+        }
+    )
+    ret_json = skim_get_data(df)
+    assert ret_json["All null"]["NA"] == {"count": 2, "flag": 2}
+    assert "bool" not in ret_json
+
+
+def test_columns_without_missing_values_keep_numpy_dtypes() -> None:
+    """Complete integer and bool columns are still cast to int64 and bool."""
+    df = pd.DataFrame(
+        {
+            "count": pd.array([1, 2], dtype="Int64"),
+            "flag": pd.array([True, False], dtype="boolean"),
+        }
+    )
+    assert _infer_datatypes(df).dtypes.astype(str).to_list() == ["int64", "bool"]
