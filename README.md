@@ -52,19 +52,19 @@ skim(df)
 
 
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭──────────────────────────────────────────────── skimpy summary ─────────────────────────────────────────────────╮
-│ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">      Data Types       </span> <span style="font-style: italic">       Categories        </span>                                │
-│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓                                │
-│ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Dataframe         </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Values </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Column Type </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Count </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Categorical Variables </span>┃                                │
-│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩                                │
-│ │ Number of rows    │ 1000   │ │ float64     │ 3     │ │ class                 │                                │
-│ │ Number of columns │ 13     │ │ category    │ 2     │ │ location              │                                │
-│ └───────────────────┴────────┘ │ datetime64  │ 2     │ └───────────────────────┘                                │
-│                                │ object      │ 2     │                                                          │
-│                                │ int64       │ 1     │                                                          │
-│                                │ bool        │ 1     │                                                          │
-│                                │ string      │ 1     │                                                          │
-│                                │ timedelta64 │ 1     │                                                          │
-│                                └─────────────┴───────┘                                                          │
+│ <span style="font-style: italic">         Data Summary         </span> <span style="font-style: italic">           Data Types           </span> <span style="font-style: italic">       Categories        </span>                       │
+│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┓ ┏━━━━━━━━━━━━━━━━━━━━━━━┓                       │
+│ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Dataframe         </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Values </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Column Type          </span>┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Count </span>┃ ┃<span style="color: #008080; text-decoration-color: #008080; font-weight: bold"> Categorical Variables </span>┃                       │
+│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━┩ ┡━━━━━━━━━━━━━━━━━━━━━━━┩                       │
+│ │ Number of rows    │ 1000   │ │ float64              │ 3     │ │ class                 │                       │
+│ │ Number of columns │ 13     │ │ category             │ 2     │ │ location              │                       │
+│ └───────────────────┴────────┘ │ datetime64[us]       │ 2     │ └───────────────────────┘                       │
+│                                │ date32[day][pyarrow] │ 2     │                                                 │
+│                                │ int64                │ 1     │                                                 │
+│                                │ bool                 │ 1     │                                                 │
+│                                │ string               │ 1     │                                                 │
+│                                │ timedelta64[us]      │ 1     │                                                 │
+│                                └──────────────────────┴───────┘                                                 │
 │ <span style="font-style: italic">                                                    number                                                    </span>  │
 │ ┏━━━━━━━━━┳━━━━━━┳━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column  </span>┃<span style="font-weight: bold"> NA   </span>┃<span style="font-weight: bold"> NA %  </span>┃<span style="font-weight: bold"> mean      </span>┃<span style="font-weight: bold"> sd      </span>┃<span style="font-weight: bold"> p0         </span>┃<span style="font-weight: bold"> p25     </span>┃<span style="font-weight: bold"> p50        </span>┃<span style="font-weight: bold"> p75    </span>┃<span style="font-weight: bold"> p100  </span>┃<span style="font-weight: bold"> hist   </span>┃  │
@@ -92,16 +92,16 @@ skim(df)
 │ ┃<span style="font-weight: bold"> column                       </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %     </span>┃<span style="font-weight: bold"> first              </span>┃<span style="font-weight: bold"> last              </span>┃<span style="font-weight: bold"> frequency       </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩  │
 │ │ <span style="color: #008000; text-decoration-color: #008000">          datetime          </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">       0</span> │ <span style="color: #800000; text-decoration-color: #800000">    2018-01-31    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2101-04-30    </span> │ <span style="color: #008000; text-decoration-color: #008000">      ME       </span> │  │
-│ │ <span style="color: #008000; text-decoration-color: #008000">      datetime_no_freq      </span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.3</span> │ <span style="color: #800000; text-decoration-color: #800000">    1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #008000; text-decoration-color: #008000">      nan      </span> │  │
+│ │ <span style="color: #008000; text-decoration-color: #008000">      datetime_no_freq      </span> │ <span style="color: #008080; text-decoration-color: #008080">    3</span> │ <span style="color: #008080; text-decoration-color: #008080">     0.3</span> │ <span style="color: #800000; text-decoration-color: #800000">    1992-01-05    </span> │ <span style="color: #800000; text-decoration-color: #800000">   2023-03-04    </span> │ <span style="color: #008000; text-decoration-color: #008000">      NA       </span> │  │
 │ └──────────────────────────────┴───────┴──────────┴────────────────────┴───────────────────┴─────────────────┘  │
 │ <span style="font-style: italic">                                                     date                                                     </span>  │
 │ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column                            </span>┃<span style="font-weight: bold"> NA    </span>┃<span style="font-weight: bold"> NA %    </span>┃<span style="font-weight: bold"> first            </span>┃<span style="font-weight: bold"> last             </span>┃<span style="font-weight: bold"> frequency      </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩  │
 │ │ <span style="color: #008000; text-decoration-color: #008000">          datetime.date          </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2018-01-31      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2101-04-30      </span> │ <span style="color: #008000; text-decoration-color: #008000">      ME      </span> │  │
-│ │ <span style="color: #008000; text-decoration-color: #008000">      datetime.date_no_freq      </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">1992-01-05      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2023-03-04      </span> │ <span style="color: #008000; text-decoration-color: #008000">     nan      </span> │  │
+│ │ <span style="color: #008000; text-decoration-color: #008000">      datetime.date_no_freq      </span> │ <span style="color: #008080; text-decoration-color: #008080">    0</span> │ <span style="color: #008080; text-decoration-color: #008080">      0</span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">1992-01-05      </span> │ <span style="color: #af87ff; text-decoration-color: #af87ff">2023-03-04      </span> │ <span style="color: #008000; text-decoration-color: #008000">      NA      </span> │  │
 │ └───────────────────────────────────┴───────┴─────────┴──────────────────┴──────────────────┴────────────────┘  │
-│ <span style="font-style: italic">                                                 timedelta64                                                  </span>  │
+│ <span style="font-style: italic">                                               timedelta64[ns]                                                </span>  │
 │ ┏━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓  │
 │ ┃<span style="font-weight: bold"> column         </span>┃<span style="font-weight: bold"> NA   </span>┃<span style="font-weight: bold"> NA %    </span>┃<span style="font-weight: bold"> mean                   </span>┃<span style="font-weight: bold"> median                 </span>┃<span style="font-weight: bold"> max                    </span>┃  │
 │ ┡━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩  │
@@ -122,13 +122,6 @@ skim(df)
 │ │        │    │      │            │ <span style="color: #008000; text-decoration-color: #008000">have ever</span> │            │           │            │           │            │  │
 │ │        │    │      │            │ <span style="color: #008000; text-decoration-color: #008000">  seen.  </span> │            │           │            │           │            │  │
 │ └────────┴────┴──────┴────────────┴───────────┴────────────┴───────────┴────────────┴───────────┴────────────┘  │
-│ <span style="font-style: italic">                                                    object                                                    </span>  │
-│ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓  │
-│ ┃<span style="font-weight: bold"> column                                                                   </span>┃<span style="font-weight: bold"> NA          </span>┃<span style="font-weight: bold"> NA %              </span>┃  │
-│ ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩  │
-│ │ <span style="color: #008000; text-decoration-color: #008000">                             datetime.date                              </span> │ <span style="color: #008080; text-decoration-color: #008080">          0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
-│ │ <span style="color: #008000; text-decoration-color: #008000">                         datetime.date_no_freq                          </span> │ <span style="color: #008080; text-decoration-color: #008080">          0</span> │ <span style="color: #008080; text-decoration-color: #008080">                0</span> │  │
-│ └──────────────────────────────────────────────────────────────────────────┴─────────────┴───────────────────┘  │
 ╰────────────────────────────────────────────────────── End ──────────────────────────────────────────────────────╯
 </pre>
 
