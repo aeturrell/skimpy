@@ -404,6 +404,8 @@ def _create_unicode_hist(series: pd.Series) -> pd.Series:
     """
     if pd.api.types.is_bool_dtype(series.dtype):
         series = series.astype("int")
+    # np.histogram cannot bin an infinite range, so show the finite values only.
+    series = series[np.isfinite(series)]
     hist, _ = np.histogram(series, density=True, bins=HIST_BINS)
     hist = hist / hist.max()
     fractions = [

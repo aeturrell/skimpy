@@ -1202,3 +1202,33 @@ def test_columns_without_missing_values_keep_numpy_dtypes() -> None:
         }
     )
     assert _infer_datatypes(df).dtypes.astype(str).to_list() == ["int64", "bool"]
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        [1.0, 2.0, 2.0, 3.0, np.inf],
+        [-np.inf, 1.0, 2.0, 2.0, 3.0],
+        [np.inf, 1.0, 2.0, -np.inf, 2.0, 3.0, np.nan],
+    ],
+)
+def test_infinite_values_are_left_out_of_the_histogram(values: list[float]) -> None:
+    """A column with inf or -inf is summarised; its histogram shows the finite values."""
+    numbers = skim_get_data(pd.DataFrame({"x": values}))["number"]
+    finite = skim_get_data(pd.DataFrame({"x": [1.0, 2.0, 2.0, 3.0]}))["number"]
+    assert numbers["hist"]["x"] == finite["hist"]["x"]
+    assert numbers["NA"]["x"] == int(np.isnan(values).any())
+
+
+def test_infinite_values_still_count_in_the_mean() -> None:
+    """Only the histogram leaves infinite values out; the mean includes them."""
+    numbers = skim_get_data(pd.DataFrame({"x": [1.0, 2.0, np.inf]}))["number"]
+    assert numbers["mean"]["x"] == np.inf
+    assert numbers["p0"]["x"] == 1.0
+
+
+def test_column_of_only_infinite_values_is_summarised() -> None:
+    """A column with no finite values gets an empty histogram, not an error."""
+    numbers = skim_get_data(pd.DataFrame({"x": [np.inf, -np.inf, np.inf]}))["number"]
+    assert numbers["hist"]["x"].strip() == ""
+    skim(pd.DataFrame({"x": [np.inf, 1.0], "y": [2.0, -np.inf]}))
